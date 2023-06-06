@@ -1,6 +1,5 @@
-package com.example.footstep.domain.entity.guest;
+package com.example.footstep.domain.entity;
 
-import com.example.footstep.domain.entity.BaseTimeEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

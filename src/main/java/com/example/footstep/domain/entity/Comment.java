@@ -1,9 +1,7 @@
-package com.example.footstep.domain.entity.comment;
+package com.example.footstep.domain.entity;
 
 import static javax.persistence.FetchType.LAZY;
 
-import com.example.footstep.domain.entity.board.Board;
-import com.example.footstep.domain.entity.member.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

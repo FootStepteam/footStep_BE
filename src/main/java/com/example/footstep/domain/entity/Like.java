@@ -1,16 +1,10 @@
-package com.example.footstep.domain.entity.like;
+package com.example.footstep.domain.entity;
 
-import static javax.persistence.FetchType.LAZY;
-
-import com.example.footstep.domain.entity.board.Board;
-import com.example.footstep.domain.entity.member.Member;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
