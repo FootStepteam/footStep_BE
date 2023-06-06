@@ -2,6 +2,7 @@ package com.example.footstep.domain.entity;
 
 import static javax.persistence.FetchType.LAZY;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,17 +23,20 @@ import org.hibernate.envers.AuditOverride;
 @AllArgsConstructor
 @NoArgsConstructor
 @AuditOverride(forClass = BaseTimeEntity.class)
-public class ChattingRoom extends BaseTimeEntity {
+public class Community extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chattingId;
+    private Long communityId;
+    @Column(columnDefinition = "NVARCHAR(30) NOT NULL")
+    private String communityName;
+    @Column(columnDefinition = "NVARCHAR(255) NOT NULL")
+    private String content;
+    @Column(columnDefinition = "CHAR(1) NOT NULL")
+    private boolean communityPublicState;  // 게시글 공개 여부
 
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;  // 회원 아이디 - 공유방의 회원
-
-    // 공유방
-    // 공유 인원
+    @JoinColumn(name = "memberId")
+    private Member member;
 }

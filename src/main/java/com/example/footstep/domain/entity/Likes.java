@@ -22,17 +22,18 @@ import org.hibernate.envers.AuditOverride;
 @AllArgsConstructor
 @NoArgsConstructor
 @AuditOverride(forClass = BaseTimeEntity.class)
-public class ChattingRoom extends BaseTimeEntity {
+public class Likes extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chattingId;
+    private Long likesId;
 
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;  // 회원 아이디 - 공유방의 회원
+    @JoinColumn(name = "communityId")
+    private Community community;
 
-    // 공유방
-    // 공유 인원
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "memberId")
+    private Member member;
 }

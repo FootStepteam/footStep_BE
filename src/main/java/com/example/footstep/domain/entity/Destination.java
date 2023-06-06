@@ -7,10 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.envers.AuditOverride;
 
-
 @Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @AuditOverride(forClass = BaseTimeEntity.class)
 public class Destination extends BaseTimeEntity {
 
@@ -34,16 +43,4 @@ public class Destination extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "dayScheduleId")
     private DaySchedule daySchedule;
-
-    @ManyToOne
-    @JoinColumn(name = "shareId")
-    private ShareRoom shareRoom;
-
-    @ManyToOne
-    @JoinColumn(name = "memberId")
-    private Member member;
-
-    @ManyToOne
-    @JoinColumn(name = "scheduleId")
-    private Schedule schedule;
 }

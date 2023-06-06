@@ -2,45 +2,39 @@ package com.example.footstep.domain.entity;
 
 import static javax.persistence.FetchType.LAZY;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.AuditOverride;
 
 @Entity
-@Table(name = "comment")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@AuditOverride(forClass = BaseTimeEntity.class)
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
-    private Long id;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "board_id")
-    private Board board;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
+    private Long commentId;
     private String content;
 
-    @Builder
-    public Comment(Long id, Board board, Member member, String content) {
-        this.id = id;
-        this.board = board;
-        this.member = member;
-        this.content = content;
-    }
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "communityId")
+    private Community community;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "memberId")
+    private Member member;
 }

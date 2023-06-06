@@ -1,42 +1,35 @@
 package com.example.footstep.domain.entity;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.AuditOverride;
 
 @Entity
-@Table(name = "member")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@AuditOverride(forClass = BaseTimeEntity.class)
 public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
-    private Long id;
-
-    private String email;
-
-    private String password;
-
+    private Long memberId;
+    @Column(columnDefinition = "NVARCHAR(30) NOT NULL")
+    private String loginEmail;
+    @Column(columnDefinition = "NVARCHAR(30) NOT NULL")
     private String nickname;
-
+    @Column(columnDefinition = "NVARCHAR(255) NOT NULL")
+    private String password;
+    @Column(columnDefinition = "CHAR(1) NOT NULL")
     private String gender;
-
-    @Builder
-    public Member(Long id, String email, String password, String nickname, String gender) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.gender = gender;
-    }
 }

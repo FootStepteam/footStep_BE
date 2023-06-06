@@ -5,25 +5,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.envers.AuditOverride;
 
 @Entity
-@Table(name = "guest")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Guest {
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@AuditOverride(forClass = BaseTimeEntity.class)
+public class Guest extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "guest_id")
-    private Long id;
+    private Long guestId;
 
     // 공유방 - 어느 방의 게스트인지
-    private String nickname;
-
+    @Column(columnDefinition = "NVARCHAR(255) NOT NULL")
+    private String nickName;
+    @Column(columnDefinition = "CHAR(1) NOT NULL")
     private String authority;   // 권한?
 
 }
