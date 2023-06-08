@@ -8,6 +8,7 @@ class FootStepApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println();
 	}
 
 }
