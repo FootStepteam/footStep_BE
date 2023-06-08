@@ -5,12 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.example.footstep.authentication.oauth.OAuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditOverride;
+
 
 @Entity
 @Getter
@@ -21,6 +24,7 @@ import org.hibernate.envers.AuditOverride;
 @AuditOverride(forClass = BaseTimeEntity.class)
 public class Member extends BaseTimeEntity {
 
+    // 문제 생기는 컬럼명 gender , password , memberoauth
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
@@ -28,8 +32,13 @@ public class Member extends BaseTimeEntity {
     private String loginEmail;
     @Column(columnDefinition = "NVARCHAR(30) NOT NULL")
     private String nickname;
-    @Column(columnDefinition = "NVARCHAR(255) NOT NULL")
+    @Column(columnDefinition = "NVARCHAR(255)")
     private String password;
-    @Column(columnDefinition = "CHAR(1) NOT NULL")
+    @Column(columnDefinition = "CHAR(30)")
     private String gender;
+
+    @Column(columnDefinition = "NVARCHAR(255)")
+    private String img;
+    @Column( columnDefinition = "NVARCHAR(50)")
+    private OAuthProvider memberOAuth;
 }
