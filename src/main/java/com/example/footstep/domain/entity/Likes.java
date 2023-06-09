@@ -28,7 +28,6 @@ public class Likes extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long likesId;
 
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "communityId")
     private Community community;

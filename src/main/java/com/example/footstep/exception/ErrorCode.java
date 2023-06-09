@@ -18,6 +18,8 @@ public enum ErrorCode {
     // 일정
     NOT_FIND_SCHEDULE_ID("존재하지 않는 일정 입니다."),
 
+    // 게시글
+    NOT_FIND_COMMUNITY_ID("존재하지 않는 게시글 입니다."),
     ;
 
     private final String MESSAGE;
