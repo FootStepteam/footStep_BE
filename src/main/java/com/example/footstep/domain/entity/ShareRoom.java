@@ -2,6 +2,9 @@ package com.example.footstep.domain.entity;
 
 import static javax.persistence.FetchType.LAZY;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,8 +37,23 @@ public class ShareRoom extends BaseTimeEntity {
     @Column(columnDefinition = "NVARCHAR(255) NOT NULL")
     private String shareCode;
 
+    @Column(columnDefinition = "NVARCHAR(255)")
+    private String startPoint;
+    @Column(columnDefinition = "NVARCHAR(255)")
+    private String endPoint;
+    @Column(columnDefinition = "NVARCHAR(8) NOT NULL")
+    private String travelStartDate;
+    @Column(columnDefinition = "NVARCHAR(8) NOT NULL")
+    private String travelEndDate;
+    @Column(columnDefinition = "NVARCHAR(255)")
+    private String imageUrl;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "scheduleId")
+    private List<DaySchedule> daySchedules = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
+
 }

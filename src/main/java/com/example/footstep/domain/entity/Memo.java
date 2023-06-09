@@ -28,7 +28,7 @@ public class Memo extends BaseTimeEntity {
     private Long memoId;
     @Column(columnDefinition = "NVARCHAR(30) NOT NULL")
     private String memoTitle;
-    @Column(columnDefinition = "TEST")
+    @Column(columnDefinition = "TEXT")
     private String memoContent;
 
 

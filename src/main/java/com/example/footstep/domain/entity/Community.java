@@ -28,15 +28,22 @@ public class Community extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long communityId;
+
     @Column(columnDefinition = "NVARCHAR(30) NOT NULL")
     private String communityName;
     @Column(columnDefinition = "NVARCHAR(255) NOT NULL")
     private String content;
-    @Column(columnDefinition = "CHAR(1) NOT NULL")
+    @Column(columnDefinition = "BOOLEAN NOT NULL")
     private boolean communityPublicState;  // 게시글 공개 여부
 
+    private int likeCount;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "shareId")
+    private ShareRoom shareRoom;
+
 }
