@@ -7,13 +7,20 @@ import com.example.footstep.authentication.oauth.OAuthProvider;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+
+import org.springframework.core.env.Environment;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 
 @Component
 @RequiredArgsConstructor
@@ -25,13 +32,14 @@ public class KakaoApiClient implements OAuthApiClient {
     private String authUrl;
     @Value("${oauth.kakao.url.api}")
     private String apiUrl ;
-
-
+    @Value("${oauth.kakao.url.unlink}")
+    private String apiUnurl;
     @Value("${oauth.kakao.client-id}")
     private String clientId;
 
     private final RestTemplate restTemplate;
 
+    private final Environment env;
 
     @Override
     public OAuthProvider oAuthProvider() {
@@ -72,4 +80,5 @@ public class KakaoApiClient implements OAuthApiClient {
 
         return restTemplate.postForObject(url, request, OAuthInfoResponse.KakaoInfoResponse.class);
     }
+
 }
