@@ -26,7 +26,7 @@ DATE                  AUTHOR                DESCRIPTION
 */
 @Service
 @AllArgsConstructor
-public class KakaoServiceimpl implements KakaoService {
+public class KakaoServiceImpl implements KakaoService {
 
     private final MemberRepository memberRepository;
 

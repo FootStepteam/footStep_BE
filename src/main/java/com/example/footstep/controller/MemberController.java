@@ -7,7 +7,7 @@ import com.example.footstep.domain.dto.MemberDto;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.service.SignInService;
-import com.example.footstep.service.impl.SignUpServiceimpl;
+import com.example.footstep.service.impl.SignUpServiceImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final SignInService signInService;
-    private final SignUpServiceimpl signUpService;
+    private final SignUpServiceImpl signUpService;
 
     private final MemberRepository memberRepository;
     private final AuthTokensGenerator authTokensGenerator;

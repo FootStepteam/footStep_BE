@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SignInServiceimpl implements SignInService {
+public class SignInServiceImpl implements SignInService {
 
     private final AuthTokensGenerator authTokensGenerator;
     private final MemberRepository memberRepository;

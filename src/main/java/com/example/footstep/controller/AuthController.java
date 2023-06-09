@@ -2,7 +2,7 @@ package com.example.footstep.controller;
 
 import com.example.footstep.authentication.oauth.kakao.KakaoLoginParams;
 import com.example.footstep.component.jwt.AuthTokens;
-import com.example.footstep.service.impl.KakaoServiceimpl;
+import com.example.footstep.service.impl.KakaoServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class AuthController {
 
-    private final KakaoServiceimpl oAuthLoginService;
+    private final KakaoServiceImpl oAuthLoginService;
 
     //https://kauth.kakao.com/oauth/authorize?client_id=361fc4d12b75888a392207252d5db496&redirect_uri=http://localhost:8080/api/kakao/callback&response_type=code
 

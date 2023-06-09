@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class SignUpServiceimpl implements SignUpService {
+public class SignUpServiceImpl implements SignUpService {
 
     private final MemberRepository memberRepository;
 
