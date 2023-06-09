@@ -58,6 +58,7 @@ public class CommunityServiceImpl implements CommunityService {
     //- 작성자 닉네임
     //- 게시글 작성일
     //- 좋아요 수
+    @Transactional(readOnly = true)
     @Override
     public CommunityListResponse getAll(Pageable pageable) {
         Slice<Community> communities = communityRepository.findSliceBy(pageable);
