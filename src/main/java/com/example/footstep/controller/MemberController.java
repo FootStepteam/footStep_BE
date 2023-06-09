@@ -1,37 +1,36 @@
 package com.example.footstep.controller;
 
 
+import com.example.footstep.authentication.oauth.kakao.KakaoApiClient;
+import com.example.footstep.authentication.oauth.kakao.KakaoLoginParams;
+import com.example.footstep.component.jwt.AuthTokens;
 import com.example.footstep.component.jwt.AuthTokensGenerator;
 
 import com.example.footstep.domain.entity.Member;
 
+import com.example.footstep.domain.entity.dto.member.LoginDto;
 import com.example.footstep.domain.entity.dto.member.MemberDto;
 import com.example.footstep.domain.entity.repository.MemberRepository;
-import com.example.footstep.service.KakaoService;
+import com.example.footstep.service.SignInService;
 import com.example.footstep.service.SignUpService;
+import com.example.footstep.service.impl.KakaoServiceimpl;
+import com.example.footstep.service.impl.SignUpServiceimpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
 public class MemberController {
-    private final KakaoService kakaoService;
-    private final SignUpService signUpService;
-//    @GetMapping("/kakao")
-//    public ResponseEntity<Member> kakaoCallback(@RequestParam String code, HttpServletRequest response) throws IOException {
-//        //https://kauth.kakao.com/oauth/authorize?client_id=361fc4d12b75888a392207252d5db496&redirect_uri=http://localhost:8080/api/kakao&response_type=code"
-//        //System.out.println(code);
-//        //String access_Token = kakaoService.getKaKaoAccessToken(code);
-//        //kakaoService.createKakaoUser(access_Token);
-//        return ResponseEntity.ok(kakaoService.kakaoLogin(code , response));
-//
-//    }
+    private final KakaoApiClient kakaoApiClient;
+    private final SignInService signInService;
+    private final SignUpServiceimpl signUpService;
+
     private final MemberRepository memberRepository;
     private final AuthTokensGenerator authTokensGenerator;
 
@@ -49,4 +48,11 @@ public class MemberController {
     public ResponseEntity<String> signUpMember(@RequestBody MemberDto memberDto){
         return ResponseEntity.ok(signUpService.memberSignup(memberDto));
     }
+    @PostMapping("/sign-in")
+    public ResponseEntity<AuthTokens> signInMember(@RequestBody LoginDto loginDto){
+        AuthTokens tokens = signInService.login(loginDto);
+
+        return ResponseEntity.ok(tokens);
+    }
+
 }
