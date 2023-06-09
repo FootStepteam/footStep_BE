@@ -26,7 +26,8 @@ public class CommunityDetailResponse {
     private LocalDateTime createdDatetime;
     private String content;
 
-    public static CommunityDetailResponse of(Community community, Member member, ShareRoom shareRoom) {
+    public static CommunityDetailResponse of(Community community, Member member,
+        ShareRoom shareRoom) {
 
         return CommunityDetailResponse.builder()
             .communityName(community.getCommunityName())
@@ -37,5 +38,4 @@ public class CommunityDetailResponse {
             .build();
 
     }
-
 }

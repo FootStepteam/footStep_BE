@@ -48,6 +48,7 @@ public class ShareRoom extends BaseTimeEntity {
     @Column(columnDefinition = "NVARCHAR(255)")
     private String imageUrl;
 
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "scheduleId")
     private List<DaySchedule> daySchedules = new ArrayList<>();

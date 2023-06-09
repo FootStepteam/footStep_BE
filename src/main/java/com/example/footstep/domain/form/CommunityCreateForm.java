@@ -13,6 +13,7 @@ public class CommunityCreateForm {
     private boolean communityPublicState;  // 게시글 공개 여부
     private Long shareId;
 
+
     public Community toEntity() {
         return Community.builder()
             .communityName(communityName)
@@ -20,5 +21,4 @@ public class CommunityCreateForm {
             .communityPublicState(communityPublicState)
             .build();
     }
-
 }

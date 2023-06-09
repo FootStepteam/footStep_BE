@@ -1,13 +1,13 @@
 package com.example.footstep.component.jwt;
 
+import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
 public class AuthTokensGenerator {
+
     private static final String BEARER_TYPE = "Bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
@@ -23,7 +23,8 @@ public class AuthTokensGenerator {
         String accessToken = jwtTokenProvider.generate(subject, accessTokenExpiredAt);
         String refreshToken = jwtTokenProvider.generate(subject, refreshTokenExpiredAt);
 
-        return AuthTokens.of(accessToken, refreshToken, BEARER_TYPE, ACCESS_TOKEN_EXPIRE_TIME / 1000L);
+        return AuthTokens.of(accessToken, refreshToken, BEARER_TYPE,
+            ACCESS_TOKEN_EXPIRE_TIME / 1000L);
     }
 
     public Long extractMemberId(String accessToken) {

@@ -30,5 +30,4 @@ public class Guest extends BaseTimeEntity {
     private String nickName;
     @Column(columnDefinition = "CHAR(1) NOT NULL")
     private String authority;   // 권한?
-
 }

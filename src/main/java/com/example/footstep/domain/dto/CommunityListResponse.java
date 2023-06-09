@@ -22,5 +22,4 @@ public class CommunityListResponse {
             .collect(Collectors.toList());
         return new CommunityListResponse(postsElementResponses, communities.isLast());
     }
-
 }

@@ -56,7 +56,8 @@ public class CommunityController {
 
     // 게시글 목록 조회
     @GetMapping("community")
-    public CommunityListResponse getAll(int page, int size, @RequestParam(value = "sort", defaultValue = "like") String sorting) {
+    public CommunityListResponse getAll(int page, int size,
+        @RequestParam(value = "sort", defaultValue = "like") String sorting) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("likeCount").descending());
 
@@ -79,6 +80,4 @@ public class CommunityController {
     public void delete(@PathVariable("community-id") Long communityId) {
 
     }
-
-
 }

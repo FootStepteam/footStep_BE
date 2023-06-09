@@ -2,8 +2,8 @@ package com.example.footstep.controller;
 
 import com.example.footstep.domain.dto.ShareRoomDto;
 import com.example.footstep.domain.dto.ShareRoomListDto;
-import com.example.footstep.domain.form.ShareRoomPageForm;
 import com.example.footstep.domain.form.ShareRoomForm;
+import com.example.footstep.domain.form.ShareRoomPageForm;
 import com.example.footstep.service.ShareRoomService;
 import java.util.List;
 import javax.validation.Valid;

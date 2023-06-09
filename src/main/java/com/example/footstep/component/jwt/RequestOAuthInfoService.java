@@ -4,20 +4,20 @@ import com.example.footstep.authentication.oauth.OAuthApiClient;
 import com.example.footstep.authentication.oauth.OAuthInfoResponse;
 import com.example.footstep.authentication.oauth.OAuthLoginParams;
 import com.example.footstep.authentication.oauth.OAuthProvider;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 @Component
 public class RequestOAuthInfoService {
+
     private final Map<OAuthProvider, OAuthApiClient> clients;
 
     public RequestOAuthInfoService(List<OAuthApiClient> clients) {
         this.clients = clients.stream().collect(
-                Collectors.toUnmodifiableMap(OAuthApiClient::oAuthProvider, Function.identity())
+            Collectors.toUnmodifiableMap(OAuthApiClient::oAuthProvider, Function.identity())
         );
     }
 

@@ -49,7 +49,8 @@ public class CommunityServiceImpl implements CommunityService {
 
         Community community = findCommunityById(communityId);
 
-        return CommunityDetailResponse.of(community, community.getMember(), community.getShareRoom());
+        return CommunityDetailResponse.of(community, community.getMember(),
+            community.getShareRoom());
 
     }
 

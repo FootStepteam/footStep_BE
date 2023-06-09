@@ -5,11 +5,11 @@ import com.example.footstep.authentication.oauth.OAuthInfoResponse;
 import com.example.footstep.authentication.oauth.OAuthLoginParams;
 import com.example.footstep.authentication.oauth.OAuthProvider;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.core.env.Environment;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -24,7 +24,7 @@ public class KakaoApiClient implements OAuthApiClient {
     @Value("${oauth.kakao.url.auth}")
     private String authUrl;
     @Value("${oauth.kakao.url.api}")
-    private String apiUrl ;
+    private String apiUrl;
     @Value("${oauth.kakao.url.unlink}")
     private String apiUnurl;
     @Value("${oauth.kakao.client-id}")
@@ -67,7 +67,8 @@ public class KakaoApiClient implements OAuthApiClient {
         httpHeaders.set("Authorization", "Bearer " + accessToken);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("property_keys", "[\"kakao_account.email\", \"kakao_account.gender\", \"kakao_account.profile\"]");
+        body.add("property_keys",
+            "[\"kakao_account.email\", \"kakao_account.gender\", \"kakao_account.profile\"]");
 
         HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
 

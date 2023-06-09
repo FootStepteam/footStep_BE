@@ -1,11 +1,11 @@
 package com.example.footstep.service.impl;
 
-import com.example.footstep.authentication.oauth.kakao.KakaoApiClient;
-import com.example.footstep.component.jwt.RequestOAuthInfoService;
-import com.example.footstep.component.jwt.AuthTokens;
-import com.example.footstep.component.jwt.AuthTokensGenerator;
 import com.example.footstep.authentication.oauth.OAuthInfoResponse;
 import com.example.footstep.authentication.oauth.OAuthLoginParams;
+import com.example.footstep.authentication.oauth.kakao.KakaoApiClient;
+import com.example.footstep.component.jwt.AuthTokens;
+import com.example.footstep.component.jwt.AuthTokensGenerator;
+import com.example.footstep.component.jwt.RequestOAuthInfoService;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.service.KakaoService;
@@ -27,33 +27,34 @@ DATE                  AUTHOR                DESCRIPTION
 @Service
 @AllArgsConstructor
 public class KakaoServiceimpl implements KakaoService {
-        private final MemberRepository memberRepository;
 
-        private final AuthTokensGenerator authTokensGenerator;
-        private final RequestOAuthInfoService requestOAuthInfoService;
-        private final KakaoApiClient kakaoApiClient;
+    private final MemberRepository memberRepository;
 
-        public AuthTokens login(OAuthLoginParams params) {
-            OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
-            Long memberId = findOrCreateMember(oAuthInfoResponse);
-            return authTokensGenerator.generate(memberId);
-        }
+    private final AuthTokensGenerator authTokensGenerator;
+    private final RequestOAuthInfoService requestOAuthInfoService;
+    private final KakaoApiClient kakaoApiClient;
 
-        private Long findOrCreateMember(OAuthInfoResponse oAuthInfoResponse) {
-            return memberRepository.findByLoginEmail(oAuthInfoResponse.getEmail())
-                    .map(Member::getMemberId)
-                    .orElseGet(() -> newMember(oAuthInfoResponse));
-        }
+    public AuthTokens login(OAuthLoginParams params) {
+        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService.request(params);
+        Long memberId = findOrCreateMember(oAuthInfoResponse);
+        return authTokensGenerator.generate(memberId);
+    }
 
-        private Long newMember(OAuthInfoResponse oAuthInfoResponse) {
-            Member member = Member.builder()
-                    .loginEmail(oAuthInfoResponse.getEmail())
-                    .nickname(oAuthInfoResponse.getNickName())
-                    .img(oAuthInfoResponse.getImg())
-                    .gender(oAuthInfoResponse.getGender())
-                    .memberOAuth(oAuthInfoResponse.getOAuthProvider())
-                    .build();
+    private Long findOrCreateMember(OAuthInfoResponse oAuthInfoResponse) {
+        return memberRepository.findByLoginEmail(oAuthInfoResponse.getEmail())
+            .map(Member::getMemberId)
+            .orElseGet(() -> newMember(oAuthInfoResponse));
+    }
 
-            return memberRepository.save(member).getMemberId();
-        }
+    private Long newMember(OAuthInfoResponse oAuthInfoResponse) {
+        Member member = Member.builder()
+            .loginEmail(oAuthInfoResponse.getEmail())
+            .nickname(oAuthInfoResponse.getNickName())
+            .img(oAuthInfoResponse.getImg())
+            .gender(oAuthInfoResponse.getGender())
+            .memberOAuth(oAuthInfoResponse.getOAuthProvider())
+            .build();
+
+        return memberRepository.save(member).getMemberId();
+    }
 }

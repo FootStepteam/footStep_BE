@@ -10,6 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class CommunityElementResponse {
+
     //- 게시글 제목
     //- 공유방의 일정에 대한 정보(2023.07.01 ~ 2023.07.03)
     //- 작성자 닉네임
@@ -28,5 +29,4 @@ public class CommunityElementResponse {
             .likeCount(community.getLikeCount())
             .build();
     }
-
 }

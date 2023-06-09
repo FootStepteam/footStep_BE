@@ -45,5 +45,4 @@ public class Community extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "shareId")
     private ShareRoom shareRoom;
-
 }

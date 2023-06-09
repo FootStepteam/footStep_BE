@@ -5,17 +5,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 public interface OAuthInfoResponse {
+
     String getEmail();
+
     String getNickName();
+
     String getGender();
     //String getPassword();
 
     String getImg();
+
     OAuthProvider getOAuthProvider();
 
     @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class KakaoInfoResponse implements OAuthInfoResponse{
+    public class KakaoInfoResponse implements OAuthInfoResponse {
 
         @JsonProperty("kakao_account")
         private KakaoAccount kakaoAccount;
@@ -23,16 +27,20 @@ public interface OAuthInfoResponse {
         @Getter
         @JsonIgnoreProperties(ignoreUnknown = true)
         static class KakaoAccount {
+
             private KakaoProfile profile;
             private String email;
             private String gender;
         }
+
         @Getter
         @JsonIgnoreProperties(ignoreUnknown = true)
         static class KakaoProfile {
+
             private String nickname;
             private String profile_image_url;
         }
+
         @Override
         public String getEmail() {
             return kakaoAccount.email;

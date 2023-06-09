@@ -1,8 +1,11 @@
 package com.example.footstep.domain.dto;
 
-import lombok.*;
-
 import javax.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -10,6 +13,7 @@ import javax.persistence.Column;
 @AllArgsConstructor
 @Builder
 public class LoginDto {
+
     @Column(columnDefinition = "NVARCHAR(30) NOT NULL")
     private String loginEmail;
 

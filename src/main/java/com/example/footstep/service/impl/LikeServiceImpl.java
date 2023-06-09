@@ -31,10 +31,8 @@ public class LikeServiceImpl implements LikeService {
         communityRepository.increaseLikeCount(communityId);
 
         likeRepository.save(Likes.builder()
-                .member(member)
-                .community(community)
-                .build());
-
-
+            .member(member)
+            .community(community)
+            .build());
     }
 }
