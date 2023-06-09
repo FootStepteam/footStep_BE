@@ -33,6 +33,6 @@ public class DaySchedule extends BaseTimeEntity {
 
 
     @ManyToOne
-    @JoinColumn(name = "scheduleId")
-    private Schedule schedule;
+    @JoinColumn(name = "shareId")
+    private ShareRoom shareRoom;
 }
