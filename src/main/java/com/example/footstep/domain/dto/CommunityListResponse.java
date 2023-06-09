@@ -11,8 +11,6 @@ import org.springframework.data.domain.Slice;
 @AllArgsConstructor
 public class CommunityListResponse {
 
-//    //        PostsResponse.ofPostSlice(posts)
-
     private List<CommunityElementResponse> communities;
     private boolean lastPage;
 
