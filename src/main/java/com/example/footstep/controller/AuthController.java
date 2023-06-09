@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class AuthController {
     private final KakaoServiceimpl oAuthLoginService;
-    private final KakaoApiClient kakaoApiClient;
 
     //https://kauth.kakao.com/oauth/authorize?client_id=361fc4d12b75888a392207252d5db496&redirect_uri=http://localhost:8080/api/kakao/callback&response_type=code
 

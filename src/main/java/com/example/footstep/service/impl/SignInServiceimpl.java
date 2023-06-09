@@ -4,13 +4,11 @@ package com.example.footstep.service.impl;
 import com.example.footstep.component.jwt.AuthTokens;
 import com.example.footstep.component.jwt.AuthTokensGenerator;
 import com.example.footstep.domain.entity.Member;
-import com.example.footstep.domain.entity.dto.member.LoginDto;
-import com.example.footstep.domain.entity.repository.MemberRepository;
+import com.example.footstep.domain.dto.LoginDto;
+import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.service.SignInService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

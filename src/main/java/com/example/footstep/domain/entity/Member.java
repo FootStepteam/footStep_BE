@@ -1,19 +1,17 @@
 package com.example.footstep.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import com.example.footstep.authentication.oauth.OAuthProvider;
-import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditOverride;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -42,4 +40,9 @@ public class Member extends BaseTimeEntity {
     private String img;
     @Column( columnDefinition = "NVARCHAR(50)")
     private OAuthProvider memberOAuth;
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "memberId")
+    private List<ShareRoom> shareRooms = new ArrayList<>();
 }

@@ -7,8 +7,7 @@ import com.example.footstep.component.jwt.AuthTokensGenerator;
 import com.example.footstep.authentication.oauth.OAuthInfoResponse;
 import com.example.footstep.authentication.oauth.OAuthLoginParams;
 import com.example.footstep.domain.entity.Member;
-
-import com.example.footstep.domain.entity.repository.MemberRepository;
+import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.service.KakaoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

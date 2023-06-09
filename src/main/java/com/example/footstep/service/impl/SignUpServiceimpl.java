@@ -5,8 +5,8 @@ package com.example.footstep.service.impl;
 import com.example.footstep.authentication.oauth.OAuthProvider;
 import com.example.footstep.domain.entity.Member;
 
-import com.example.footstep.domain.entity.dto.member.MemberDto;
-import com.example.footstep.domain.entity.repository.MemberRepository;
+import com.example.footstep.domain.dto.MemberDto;
+import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.service.SignUpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
