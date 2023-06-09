@@ -18,6 +18,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/*
+**
+파  일  명 : CommunityController
+제작  연도 : 2023.06.08
+작  성  자 : 김민호
+개발 HISTORY
+DATE                  AUTHOR                DESCRIPTION
+------------------+--------------------+---------------------------------------------------
+2023.06.08           김민호                게시글 생성, 특정 게시글 조회, 게시글 목록 조회 기능 구현
+------------------+--------------------+---------------------------------------------------
+*/
 @RestController
 @RequiredArgsConstructor
 public class CommunityController {
