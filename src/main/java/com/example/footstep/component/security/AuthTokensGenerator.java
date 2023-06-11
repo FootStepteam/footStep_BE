@@ -5,6 +5,7 @@ import java.util.Date;
 import com.example.footstep.component.jwt.JwtTokenProvider;
 import com.example.footstep.component.security.AuthTokens;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,8 +13,12 @@ import org.springframework.stereotype.Component;
 public class AuthTokensGenerator {
 
     private static final String BEARER_TYPE = "Bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
+    
+    @Value("${ACCESS_TOKEN_EXPIRE_TIME}")
+    private long ACCESS_TOKEN_EXPIRE_TIME;
+    
+    @Value("${REFRESH_TOKEN_EXPIRE_TIME}")
+    private long REFRESH_TOKEN_EXPIRE_TIME;
 
     private final JwtTokenProvider jwtTokenProvider;
 

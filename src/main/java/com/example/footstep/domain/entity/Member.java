@@ -21,7 +21,6 @@ import org.hibernate.envers.AuditOverride;
 
 
 @Entity
-@Table(name = "members")
 @Getter
 @Setter
 @Builder
