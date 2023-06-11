@@ -1,6 +1,5 @@
 package com.example.footstep.domain.dto;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;

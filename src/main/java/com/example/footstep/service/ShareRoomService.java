@@ -35,6 +35,7 @@ public class ShareRoomService {
     public List<ShareRoomListDto> searchListShareRoom(Long memberId,
         ShareRoomPageForm shareRoomPageForm) {
 
+
         Member member = memberRepository.findByMemberId(memberId)
             .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_MEMBER_ID));
 

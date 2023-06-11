@@ -1,7 +1,7 @@
 package com.example.footstep.service;
 
-import com.example.footstep.domain.dto.CommunityDetailResponse;
-import com.example.footstep.domain.dto.CommunityListResponse;
+import com.example.footstep.domain.dto.CommunityDetailDto;
+import com.example.footstep.domain.dto.CommunityListDto;
 import com.example.footstep.domain.entity.Community;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
@@ -42,19 +42,19 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
-    public CommunityDetailResponse getOne(Long communityId) {
+    public CommunityDetailDto getOne(Long communityId) {
 
         Community community = findCommunityById(communityId);
 
-        return CommunityDetailResponse.of(community, community.getMember(),
+        return CommunityDetailDto.of(community, community.getMember(),
             community.getShareRoom());
 
     }
 
     @Transactional(readOnly = true)
-    public CommunityListResponse getAll(Pageable pageable) {
+    public CommunityListDto getAll(Pageable pageable) {
         Slice<Community> communities = communityRepository.findSliceBy(pageable);
-        return CommunityListResponse.ofSlice(communities);
+        return CommunityListDto.ofSlice(communities);
     }
 
     private Community findCommunityById(Long communityId) {

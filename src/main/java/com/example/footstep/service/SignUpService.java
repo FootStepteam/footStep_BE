@@ -1,6 +1,5 @@
 package com.example.footstep.service;
 
-import com.example.footstep.authentication.oauth.OAuthProvider;
 import com.example.footstep.domain.form.MemberForm;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.repository.MemberRepository;

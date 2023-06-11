@@ -21,4 +21,5 @@ public class ShareRoomListDto {
     private String travelStartDate;
     private String travelEndDate;
     private String imageUrl;
+
 }

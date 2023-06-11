@@ -21,4 +21,5 @@ public class ShareRoomForm {
     @NotNull(message = "도착일을 선택하세요.")
     private String travelEndDate;
     private String imageUrl;
+
 }

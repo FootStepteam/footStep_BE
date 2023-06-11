@@ -3,7 +3,6 @@ package com.example.footstep.controller;
 import com.example.footstep.authentication.oauth.kakao.KakaoLoginParams;
 import com.example.footstep.component.security.AuthTokens;
 import com.example.footstep.service.KakaoService;
-import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
