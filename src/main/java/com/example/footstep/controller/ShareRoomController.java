@@ -1,7 +1,7 @@
 package com.example.footstep.controller;
 
-import com.example.footstep.domain.dto.ShareRoomDto;
-import com.example.footstep.domain.dto.ShareRoomListDto;
+import com.example.footstep.domain.dto.share_room.ShareRoomDto;
+import com.example.footstep.domain.dto.share_room.ShareRoomListDto;
 import com.example.footstep.domain.form.ShareRoomForm;
 import com.example.footstep.domain.form.ShareRoomPageForm;
 import com.example.footstep.service.ShareRoomService;
@@ -27,39 +27,40 @@ public class ShareRoomController {
 
 
     @GetMapping
-    public ResponseEntity<List<ShareRoomListDto>> searchListShareRoom(
+    public ResponseEntity<List<ShareRoomListDto>> getAllListShareRoom(
 //        @AuthenticationPrincipal Long memberId,
         @RequestBody @Valid ShareRoomPageForm shareRoomPageForm) {
 
-        return ResponseEntity.ok(shareRoomService.searchListShareRoom(1L, shareRoomPageForm));
+        return ResponseEntity.ok(shareRoomService.getAllListShareRoom(
+            1L, shareRoomPageForm));
     }
 
 
     @GetMapping("/{shareId}")
-    public ResponseEntity<ShareRoomDto> searchShareRoom(
+    public ResponseEntity<ShareRoomDto> getOneShareRoom(
 //        @AuthenticationPrincipal Long memberId,
         @PathVariable("shareId") Long shareId) {
 
-        return ResponseEntity.ok(shareRoomService.searchShareRoom(1L, shareId));
+        return ResponseEntity.ok(shareRoomService.getOneShareRoom(1L, shareId));
     }
 
 
     @PostMapping
-    public ResponseEntity<ShareRoomDto> addShareRoom(
+    public ResponseEntity<ShareRoomDto> createShareRoom(
 //        @AuthenticationPrincipal Long memberId,
         @RequestBody @Valid ShareRoomForm shareRoomForm) {
 
-        return ResponseEntity.ok(shareRoomService.addShareRoom(1L, shareRoomForm));
+        return ResponseEntity.ok(shareRoomService.createShareRoom(1L, shareRoomForm));
     }
 
 
     @PutMapping("/{shareId}")
-    public ResponseEntity<ShareRoomDto> modifyShareRoom(
+    public ResponseEntity<ShareRoomDto> updateShareRoom(
 //        @AuthenticationPrincipal Long memberId,
         @PathVariable("shareId") Long shareId,
         @RequestBody @Valid ShareRoomForm shareRoomForm) {
 
-        return ResponseEntity.ok(shareRoomService.modifyShareRoom(
+        return ResponseEntity.ok(shareRoomService.updateShareRoom(
             1L, shareId, shareRoomForm));
     }
 

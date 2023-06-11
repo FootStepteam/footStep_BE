@@ -1,17 +1,17 @@
 package com.example.footstep.service;
 
-import com.example.footstep.domain.dto.ShareRoomDto;
-import com.example.footstep.domain.dto.ShareRoomListDto;
+import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
+
+import com.example.footstep.domain.dto.share_room.ShareRoomDto;
+import com.example.footstep.domain.dto.share_room.ShareRoomListDto;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.form.ShareRoomForm;
 import com.example.footstep.domain.form.ShareRoomPageForm;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
-import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -32,65 +32,38 @@ public class ShareRoomService {
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 
-    public List<ShareRoomListDto> searchListShareRoom(Long memberId,
+    @Transactional(readOnly = true)
+    public List<ShareRoomListDto> getAllListShareRoom(Long memberId,
         ShareRoomPageForm shareRoomPageForm) {
 
-        Member member = memberRepository.findByMemberId(memberId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_MEMBER_ID));
+        Member member = memberRepository.getMemberById(memberId);
 
         Pageable pageable = PageRequest.of(shareRoomPageForm.getPage(),
             shareRoomPageForm.getSize());
 
-        List<ShareRoomListDto> shareRoomList = new ArrayList<>();
-
-        for (ShareRoom shareRoom :
-            shareRoomRepository.findByMember_MemberId(member.getMemberId(), pageable)) {
-            ShareRoomListDto shareRoomListDto = ShareRoomListDto.builder()
-                .shareId(shareRoom.getShareId())
-                .shareName(shareRoom.getShareName())
-                .shareCode(shareRoom.getShareCode())
-                .startPoint(shareRoom.getStartPoint())
-                .endPoint(shareRoom.getEndPoint())
-                .travelStartDate(shareRoom.getTravelStartDate())
-                .travelEndDate(shareRoom.getTravelEndDate())
-                .imageUrl(shareRoom.getImageUrl())
-                .build();
-
-            shareRoomList.add(shareRoomListDto);
-        }
-
-        return shareRoomList;
+        return ShareRoomListDto.of(
+            shareRoomRepository.findByMember_MemberId(member.getMemberId(), pageable));
     }
 
 
-    public ShareRoomDto searchShareRoom(Long memberId, Long shareId) {
+    @Transactional(readOnly = true)
+    public ShareRoomDto getOneShareRoom(Long memberId, Long shareId) {
 
-        Member member = memberRepository.findByMemberId(memberId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_MEMBER_ID));
-
-        ShareRoom shareRoom = shareRoomRepository.findByShareId(shareId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_SHARE_ID));
+        Member member = memberRepository.getMemberById(memberId);
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
         if (!member.getMemberId().equals(shareRoom.getMember().getMemberId())) {
-            throw new GlobalException(ErrorCode.NOT_MATCH_CREATE_MEMBER);
+            throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
         }
 
-        return ShareRoomDto.builder()
-            .shareId(shareRoom.getShareId())
-            .shareName(shareRoom.getShareName())
-            .shareCode(shareRoom.getShareCode())
-            .travelStartDate(shareRoom.getTravelStartDate())
-            .travelEndDate(shareRoom.getTravelEndDate())
-            .imageUrl(shareRoom.getImageUrl())
-            .build();
+        return ShareRoomDto.from(shareRoom);
     }
 
 
     @Transactional
-    public ShareRoomDto addShareRoom(Long memberId, ShareRoomForm shareRoomForm) {
+    public ShareRoomDto createShareRoom(Long memberId, ShareRoomForm shareRoomForm) {
 
-        Member member = memberRepository.findByMemberId(memberId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_MEMBER_ID));
+        Member member = memberRepository.getMemberById(memberId);
 
         String shareCode = "";
         // 생성된 공유코드가 다른 방에 없으면 while 문 종료
@@ -101,37 +74,21 @@ public class ShareRoomService {
             }
         }
 
-        ShareRoom shareRoom = shareRoomRepository.save(ShareRoom.builder()
-            .shareName(shareRoomForm.getShareName())
-            .shareCode(shareCode)
-            .travelStartDate(shareRoomForm.getTravelStartDate())
-            .travelEndDate(shareRoomForm.getTravelEndDate())
-            .build());
-
+        ShareRoom shareRoom = shareRoomRepository.save(shareRoomForm.toEntity(shareCode));
         member.getShareRooms().add(shareRoom);
 
-        return ShareRoomDto.builder()
-            .shareId(shareRoom.getShareId())
-            .shareName(shareRoom.getShareName())
-            .shareCode(shareRoom.getShareCode())
-            .travelStartDate(shareRoom.getTravelStartDate())
-            .travelEndDate(shareRoom.getTravelEndDate())
-            .imageUrl(shareRoom.getImageUrl())
-            .build();
+        return ShareRoomDto.from(shareRoom);
     }
 
 
     @Transactional
-    public ShareRoomDto modifyShareRoom(Long memberId, Long shareId, ShareRoomForm shareRoomForm) {
+    public ShareRoomDto updateShareRoom(Long memberId, Long shareId, ShareRoomForm shareRoomForm) {
 
-        Member member = memberRepository.findByMemberId(memberId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_MEMBER_ID));
-
-        ShareRoom shareRoom = shareRoomRepository.findByShareId(shareId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_SHARE_ID));
+        Member member = memberRepository.getMemberById(memberId);
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
         if (!member.getMemberId().equals(shareRoom.getMember().getMemberId())) {
-            throw new GlobalException(ErrorCode.NOT_MATCH_CREATE_MEMBER);
+            throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
         }
 
         shareRoom.setShareName(shareRoomForm.getShareName());
@@ -139,26 +96,18 @@ public class ShareRoomService {
         shareRoom.setTravelEndDate(shareRoomForm.getTravelEndDate());
         shareRoom.setImageUrl(shareRoomForm.getImageUrl());
 
-        return ShareRoomDto.builder()
-            .shareId(shareRoom.getShareId())
-            .shareName(shareRoom.getShareName())
-            .shareCode(shareRoom.getShareCode())
-            .travelStartDate(shareRoom.getTravelStartDate())
-            .travelEndDate(shareRoom.getTravelEndDate())
-            .imageUrl(shareRoom.getImageUrl())
-            .build();
+        return ShareRoomDto.from(shareRoom);
     }
 
 
+    @Transactional
     public String deleteShareRoom(Long memberId, Long shareId) {
-        Member member = memberRepository.findByMemberId(memberId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_MEMBER_ID));
 
-        ShareRoom shareRoom = shareRoomRepository.findByShareId(shareId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_SHARE_ID));
+        Member member = memberRepository.getMemberById(memberId);
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
         if (!member.getMemberId().equals(shareRoom.getMember().getMemberId())) {
-            throw new GlobalException(ErrorCode.NOT_MATCH_CREATE_MEMBER);
+            throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
         }
 
         shareRoomRepository.delete(shareRoom);
