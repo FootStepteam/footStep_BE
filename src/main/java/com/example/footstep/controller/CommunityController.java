@@ -26,7 +26,7 @@ public class CommunityController {
 
     private final CommunityService communityService;
 
-    @PostMapping("")
+    @PostMapping
     public void create(@RequestBody CommunityCreateForm request) {
 
         Long memberId = 1L; // 임시 회원 ID
@@ -43,7 +43,7 @@ public class CommunityController {
 
     }
 
-    @GetMapping("")
+    @GetMapping
     public CommunityListResponse getAll(int page, int size,
         @RequestParam(value = "sort", defaultValue = "like") String sorting) {
 
