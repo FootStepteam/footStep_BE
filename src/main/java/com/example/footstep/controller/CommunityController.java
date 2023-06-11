@@ -27,7 +27,7 @@ public class CommunityController {
     private final CommunityService communityService;
 
     @PostMapping
-    public void create(@RequestBody CommunityCreateForm request) {
+    public void createCommunity(@RequestBody CommunityCreateForm request) {
 
         Long memberId = 1L; // 임시 회원 ID
 
@@ -36,7 +36,7 @@ public class CommunityController {
     }
 
     @GetMapping("/{community-id}")
-    public ResponseEntity<CommunityDetailResponse> getOne(
+    public ResponseEntity<CommunityDetailResponse> getOneCommunity(
         @PathVariable("community-id") Long communityId) {
 
         return ResponseEntity.ok(communityService.getOne(communityId));
@@ -44,7 +44,7 @@ public class CommunityController {
     }
 
     @GetMapping
-    public CommunityListResponse getAll(int page, int size,
+    public CommunityListResponse getAllCommunity(int page, int size,
         @RequestParam(value = "sort", defaultValue = "like") String sorting) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("likeCount").descending());
@@ -58,12 +58,12 @@ public class CommunityController {
     }
 
     @PutMapping("/{community-id}")
-    public void update(@PathVariable("community-id") Long communityId) {
+    public void updateCommunity(@PathVariable("community-id") Long communityId) {
 
     }
 
     @DeleteMapping("/{community-id}")
-    public void delete(@PathVariable("community-id") Long communityId) {
+    public void deleteCommunity(@PathVariable("community-id") Long communityId) {
 
     }
 }
