@@ -1,6 +1,9 @@
-package com.example.footstep.component.jwt;
+package com.example.footstep.component.security;
 
 import java.util.Date;
+
+import com.example.footstep.component.jwt.JwtTokenProvider;
+import com.example.footstep.component.security.AuthTokens;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

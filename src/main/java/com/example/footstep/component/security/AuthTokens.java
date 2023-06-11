@@ -1,4 +1,4 @@
-package com.example.footstep.component.jwt;
+package com.example.footstep.component.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
