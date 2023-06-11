@@ -9,8 +9,6 @@ import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.domain.repository.CommunityRepository;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
-import com.example.footstep.exception.ErrorCode;
-import com.example.footstep.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -29,8 +27,8 @@ public class CommunityService {
     public void create(Long memberId, Long shareId, CommunityCreateForm form) {
 
         // 엔티티 조회(회원, 공유방)
-        Member member = findMemberById(memberId);
-        ShareRoom shareRoom = findShareRoomById(shareId);
+        Member member = memberRepository.getMemberById(memberId);
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
         Community community = form.toEntity();
 
@@ -44,7 +42,7 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public CommunityDetailResponse getOne(Long communityId) {
 
-        Community community = findCommunityById(communityId);
+        Community community = communityRepository.getCommunityById(communityId);
 
         return CommunityDetailResponse.of(community, community.getMember(),
             community.getShareRoom());
@@ -57,18 +55,4 @@ public class CommunityService {
         return CommunityListResponse.ofSlice(communities);
     }
 
-    private Community findCommunityById(Long communityId) {
-        return communityRepository.findById(communityId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
-    }
-
-    private Member findMemberById(Long memberId) {
-        return memberRepository.findById(memberId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_MEMBER_ID));
-    }
-
-    private ShareRoom findShareRoomById(Long shareId) {
-        return shareRoomRepository.findById(shareId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_SHARE_ID));
-    }
 }
