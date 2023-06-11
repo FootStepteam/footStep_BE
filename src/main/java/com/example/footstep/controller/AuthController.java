@@ -23,23 +23,22 @@ public class AuthController {
 
     //https://kauth.kakao.com/oauth/authorize?client_id=361fc4d12b75888a392207252d5db496&redirect_uri=http://localhost:8080/api/kakao/callback&response_type=code
     //https://kauth.kakao.com/oauth/logout?client_id=361fc4d12b75888a392207252d5db496&logout_redirect_uri=http://localhost:8080/api/kakao/logout
+    // 로그아웃 리다이렉트 링크
     @PostMapping("/auth/kakao")
-    public ResponseEntity<AuthTokens> loginKakao(@RequestBody KakaoLoginParams params) {
-        return ResponseEntity.ok(kakaoService.login(params));
+    public ResponseEntity<AuthTokens> loginKakao(@RequestBody KakaoLoginParams kakaoAccessCode) {
+        return ResponseEntity.ok(kakaoService.login(kakaoAccessCode));
     }
-
     @ResponseBody
     @GetMapping("/kakao/callback")
     public ResponseEntity<String> kakaoCallback(@RequestParam String code) {
         return ResponseEntity.ok(code);
     }
-
     @PostMapping("/kakao/unlink")
-    public ResponseEntity<String> kakaoUnlink(@RequestBody  KakaoLoginParams params){
-        kakaoService.kakaoUnlink(params);
+    public ResponseEntity<String> kakaoUnlink(@RequestBody  KakaoLoginParams kakaoAccessCode){
+        kakaoService.kakaoUnlink(kakaoAccessCode);
         return ResponseEntity.ok("회원 탈퇴 성공");
     }
-    @GetMapping("/kakao/logout")
+    @GetMapping("/kakao/logout") // 확인용 추후 삭제될 코드
     public ResponseEntity<String> kakaoLogout(){
         return ResponseEntity.ok("로그아웃");
     }

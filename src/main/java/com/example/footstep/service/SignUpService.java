@@ -24,24 +24,14 @@ public class SignUpService{
     public String memberSignup(MemberForm memberForm) {
         if (isEmailExist(memberForm.getLoginEmail())) {
             throw new GlobalException(ErrorCode.ALREADY_MEMBER_EMAIL);
-        } else if(memberForm.getLoginEmail().isEmpty()) {
-            throw new GlobalException(ErrorCode.EMPTY_MEMBER_EMAIL);
-        }else if (memberForm.getNickname().isEmpty()){
-            throw new GlobalException(ErrorCode.EMPTY_MEMBER_NICKNAME);
-        }else if(memberForm.getPassword().isEmpty()){
-            throw new GlobalException(ErrorCode.EMPTY_MEMBER_PASSWORD);
         }
-        else{
-                Member member = memberForm.from(memberForm);
-                String password = passwordEncoder.encode(member.getPassword());
-                member.setPassword(password);
-                memberRepository.save(member);
-                return "회원가입 성공";
-            }
+        Member member = memberForm.from(memberForm);
+        String password = passwordEncoder.encode(member.getPassword());
+        member.setPassword(password);
+        memberRepository.save(member);
+        return "회원가입 성공";
     }
-
-
-    public boolean isEmailExist(String email) {
+    private boolean isEmailExist(String email) {
         return memberRepository.findByLoginEmail(email.toLowerCase(Locale.ROOT)).isPresent();
     }
 }

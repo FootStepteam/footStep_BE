@@ -21,13 +21,13 @@ public class RequestOAuthInfoService {
         );
     }
 
-    public OAuthInfoResponse request(OAuthLoginParams params) {
-        OAuthApiClient client = clients.get(params.oAuthProvider());
-        String accessToken = client.requestAccessToken(params);
+    public OAuthInfoResponse request(OAuthLoginParams kakaoAccessCode) {
+        OAuthApiClient client = clients.get(kakaoAccessCode.oAuthProvider());
+        String accessToken = client.requestAccessToken(kakaoAccessCode);
         return client.requestOauthInfo(accessToken);
     }
-    public String getAccessToken(OAuthLoginParams params){
-        OAuthApiClient client = clients.get(params.oAuthProvider());
-        return client.requestAccessToken(params);
+    public String getAccessToken(OAuthLoginParams accessCode){
+        OAuthApiClient client = clients.get(accessCode.oAuthProvider());
+        return client.requestAccessToken(accessCode);
     }
 }

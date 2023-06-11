@@ -1,6 +1,8 @@
 package com.example.footstep.domain.dto;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +16,8 @@ import lombok.Setter;
 @Builder
 public class LoginDto {
 
-    @Column(columnDefinition = "NVARCHAR(30) NOT NULL")
+    @NotNull(message = "로그인 이메일을 작성해주세요")
     private String loginEmail;
-
-    @Column(columnDefinition = "NVARCHAR(255) NOT NULL")
+    @NotNull(message = "패스워드를 입력해주세요")
     private String password;
 }
