@@ -1,18 +1,37 @@
 package com.example.footstep.service;
 
-/*
-**
-파  일  명 : LikeService
-제작  연도 : 2023.06.08
-작  성  자 : 김민호
-개발 HISTORY
-DATE                  AUTHOR                DESCRIPTION
-------------------+--------------------+---------------------------------------------------
-2023.06.08           김민호                특정 게시글에 대한 좋아요 기능 구현
-------------------+--------------------+---------------------------------------------------
-*/
-public interface LikeService {
+import com.example.footstep.domain.entity.Community;
+import com.example.footstep.domain.entity.Likes;
+import com.example.footstep.domain.entity.Member;
+import com.example.footstep.domain.repository.CommunityRepository;
+import com.example.footstep.domain.repository.LikeRepository;
+import com.example.footstep.domain.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-    void likeCommunity(Long memberId, Long communityId);
+@Service
+@RequiredArgsConstructor
+public class LikeService {
+
+    private final LikeRepository likeRepository;
+    private final MemberRepository memberRepository;
+    private final CommunityRepository communityRepository;
+
+    @Transactional
+    public void likeCommunity(Long memberId, Long communityId) {
+
+        Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 회원입니다."));
+        Community community = communityRepository.findById(communityId)
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 게시글입니다."));
+
+        communityRepository.increaseLikeCount(communityId);
+
+        likeRepository.save(Likes.builder()
+            .member(member)
+            .community(community)
+            .build());
+    }
 
 }
