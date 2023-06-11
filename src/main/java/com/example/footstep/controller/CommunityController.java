@@ -18,24 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/*
-**
-파  일  명 : CommunityController
-제작  연도 : 2023.06.08
-작  성  자 : 김민호
-개발 HISTORY
-DATE                  AUTHOR                DESCRIPTION
-------------------+--------------------+---------------------------------------------------
-2023.06.08           김민호                게시글 생성, 특정 게시글 조회, 게시글 목록 조회 기능 구현
-------------------+--------------------+---------------------------------------------------
-*/
 @RestController
 @RequiredArgsConstructor
 public class CommunityController {
 
     private final CommunityService communityService;
 
-    // 게시글 생성
     @PostMapping("/community")
     public void create(@RequestBody CommunityCreateForm request) {
 
@@ -45,7 +33,6 @@ public class CommunityController {
 
     }
 
-    // 특정 게시글 조회
     @GetMapping("community/{community-id}")
     public ResponseEntity<CommunityDetailResponse> getOne(
         @PathVariable("community-id") Long communityId) {
@@ -54,7 +41,6 @@ public class CommunityController {
 
     }
 
-    // 게시글 목록 조회
     @GetMapping("community")
     public CommunityListResponse getAll(int page, int size,
         @RequestParam(value = "sort", defaultValue = "like") String sorting) {
@@ -69,13 +55,11 @@ public class CommunityController {
 
     }
 
-    // 게시글 수정
     @PutMapping("community/{community-id}")
     public void update(@PathVariable("community-id") Long communityId) {
 
     }
 
-    // 게시글 삭제
     @DeleteMapping("community/{community-id}")
     public void delete(@PathVariable("community-id") Long communityId) {
 
