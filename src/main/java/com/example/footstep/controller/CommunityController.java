@@ -27,11 +27,11 @@ public class CommunityController {
     private final CommunityService communityService;
 
     @PostMapping
-    public void createCommunity(@RequestBody CommunityCreateForm request) {
+    public void createCommunity(@RequestBody CommunityCreateForm communityCreateForm) {
 
         Long memberId = 1L; // 임시 회원 ID
 
-        communityService.create(memberId, request.getShareId(), request);
+        communityService.create(memberId, communityCreateForm.getShareId(), communityCreateForm);
 
     }
 

@@ -24,13 +24,13 @@ public class CommunityService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void create(Long memberId, Long shareId, CommunityCreateForm form) {
+    public void create(Long memberId, Long shareId, CommunityCreateForm communityCreateForm) {
 
         // 엔티티 조회(회원, 공유방)
         Member member = memberRepository.getMemberById(memberId);
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
-        Community community = form.toEntity();
+        Community community = communityCreateForm.toEntity();
 
         community.setMember(member);
         community.setShareRoom(shareRoom);
