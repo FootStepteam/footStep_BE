@@ -2,7 +2,7 @@ package com.example.footstep.service.impl;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.example.footstep.domain.dto.CommunityDetailResponse;
+import com.example.footstep.domain.dto.community.CommunityDetailResponse;
 import com.example.footstep.domain.entity.Community;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;

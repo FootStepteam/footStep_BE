@@ -1,7 +1,7 @@
 package com.example.footstep.service;
 
-import com.example.footstep.domain.dto.CommunityDetailResponse;
-import com.example.footstep.domain.dto.CommunityListResponse;
+import com.example.footstep.domain.dto.community.CommunityDetailResponse;
+import com.example.footstep.domain.dto.community.CommunityListResponse;
 import com.example.footstep.domain.entity.Community;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;

@@ -1,7 +1,7 @@
 package com.example.footstep.controller;
 
-import com.example.footstep.domain.dto.CommunityDetailResponse;
-import com.example.footstep.domain.dto.CommunityListResponse;
+import com.example.footstep.domain.dto.community.CommunityDetailResponse;
+import com.example.footstep.domain.dto.community.CommunityListResponse;
 import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.service.CommunityService;
 import lombok.RequiredArgsConstructor;

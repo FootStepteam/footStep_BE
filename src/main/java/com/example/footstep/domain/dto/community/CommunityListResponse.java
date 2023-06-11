@@ -1,4 +1,4 @@
-package com.example.footstep.domain.dto;
+package com.example.footstep.domain.dto.community;
 
 import com.example.footstep.domain.entity.Community;
 import java.util.List;
