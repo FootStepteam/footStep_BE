@@ -15,16 +15,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/community")
 public class CommunityController {
 
     private final CommunityService communityService;
 
-    @PostMapping("/community")
+    @PostMapping("")
     public void create(@RequestBody CommunityCreateForm request) {
 
         Long memberId = 1L; // 임시 회원 ID
@@ -33,7 +35,7 @@ public class CommunityController {
 
     }
 
-    @GetMapping("community/{community-id}")
+    @GetMapping("/{community-id}")
     public ResponseEntity<CommunityDetailResponse> getOne(
         @PathVariable("community-id") Long communityId) {
 
@@ -41,7 +43,7 @@ public class CommunityController {
 
     }
 
-    @GetMapping("community")
+    @GetMapping("")
     public CommunityListResponse getAll(int page, int size,
         @RequestParam(value = "sort", defaultValue = "like") String sorting) {
 
@@ -55,12 +57,12 @@ public class CommunityController {
 
     }
 
-    @PutMapping("community/{community-id}")
+    @PutMapping("/{community-id}")
     public void update(@PathVariable("community-id") Long communityId) {
 
     }
 
-    @DeleteMapping("community/{community-id}")
+    @DeleteMapping("/{community-id}")
     public void delete(@PathVariable("community-id") Long communityId) {
 
     }
