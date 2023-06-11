@@ -18,27 +18,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/*
-**
-파  일  명 : ShareRoomService
-제작  연도 : 2023.06.07
-작  성  자 : 오동건
-개발 HISTORY
-DATE                  AUTHOR                DESCRIPTION
-------------------+--------------------+--------------------------------------------
-2023.06.07            오동건                 개발
-------------------+--------------------+--------------------------------------------
-*/
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/share-room")
 public class ShareRoomController {
 
     private final ShareRoomService shareRoomService;
 
 
-    // 공유방 리스트 조회
-    @GetMapping("/share-room")
+    @GetMapping
     public ResponseEntity<List<ShareRoomListDto>> searchListShareRoom(
 //        @AuthenticationPrincipal Long memberId,
         @RequestBody @Valid ShareRoomPageForm shareRoomPageForm) {
@@ -47,8 +35,7 @@ public class ShareRoomController {
     }
 
 
-    // 공유방 조회
-    @GetMapping("/share-room/{shareId}")
+    @GetMapping("/{shareId}")
     public ResponseEntity<ShareRoomDto> searchShareRoom(
 //        @AuthenticationPrincipal Long memberId,
         @PathVariable("shareId") Long shareId) {
@@ -57,8 +44,7 @@ public class ShareRoomController {
     }
 
 
-    // 공유방 생성
-    @PostMapping("/share-room")
+    @PostMapping
     public ResponseEntity<ShareRoomDto> addShareRoom(
 //        @AuthenticationPrincipal Long memberId,
         @RequestBody @Valid ShareRoomForm shareRoomForm) {
@@ -67,8 +53,7 @@ public class ShareRoomController {
     }
 
 
-    // 공유방 수정
-    @PutMapping("/share-room/{shareId}")
+    @PutMapping("/{shareId}")
     public ResponseEntity<ShareRoomDto> modifyShareRoom(
 //        @AuthenticationPrincipal Long memberId,
         @PathVariable("shareId") Long shareId,
@@ -79,8 +64,7 @@ public class ShareRoomController {
     }
 
 
-    // 공유방 삭제
-    @DeleteMapping("/share-room/{shareId}")
+    @DeleteMapping("/{shareId}")
     public ResponseEntity<String> deleteShareRoom(
 //        @AuthenticationPrincipal Long memberId,
         @PathVariable("shareId") Long shareId) {
