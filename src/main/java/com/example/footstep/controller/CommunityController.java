@@ -1,7 +1,7 @@
 package com.example.footstep.controller;
 
-import com.example.footstep.domain.dto.CommunityDetailDto;
-import com.example.footstep.domain.dto.CommunityListDto;
+import com.example.footstep.domain.dto.community.CommunityDetailResponse;
+import com.example.footstep.domain.dto.community.CommunityListResponse;
 import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.service.CommunityService;
 import lombok.RequiredArgsConstructor;
@@ -27,16 +27,16 @@ public class CommunityController {
     private final CommunityService communityService;
 
     @PostMapping
-    public void create(@RequestBody CommunityCreateForm request) {
+    public void createCommunity(@RequestBody CommunityCreateForm communityCreateForm) {
 
         Long memberId = 1L; // 임시 회원 ID
 
-        communityService.create(memberId, request.getShareId(), request);
+        communityService.create(memberId, communityCreateForm.getShareId(), communityCreateForm);
 
     }
 
     @GetMapping("/{community-id}")
-    public ResponseEntity<CommunityDetailDto> getOneCommunity(
+    public ResponseEntity<CommunityDetailResponse> getOneCommunity(
         @PathVariable("community-id") Long communityId) {
 
         return ResponseEntity.ok(communityService.getOne(communityId));
@@ -44,8 +44,8 @@ public class CommunityController {
     }
 
     @GetMapping
-    public CommunityListDto getAllCommunity(int page, int size,
-                                   @RequestParam(value = "sort", defaultValue = "like") String sorting) {
+    public CommunityListResponse getAllCommunity(int page, int size,
+        @RequestParam(value = "sort", defaultValue = "like") String sorting) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("likeCount").descending());
 
@@ -58,12 +58,12 @@ public class CommunityController {
     }
 
     @PutMapping("/{community-id}")
-    public void update(@PathVariable("community-id") Long communityId) {
+    public void updateCommunity(@PathVariable("community-id") Long communityId) {
 
     }
 
     @DeleteMapping("/{community-id}")
-    public void delete(@PathVariable("community-id") Long communityId) {
+    public void deleteCommunity(@PathVariable("community-id") Long communityId) {
 
     }
 }

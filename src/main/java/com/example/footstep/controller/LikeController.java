@@ -15,7 +15,7 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping("/{id}/like")
-    public void like(@PathVariable("id") Long communityId) {
+    public void likeCommunity(@PathVariable("id") Long communityId) {
 
         likeService.likeCommunity(1L, communityId);
 

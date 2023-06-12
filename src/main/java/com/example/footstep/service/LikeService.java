@@ -21,10 +21,9 @@ public class LikeService {
     @Transactional
     public void likeCommunity(Long memberId, Long communityId) {
 
-        Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 회원입니다."));
-        Community community = communityRepository.findById(communityId)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않은 게시글입니다."));
+        Member member = memberRepository.getMemberById(memberId);
+
+        Community community = communityRepository.getCommunityById(communityId);
 
         communityRepository.increaseLikeCount(communityId);
 
