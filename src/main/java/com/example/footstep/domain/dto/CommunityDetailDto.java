@@ -17,19 +17,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class CommunityDetailResponse {
+public class CommunityDetailDto {
 
-    // 게시글 이름(제목), 작성자 닉네임, 좋아요 수, 게시글 작성일, 공유방 일정, 게시글 내용
     private String communityName;
     private String memberNickname;
     private int likeCount;
     private LocalDateTime createdDatetime;
     private String content;
 
-    public static CommunityDetailResponse of(Community community, Member member,
-        ShareRoom shareRoom) {
+    public static CommunityDetailDto of(Community community, Member member,
+                                        ShareRoom shareRoom) {
 
-        return CommunityDetailResponse.builder()
+        return CommunityDetailDto.builder()
             .communityName(community.getCommunityName())
             .memberNickname(member.getNickname())
             .likeCount(community.getLikeCount())

@@ -3,7 +3,6 @@ package com.example.footstep.component.security;
 import java.util.Date;
 
 import com.example.footstep.component.jwt.JwtTokenProvider;
-import com.example.footstep.component.security.AuthTokens;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,10 +27,10 @@ public class AuthTokensGenerator {
         Date refreshTokenExpiredAt = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
 
         String subject = memberId.toString();
-        String accessToken = jwtTokenProvider.generate(subject, accessTokenExpiredAt);
+        String jwtAccessToken = jwtTokenProvider.generate(subject, accessTokenExpiredAt);
         String refreshToken = jwtTokenProvider.generate(subject, refreshTokenExpiredAt);
 
-        return AuthTokens.of(accessToken, refreshToken, BEARER_TYPE,
+        return AuthTokens.of(jwtAccessToken, refreshToken, BEARER_TYPE,
             ACCESS_TOKEN_EXPIRE_TIME / 1000L);
     }
 

@@ -21,8 +21,8 @@ public class KakaoService {
     private final AuthTokensGenerator authTokensGenerator;
     private final RequestOAuthInfoService requestOAuthInfoService;
     private final KakaoApiClient kakaoApiClient;
-    public AuthTokens login(OAuthLoginParams params) {
-        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService. request(params);
+    public AuthTokens login(OAuthLoginParams kakaoAccessCode) {
+        OAuthInfoResponse oAuthInfoResponse = requestOAuthInfoService. request(kakaoAccessCode);
         Long memberId = findOrCreateMember(oAuthInfoResponse);
         return authTokensGenerator.generate(memberId);
     }
@@ -45,11 +45,11 @@ public class KakaoService {
         return memberRepository.save(member).getMemberId();
     }
 
-    public void kakaoUnlink(OAuthLoginParams params) {
-        if(params == null) {
+    public void kakaoUnlink(OAuthLoginParams kakaoAccessCode) {
+        if(kakaoAccessCode == null) {
             throw new GlobalException(ErrorCode.EMPTY_ACCESS_TOKEN);
         }else{
-            String accessToken = requestOAuthInfoService.getAccessToken(params);
+            String accessToken = requestOAuthInfoService.getAccessToken(kakaoAccessCode);
             kakaoApiClient.kakaoUnlink(accessToken);
         }
 

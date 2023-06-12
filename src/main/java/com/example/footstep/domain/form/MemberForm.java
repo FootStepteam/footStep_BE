@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,8 +17,12 @@ import lombok.Setter;
 @Builder
 public class MemberForm {
 
+
+    @NotNull(message = "로그인 이메일을 입력해 주세요")
     private String loginEmail;
+    @NotNull(message = "닉네임을 입력해 주세요")
     private String nickname;
+    @NotNull(message = "패스워드를 입력해 주세요")
     private String password;
     private String gender;
 

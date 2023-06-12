@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
@@ -36,12 +38,12 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<String> signUpMember(@RequestBody MemberForm memberForm) {
+    public ResponseEntity<String> signUpMember(@RequestBody @Valid MemberForm memberForm) {
         return ResponseEntity.ok(signUpService.memberSignup(memberForm));
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<AuthTokens> signInMember(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<AuthTokens> signInMember(@RequestBody @Valid LoginDto loginDto) {
         AuthTokens tokens = signInService.login(loginDto);
 
         return ResponseEntity.ok(tokens);

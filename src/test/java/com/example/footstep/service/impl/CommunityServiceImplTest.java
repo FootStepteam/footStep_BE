@@ -2,7 +2,7 @@ package com.example.footstep.service.impl;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import com.example.footstep.domain.dto.CommunityDetailResponse;
+import com.example.footstep.domain.dto.CommunityDetailDto;
 import com.example.footstep.domain.entity.Community;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
@@ -69,7 +69,7 @@ class CommunityServiceImplTest {
         communityRepository.save(community);
 
         // when
-        CommunityDetailResponse response = communityService.getOne(1L);
+        CommunityDetailDto response = communityService.getOne(1L);
 
         // then
         assertThat(response).isNotNull();
