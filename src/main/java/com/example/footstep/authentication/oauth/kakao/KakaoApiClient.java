@@ -4,12 +4,13 @@ import com.example.footstep.authentication.oauth.OAuthApiClient;
 import com.example.footstep.authentication.oauth.OAuthInfoResponse;
 import com.example.footstep.authentication.oauth.OAuthLoginParams;
 import com.example.footstep.authentication.oauth.OAuthProvider;
+import com.example.footstep.exception.ErrorCode;
+import com.example.footstep.exception.GlobalException;
+import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -20,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 public class KakaoApiClient implements OAuthApiClient {
 
     private static final String GRANT_TYPE = "authorization_code";
+    private final Environment env;
 
     @Value("${oauth.kakao.url.auth}")
     private String authUrl;
@@ -32,7 +34,6 @@ public class KakaoApiClient implements OAuthApiClient {
 
     private final RestTemplate restTemplate;
 
-    private final Environment env;
 
     @Override
     public OAuthProvider oAuthProvider() {
@@ -73,6 +74,25 @@ public class KakaoApiClient implements OAuthApiClient {
         HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
 
         return restTemplate.postForObject(url, request, OAuthInfoResponse.KakaoInfoResponse.class);
+    }
+
+    @Override
+    public void kakaoUnlink(String accessToken) {
+        String unlinkUrl = apiUnurl;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Authorization","Bearer " + accessToken);
+
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+
+        HttpEntity<?> request = new HttpEntity<>(body,headers);
+
+
+        ResponseEntity<String> response =  restTemplate.postForEntity(unlinkUrl,request,String.class);
+        if(response.getStatusCode() == HttpStatus.OK){
+            return;
+        }
     }
 
 }
