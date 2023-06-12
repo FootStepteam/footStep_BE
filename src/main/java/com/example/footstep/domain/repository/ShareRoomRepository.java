@@ -15,7 +15,7 @@ public interface ShareRoomRepository extends JpaRepository<ShareRoom, Long> {
 
     List<ShareRoom> findByMember_MemberId(Long memberId, Pageable pageable);
 
-    boolean existsByShareCode(String shareCode);
+    Optional<ShareRoom> findByShareCode(String shareCode);
 
     Optional<ShareRoom> findByShareId(Long shareId);
 
@@ -23,4 +23,6 @@ public interface ShareRoomRepository extends JpaRepository<ShareRoom, Long> {
         return findByShareId(shareId)
             .orElseThrow(() -> new GlobalException(NOT_FIND_SHARE_ID));
     }
+
+    boolean existsByShareCode(String shareCode);
 }

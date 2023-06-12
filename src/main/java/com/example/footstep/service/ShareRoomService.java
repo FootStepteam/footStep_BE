@@ -1,5 +1,6 @@
 package com.example.footstep.service;
 
+import static com.example.footstep.exception.ErrorCode.NOT_FIND_SHARE_ID;
 import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
 
 import com.example.footstep.domain.dto.share_room.ShareRoomDto;
@@ -58,6 +59,16 @@ public class ShareRoomService {
         if (!member.getMemberId().equals(shareRoom.getMember().getMemberId())) {
             throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
         }
+
+        return ShareRoomDto.from(shareRoom);
+    }
+
+
+    @Transactional(readOnly = true)
+    public ShareRoomDto getOneGuestShareRoom(String shareCode) {
+
+        ShareRoom shareRoom = shareRoomRepository.findByShareCode(shareCode)
+            .orElseThrow(() -> new GlobalException(NOT_FIND_SHARE_ID));
 
         return ShareRoomDto.from(shareRoom);
     }
