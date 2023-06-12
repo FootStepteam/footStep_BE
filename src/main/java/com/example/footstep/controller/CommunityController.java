@@ -1,7 +1,7 @@
 package com.example.footstep.controller;
 
-import com.example.footstep.domain.dto.community.CommunityDetailResponse;
-import com.example.footstep.domain.dto.community.CommunityListResponse;
+import com.example.footstep.domain.dto.community.CommunityDetailDto;
+import com.example.footstep.domain.dto.community.CommunityListDto;
 import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.service.CommunityService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class CommunityController {
     }
 
     @GetMapping("/{community-id}")
-    public ResponseEntity<CommunityDetailResponse> getOneCommunity(
+    public ResponseEntity<CommunityDetailDto> getOneCommunity(
         @PathVariable("community-id") Long communityId) {
 
         return ResponseEntity.ok(communityService.getOne(communityId));
@@ -44,7 +44,7 @@ public class CommunityController {
     }
 
     @GetMapping
-    public CommunityListResponse getAllCommunity(int page, int size,
+    public CommunityListDto getAllCommunity(int page, int size,
         @RequestParam(value = "sort", defaultValue = "like") String sorting) {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("likeCount").descending());

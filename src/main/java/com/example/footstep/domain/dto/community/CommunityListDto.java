@@ -9,17 +9,17 @@ import org.springframework.data.domain.Slice;
 
 @Getter
 @AllArgsConstructor
-public class CommunityListResponse {
+public class CommunityListDto {
 
-    private List<CommunityElementResponse> communities;
+    private List<CommunityElementDto> communities;
     private boolean lastPage;
 
-    public static CommunityListResponse ofSlice(Slice<Community> communities) {
+    public static CommunityListDto ofSlice(Slice<Community> communities) {
 
-        List<CommunityElementResponse> postsElementResponses = communities.getContent()
+        List<CommunityElementDto> postsElementResponses = communities.getContent()
             .stream()
-            .map(CommunityElementResponse::from)
+            .map(CommunityElementDto::from)
             .collect(Collectors.toList());
-        return new CommunityListResponse(postsElementResponses, communities.isLast());
+        return new CommunityListDto(postsElementResponses, communities.isLast());
     }
 }
