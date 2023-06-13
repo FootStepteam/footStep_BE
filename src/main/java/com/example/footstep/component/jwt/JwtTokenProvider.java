@@ -3,9 +3,12 @@ package com.example.footstep.component.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import java.security.Key;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,15 +37,33 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    private Claims parseClaims(String accessToken) {
+    public boolean isValid(String accessToken) {
         try {
-            return Jwts.parserBuilder()
+            Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(accessToken)
                 .getBody();
-        } catch (ExpiredJwtException e) {
-            return e.getClaims();
+        } catch (SignatureException ex) {
+            throw new SignatureException("invalid token request exception - Incorrect signature");
+        } catch (MalformedJwtException ex) {
+            throw new RuntimeException("invalid token request exception - malformed jwt token");
+        } catch (ExpiredJwtException ex) {
+            throw new RuntimeException("invalid token request exception - 토큰이 만료. 갱신 필요");
+        } catch (UnsupportedJwtException ex) {
+            throw new RuntimeException("invalid token request exception - Illegal argument token");
         }
+
+        return true;
+    }
+
+    private Claims parseClaims(String accessToken) {
+
+        return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(accessToken)
+            .getBody();
+
     }
 }
