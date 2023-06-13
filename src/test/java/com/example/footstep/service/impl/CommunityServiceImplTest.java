@@ -44,15 +44,16 @@ class CommunityServiceImplTest {
             .loginEmail("test@naver.com")
             .build();
 
-        memberRepository.save(member);
-
         ShareRoom shareRoom = ShareRoom.builder()
             .shareId(1L)
             .shareName("공유방 제목")
             .shareCode("랜던코드")
+            .travelEndDate("끝")
+            .travelStartDate("시작")
             .member(member)
             .build();
 
+        memberRepository.save(member);
         shareRoomRepository.save(shareRoom);
 
         Community community = Community.builder()

@@ -1,5 +1,6 @@
 package com.example.footstep.controller;
 
+import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.share_room.ShareRoomDto;
 import com.example.footstep.domain.dto.share_room.ShareRoomListDto;
 import com.example.footstep.domain.form.ShareRoomForm;
@@ -9,6 +10,7 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,20 +31,21 @@ public class ShareRoomController {
 
     @GetMapping
     public ResponseEntity<List<ShareRoomListDto>> getAllListShareRoom(
-//        @AuthenticationPrincipal Long memberId,
+        @AuthenticationPrincipal LoginMember loginMember,
         @RequestBody @Valid ShareRoomPageForm shareRoomPageForm) {
 
         return ResponseEntity.ok(shareRoomService.getAllListShareRoom(
-            1L, shareRoomPageForm));
+            loginMember.getMemberId(), shareRoomPageForm));
     }
 
 
     @GetMapping("/{shareId}")
     public ResponseEntity<ShareRoomDto> getOneShareRoom(
-//        @AuthenticationPrincipal Long memberId,
+        @AuthenticationPrincipal LoginMember loginMember,
         @PathVariable("shareId") Long shareId) {
 
-        return ResponseEntity.ok(shareRoomService.getOneShareRoom(1L, shareId));
+        return ResponseEntity.ok(
+            shareRoomService.getOneShareRoom(loginMember.getMemberId(), shareId));
     }
 
 
@@ -56,29 +59,31 @@ public class ShareRoomController {
 
     @PostMapping
     public ResponseEntity<ShareRoomDto> createShareRoom(
-//        @AuthenticationPrincipal Long memberId,
+        @AuthenticationPrincipal LoginMember loginMember,
         @RequestBody @Valid ShareRoomForm shareRoomForm) {
 
-        return ResponseEntity.ok(shareRoomService.createShareRoom(1L, shareRoomForm));
+        return ResponseEntity.ok(
+            shareRoomService.createShareRoom(loginMember.getMemberId(), shareRoomForm));
     }
 
 
     @PutMapping("/{shareId}")
     public ResponseEntity<ShareRoomDto> updateShareRoom(
-//        @AuthenticationPrincipal Long memberId,
+        @AuthenticationPrincipal LoginMember loginMember,
         @PathVariable("shareId") Long shareId,
         @RequestBody @Valid ShareRoomForm shareRoomForm) {
 
         return ResponseEntity.ok(shareRoomService.updateShareRoom(
-            1L, shareId, shareRoomForm));
+            loginMember.getMemberId(), shareId, shareRoomForm));
     }
 
 
     @DeleteMapping("/{shareId}")
     public ResponseEntity<String> deleteShareRoom(
-//        @AuthenticationPrincipal Long memberId,
+        @AuthenticationPrincipal LoginMember loginMember,
         @PathVariable("shareId") Long shareId) {
 
-        return ResponseEntity.ok(shareRoomService.deleteShareRoom(1L, shareId));
+        return ResponseEntity.ok(
+            shareRoomService.deleteShareRoom(loginMember.getMemberId(), shareId));
     }
 }

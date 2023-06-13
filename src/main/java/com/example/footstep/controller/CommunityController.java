@@ -1,14 +1,17 @@
 package com.example.footstep.controller;
 
+import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.community.CommunityDetailDto;
 import com.example.footstep.domain.dto.community.CommunityListDto;
 import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.service.CommunityService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/community")
@@ -27,18 +31,19 @@ public class CommunityController {
     private final CommunityService communityService;
 
     @PostMapping
-    public void createCommunity(@RequestBody CommunityCreateForm communityCreateForm) {
+    public void createCommunity(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @RequestBody CommunityCreateForm communityCreateForm) {
 
-        Long memberId = 1L; // 임시 회원 ID
-
-        communityService.create(memberId, communityCreateForm.getShareId(), communityCreateForm);
+        communityService.create(loginMember.getMemberId(),
+            communityCreateForm.getShareId(),
+            communityCreateForm);
 
     }
 
     @GetMapping("/{community-id}")
     public ResponseEntity<CommunityDetailDto> getOneCommunity(
         @PathVariable("community-id") Long communityId) {
-
         return ResponseEntity.ok(communityService.getOne(communityId));
 
     }
@@ -58,12 +63,16 @@ public class CommunityController {
     }
 
     @PutMapping("/{community-id}")
-    public void updateCommunity(@PathVariable("community-id") Long communityId) {
+    public void updateCommunity(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @PathVariable("community-id") Long communityId) {
 
     }
 
     @DeleteMapping("/{community-id}")
-    public void deleteCommunity(@PathVariable("community-id") Long communityId) {
+    public void deleteCommunity(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @PathVariable("community-id") Long communityId) {
 
     }
 }
