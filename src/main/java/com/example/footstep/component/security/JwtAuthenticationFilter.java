@@ -49,12 +49,12 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
             Member member = memberRepository.getMemberById(Long.valueOf(subject));
 
-            LoginUser loginUser = new LoginUser();
-            loginUser.setMemberId(member.getMemberId());
+            LoginMember loginMember = new LoginMember();
+            loginMember.setMemberId(member.getMemberId());
             // 필요에 따라 member 에서 원하는 정보 set 하면 됨.
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                loginUser,
+                loginMember,
                 null,
                 null    // 만약 권한에 대한 것이 생기면 여기다 넣으면 됨.
             );
