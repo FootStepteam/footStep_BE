@@ -39,20 +39,23 @@ public class SecurityConfig {
             .csrf().disable()
             .cors()
             .and()
-
+            //  접근 권한(인가)에 실패한 경우
             .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler())
             .and()
+            // [ JWT ] 인증에 실패한 경우: 401(UNAUTHORIZED)
             .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint())
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .formLogin().disable()
             .httpBasic().disable()
+            // 각 API 경로에 대한 접근권한 설정
             .authorizeRequests()
             .antMatchers("/api/auth/**", "/api/kakao/**", "/member/**").permitAll()
             .antMatchers(HttpMethod.GET, "/**").permitAll()
             .anyRequest().authenticated()
             .and()
+            // JWT 인증 처리
             .addFilterBefore(jwtAuthenticationFilter(), BasicAuthenticationFilter.class);
 
         return http.build();
