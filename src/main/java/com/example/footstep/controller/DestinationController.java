@@ -21,11 +21,10 @@ public class DestinationController {
 
     @PostMapping("/{shareId}/schedule")
     public ResponseEntity<DestinationRedis> createDestination(
-        //        @AuthenticationPrincipal Long memberId,
         @PathVariable("shareId") Long shareId,
         @RequestBody @Valid DestinationRedisForm destinationRedisForm) {
 
         return ResponseEntity.ok(destinationService.createDestination(
-            1L, shareId, destinationRedisForm));
+            shareId, destinationRedisForm));
     }
 }

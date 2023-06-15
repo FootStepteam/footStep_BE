@@ -1,8 +1,8 @@
 package com.example.footstep.service;
 
+import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.entity.redis.DestinationRedis;
 import com.example.footstep.domain.form.DestinationRedisForm;
-import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
 import com.example.footstep.domain.repository.redis.ScheduleRedisRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DestinationService {
 
-    private final MemberRepository memberRepository;
     private final ShareRoomRepository shareRoomRepository;
 
     // Redis
@@ -20,12 +19,11 @@ public class DestinationService {
 
 
     public DestinationRedis createDestination(
-        Long memberId, Long shareId, DestinationRedisForm destinationRedisForm) {
+        Long shareId, DestinationRedisForm destinationRedisForm) {
 
-        memberRepository.getMemberById(memberId);
+        ShareRoom shareById = shareRoomRepository.getShareById(shareId);
 
-        shareRoomRepository.getShareById(shareId);
-
-        return scheduleRedisRepository.save(destinationRedisForm.toEntityScheduleRedis(shareId));
+        return scheduleRedisRepository.save(
+            destinationRedisForm.toEntityScheduleRedis(shareById.getShareId()));
     }
 }
