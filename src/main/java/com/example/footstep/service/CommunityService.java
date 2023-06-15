@@ -6,9 +6,12 @@ import com.example.footstep.domain.entity.Community;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.form.CommunityCreateForm;
+import com.example.footstep.domain.form.CommunityUpdateForm;
 import com.example.footstep.domain.repository.CommunityRepository;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
+import com.example.footstep.exception.ErrorCode;
+import com.example.footstep.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -55,4 +58,13 @@ public class CommunityService {
         return CommunityListDto.ofSlice(communities);
     }
 
+    @Transactional
+    public void update(Long memberId, Long communityId, CommunityUpdateForm communityUpdateForm) {
+
+        Community community = communityRepository.findByCommunityIdAndMember_MemberId(communityId, memberId)
+                .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
+
+        community.updateContent(communityUpdateForm.getContent());
+
+    }
 }
