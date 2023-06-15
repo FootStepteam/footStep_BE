@@ -4,6 +4,7 @@ import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.community.CommunityDetailDto;
 import com.example.footstep.domain.dto.community.CommunityListDto;
 import com.example.footstep.domain.form.CommunityCreateForm;
+import com.example.footstep.domain.form.CommunityUpdateForm;
 import com.example.footstep.service.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +66,11 @@ public class CommunityController {
     @PutMapping("/{community-id}")
     public void updateCommunity(
         @AuthenticationPrincipal LoginMember loginMember,
-        @PathVariable("community-id") Long communityId) {
+        @PathVariable("community-id") Long communityId,
+        @RequestBody CommunityUpdateForm communityUpdateForm
+        ) {
+
+        communityService.update(loginMember.getMemberId(), communityId, communityUpdateForm);
 
     }
 
@@ -73,6 +78,8 @@ public class CommunityController {
     public void deleteCommunity(
         @AuthenticationPrincipal LoginMember loginMember,
         @PathVariable("community-id") Long communityId) {
+
+        communityService.delete(loginMember.getMemberId(), communityId);
 
     }
 }
