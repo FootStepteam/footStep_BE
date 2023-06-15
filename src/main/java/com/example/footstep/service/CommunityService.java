@@ -61,20 +61,23 @@ public class CommunityService {
     @Transactional
     public void update(Long memberId, Long communityId, CommunityUpdateForm communityUpdateForm) {
 
-        Community community = communityRepository.findByCommunityIdAndMember_MemberId(communityId, memberId)
-                .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
+        Community community = findByCommunityIdAndMemberId(memberId, communityId);
 
         community.updateContent(communityUpdateForm.getContent());
 
     }
 
+    @Transactional
     public void delete(Long memberId, Long communityId) {
 
-        Community community = communityRepository.findByCommunityIdAndMember_MemberId(communityId,
-                memberId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
+        Community community = findByCommunityIdAndMemberId(memberId, communityId);
 
         communityRepository.delete(community);
 
+    }
+
+    private Community findByCommunityIdAndMemberId(Long memberId, Long communityId) {
+        return communityRepository.findByCommunityIdAndMember_MemberId(communityId, memberId)
+            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
     }
 }
