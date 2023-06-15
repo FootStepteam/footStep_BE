@@ -15,11 +15,11 @@ import org.springframework.data.redis.core.index.Indexed;
 @RedisHash(value = "scheduleRedis")
 public class DestinationRedis {
 
-
     @Id
     private Long id;
     @Indexed
     private Long shareId;
+    @Indexed
     private String planDate;
     private String content;
     private String destinationCategoryCode;
