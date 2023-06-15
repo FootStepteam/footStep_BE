@@ -30,13 +30,10 @@ public class Destination extends BaseTimeEntity {
     private String destinationName;
     @Column(columnDefinition = "NVARCHAR(150) NOT NULL")
     private String destinationAddress;
-    @Column(columnDefinition = "NVARCHAR(255) NOT NULL")
-    private String startPoint;
     @Column(columnDefinition = "NUMERIC(12, 9) NOT NULL")
     private String lng;
     @Column(columnDefinition = "NUMERIC(12, 9) NOT NULL")
     private String lat;
-    private int leadTime;
     private int seq;
 
 
