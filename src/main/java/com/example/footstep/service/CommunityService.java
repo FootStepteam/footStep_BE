@@ -67,4 +67,14 @@ public class CommunityService {
         community.updateContent(communityUpdateForm.getContent());
 
     }
+
+    public void delete(Long memberId, Long communityId) {
+
+        Community community = communityRepository.findByCommunityIdAndMember_MemberId(communityId,
+                memberId)
+            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
+
+        communityRepository.delete(community);
+
+    }
 }

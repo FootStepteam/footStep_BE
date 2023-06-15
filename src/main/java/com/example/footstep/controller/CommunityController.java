@@ -79,5 +79,7 @@ public class CommunityController {
         @AuthenticationPrincipal LoginMember loginMember,
         @PathVariable("community-id") Long communityId) {
 
+        communityService.delete(loginMember.getMemberId(), communityId);
+
     }
 }
