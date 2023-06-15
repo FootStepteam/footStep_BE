@@ -38,9 +38,6 @@ public class ShareRoomService {
 
         Member member = memberRepository.getMemberById(memberId);
 
-        Member member = memberRepository.findByMemberId(memberId)
-            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_MEMBER_ID));
-
         Pageable pageable = PageRequest.of(shareRoomPageForm.getPage(),
             shareRoomPageForm.getSize());
 

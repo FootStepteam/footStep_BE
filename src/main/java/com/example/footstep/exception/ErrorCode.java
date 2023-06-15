@@ -20,6 +20,7 @@ public enum ErrorCode {
     WRONG_ACCESS_TOKEN_AUTH("잘못된 인증입니다."),
     EMPTY_ACCESS_TOKEN("토큰이 비었습니다."),
 
+
     // 공유방
     NOT_FIND_SHARE_ID("존재하지 않는 공유방 입니다."),
     NOT_MATCH_CREATE_MEMBER("공유방을 생성한 사용자가 아닙니다."),
