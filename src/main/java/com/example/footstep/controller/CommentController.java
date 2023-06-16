@@ -21,12 +21,6 @@ public class CommentController {
 
     private final CommentService commentService;
 
-//    @GetMapping("/articles/{articleId}/comments")
-//    public ResponseEntity<List<CommentResponse>> getComments(@LoginMember Member member, @PathVariable Long articleId) {
-//        List<CommentResponse> commentResponses = commentService.getComment(member, articleId);
-//        return ResponseEntity.ok(commentResponses);
-//    }
-
     @PostMapping("/community/{communityId}/comments")
     public void createComment(
         @AuthenticationPrincipal LoginMember loginMember,
