@@ -37,4 +37,13 @@ public class Comment extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
+
+    public boolean isWrittenBy(Long memberId) {
+        return this.member.getMemberId().equals(memberId);
+    }
+
+    public void update(String content) {
+        this.content = content;
+    }
+
 }

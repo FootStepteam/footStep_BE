@@ -11,3 +11,6 @@ Content-Type: application/json
 
 ### 게시글 목록 조회
 GET localhost:8080/community?page=0&size=10&sort=recent
+
+### 특정 게시글 조회
+GET localhost:8080/api/community/933
