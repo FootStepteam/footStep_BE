@@ -14,7 +14,6 @@ import com.example.footstep.exception.GlobalException;
 import java.security.SecureRandom;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,11 +32,9 @@ public class ShareRoomService {
 
 
     @Transactional(readOnly = true)
-    public List<ShareRoomListDto> getAllListShareRoom(Long memberId, int page, int size) {
+    public List<ShareRoomListDto> getAllListShareRoom(Long memberId, Pageable pageable) {
 
         Member member = memberRepository.getMemberById(memberId);
-
-        Pageable pageable = PageRequest.of(page, size);
 
         return ShareRoomListDto.of(
             shareRoomRepository.findByMember_MemberId(member.getMemberId(), pageable));
@@ -82,8 +79,7 @@ public class ShareRoomService {
             }
         }
 
-        ShareRoom shareRoom = shareRoomRepository.save(shareRoomForm.toEntity(shareCode));
-        member.getShareRooms().add(shareRoom);
+        ShareRoom shareRoom = shareRoomRepository.save(shareRoomForm.toEntity(shareCode, member));
 
         return ShareRoomDto.from(shareRoom);
     }

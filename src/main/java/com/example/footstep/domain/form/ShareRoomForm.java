@@ -1,5 +1,6 @@
 package com.example.footstep.domain.form;
 
+import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
@@ -16,14 +17,14 @@ public class ShareRoomForm {
     private String imageUrl;
 
 
-    public ShareRoom toEntity(String shareCode) {
+    public ShareRoom toEntity(String shareCode, Member member) {
         return ShareRoom.builder()
             .shareName(shareName)
             .shareCode(shareCode)
             .travelStartDate(travelStartDate)
             .travelEndDate(travelEndDate)
             .imageUrl(imageUrl)
+            .member(member)
             .build();
     }
-
 }
