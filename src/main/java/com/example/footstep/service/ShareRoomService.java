@@ -8,7 +8,6 @@ import com.example.footstep.domain.dto.share_room.ShareRoomListDto;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.form.ShareRoomForm;
-import com.example.footstep.domain.form.ShareRoomPageForm;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
 import com.example.footstep.exception.GlobalException;
@@ -34,13 +33,11 @@ public class ShareRoomService {
 
 
     @Transactional(readOnly = true)
-    public List<ShareRoomListDto> getAllListShareRoom(Long memberId,
-        ShareRoomPageForm shareRoomPageForm) {
+    public List<ShareRoomListDto> getAllListShareRoom(Long memberId, int page, int size) {
 
         Member member = memberRepository.getMemberById(memberId);
 
-        Pageable pageable = PageRequest.of(shareRoomPageForm.getPage(),
-            shareRoomPageForm.getSize());
+        Pageable pageable = PageRequest.of(page, size);
 
         return ShareRoomListDto.of(
             shareRoomRepository.findByMember_MemberId(member.getMemberId(), pageable));

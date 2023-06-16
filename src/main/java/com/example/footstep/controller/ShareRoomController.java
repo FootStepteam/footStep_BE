@@ -4,7 +4,6 @@ import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.share_room.ShareRoomDto;
 import com.example.footstep.domain.dto.share_room.ShareRoomListDto;
 import com.example.footstep.domain.form.ShareRoomForm;
-import com.example.footstep.domain.form.ShareRoomPageForm;
 import com.example.footstep.service.ShareRoomService;
 import java.util.List;
 import javax.validation.Valid;
@@ -32,10 +31,10 @@ public class ShareRoomController {
     @GetMapping
     public ResponseEntity<List<ShareRoomListDto>> getAllListShareRoom(
         @AuthenticationPrincipal LoginMember loginMember,
-        @RequestBody @Valid ShareRoomPageForm shareRoomPageForm) {
+        @RequestParam("page") int page, @RequestParam("size") int size) {
 
-        return ResponseEntity.ok(shareRoomService.getAllListShareRoom(
-            loginMember.getMemberId(), shareRoomPageForm));
+        return ResponseEntity.ok(
+            shareRoomService.getAllListShareRoom(loginMember.getMemberId(), page, size));
     }
 
 
