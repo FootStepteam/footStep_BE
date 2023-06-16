@@ -2,16 +2,19 @@ package com.example.footstep.service;
 
 import com.example.footstep.domain.dto.community.CommunityDetailDto;
 import com.example.footstep.domain.dto.community.CommunityListDto;
+import com.example.footstep.domain.entity.Comment;
 import com.example.footstep.domain.entity.Community;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.domain.form.CommunityUpdateForm;
+import com.example.footstep.domain.repository.CommentRepository;
 import com.example.footstep.domain.repository.CommunityRepository;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
 import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -25,6 +28,7 @@ public class CommunityService {
     private final ShareRoomRepository shareRoomRepository;
     private final CommunityRepository communityRepository;
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public void create(Long memberId, Long shareId, CommunityCreateForm communityCreateForm) {
@@ -45,10 +49,14 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public CommunityDetailDto getOne(Long communityId) {
 
-        Community community = communityRepository.getCommunityById(communityId);
+        Community community = communityRepository.findByIdWithShareRoomAndWriter(communityId)
+            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
+
+        List<Comment> comments = commentRepository.findAllByCommunityIdWithMember(
+            communityId);
 
         return CommunityDetailDto.of(community, community.getMember(),
-            community.getShareRoom());
+            community.getShareRoom(), comments);
 
     }
 
