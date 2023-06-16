@@ -26,7 +26,7 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
         + "left join fetch c.member "
         + "left join fetch c.shareRoom "
         + "where c.communityId = :id")
-    Optional<Community>findByIdWithShareRoomAndWriter(@Param("id") Long id);
+    Optional<Community> findByIdWithShareRoomAndMember(@Param("id") Long id);
 
     default Community getCommunityById(Long id) {
         return findById(id)

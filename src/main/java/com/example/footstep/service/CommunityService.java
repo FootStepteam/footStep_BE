@@ -49,7 +49,7 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public CommunityDetailDto getOne(Long communityId) {
 
-        Community community = communityRepository.findByIdWithShareRoomAndWriter(communityId)
+        Community community = communityRepository.findByIdWithShareRoomAndMember(communityId)
             .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
 
         List<Comment> comments = commentRepository.findAllByCommunityIdWithMember(
