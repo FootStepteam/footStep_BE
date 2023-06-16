@@ -8,6 +8,8 @@ import com.example.footstep.service.ShareRoomService;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,8 +35,10 @@ public class ShareRoomController {
         @AuthenticationPrincipal LoginMember loginMember,
         @RequestParam("page") int page, @RequestParam("size") int size) {
 
+        Pageable pageable = PageRequest.of(page, size);
+
         return ResponseEntity.ok(
-            shareRoomService.getAllListShareRoom(loginMember.getMemberId(), page, size));
+            shareRoomService.getAllListShareRoom(loginMember.getMemberId(), pageable));
     }
 
 
