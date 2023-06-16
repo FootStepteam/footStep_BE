@@ -26,7 +26,7 @@ public class DaySchedule extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long dayScheduleId;
-    @Column(columnDefinition = "NVARCHAR(8) NOT NULL")
+    @Column(columnDefinition = "NVARCHAR(10) NOT NULL")
     private String planDate;
     @Column(columnDefinition = "NVARCHAR(255)")
     private String content;
