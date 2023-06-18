@@ -1,83 +1,95 @@
 package com.example.footstep.service;
 
-import com.example.footstep.domain.dto.destination.redis.DestinationRedisDto;
-import com.example.footstep.domain.dto.destination.redis.DestinationRedisListDto;
+import static com.example.footstep.exception.ErrorCode.NOT_FIND_DAY_SCHEDULE_ID;
+
+import com.example.footstep.domain.dto.schedule.DayScheduleDto;
+import com.example.footstep.domain.dto.schedule.ScheduleDto;
+import com.example.footstep.domain.entity.DaySchedule;
+import com.example.footstep.domain.entity.Destination;
 import com.example.footstep.domain.entity.ShareRoom;
-import com.example.footstep.domain.entity.redis.DestinationRedis;
-import com.example.footstep.domain.form.DestinationRedisForm;
+import com.example.footstep.domain.form.DestinationForm;
+import com.example.footstep.domain.repository.DayScheduleRepository;
+import com.example.footstep.domain.repository.DestinationRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
-import com.example.footstep.domain.repository.redis.ScheduleRedisRepository;
+import com.example.footstep.exception.GlobalException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class DestinationService {
 
     private final ShareRoomRepository shareRoomRepository;
+    private final DayScheduleRepository dayScheduleRepository;
+    private final DestinationRepository destinationRepository;
 
-    // Redis
-    private final ScheduleRedisRepository scheduleRedisRepository;
 
+    @Transactional(readOnly = true)
+    public List<DayScheduleDto> getAllListDestination(Long shareId) {
 
-    public List<DestinationRedisListDto> getAllListDestination(Long shareId) {
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
-        ShareRoom shareRoomId = shareRoomRepository.getShareById(shareId);
+        List<DaySchedule> dayScheduleList =
+            dayScheduleRepository.findByShareRoom_ShareIdOrderByPlanDate(shareRoom.getShareId());
 
-        List<DestinationRedis> destinationRedisList =
-            scheduleRedisRepository.findByShareIdOrderByPlanDateAscSeq(shareRoomId.getShareId());
+        List<DayScheduleDto> dayScheduleDtoList = new ArrayList<>();
 
-        Map<String, List<DestinationRedisDto>> mapDestinationRedis = new HashMap<>();
-        for (DestinationRedis destinationRedis : destinationRedisList) {
-            String planDate = destinationRedis.getPlanDate();
-            // 키에 값이 있다면 값을 반환, 없다면 생성
-            mapDestinationRedis.computeIfAbsent(planDate, destinationRedisData -> new ArrayList<>())
-                .add(DestinationRedisDto.from(destinationRedis));
+        for (DaySchedule daySchedule : dayScheduleList) {
+            DayScheduleDto dayScheduleDto = DayScheduleDto.from(daySchedule);
+
+            dayScheduleDtoList.add(dayScheduleDto);
         }
 
-        List<DestinationRedisListDto> destinationRedisDateList = new ArrayList<>();
-        for (Map.Entry<String, List<DestinationRedisDto>> entry : mapDestinationRedis.entrySet()) {
-            String planDate = entry.getKey();
-
-            destinationRedisDateList.add(
-                DestinationRedisListDto.from(shareId, planDate, entry.getValue()));
-        }
-
-        destinationRedisDateList.sort(Comparator.comparing(DestinationRedisListDto::getPlanDate));
-
-        return destinationRedisDateList;
+        return dayScheduleDtoList;
     }
 
 
-    public DestinationRedisListDto getAllListDestinationDate(Long shareId, String planDate) {
+    @Transactional(readOnly = true)
+    public DayScheduleDto getAllListDestinationDate(Long shareId, String planDate) {
 
-        ShareRoom shareRoomId = shareRoomRepository.getShareById(shareId);
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
-        List<DestinationRedisDto> destinationRedisInfo = new ArrayList<>();
+        DaySchedule daySchedule =
+            dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
+                    shareRoom.getShareId(), planDate)
+                .orElseThrow(() -> new GlobalException(NOT_FIND_DAY_SCHEDULE_ID));
 
-        List<DestinationRedis> destinationRedisList =
-            scheduleRedisRepository.findByShareIdAndPlanDateOrderBySeq(
-                shareRoomId.getShareId(), planDate);
-
-        for (DestinationRedis destinationRedis : destinationRedisList) {
-            destinationRedisInfo.add(DestinationRedisDto.from(destinationRedis));
-        }
-
-        return DestinationRedisListDto.from(shareId, planDate, destinationRedisInfo);
+        return DayScheduleDto.from(daySchedule);
     }
 
 
-    public DestinationRedis createDestination(
-        Long shareId, DestinationRedisForm destinationRedisForm) {
+    @Transactional
+    public ScheduleDto createDestination(Long shareId, DestinationForm destinationForm) {
 
-        ShareRoom shareRoomId = shareRoomRepository.getShareById(shareId);
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
-        return scheduleRedisRepository.save(
-            destinationRedisForm.toEntityScheduleRedis(shareRoomId.getShareId()));
+        // 일별일정이 있다면 정보조회 없다면 생성
+        DaySchedule daySchedule = dayScheduleRepository.existsByShareRoom_ShareIdAndPlanDate(
+            shareRoom.getShareId(), destinationForm.getPlanDate()) ?
+            dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
+                    shareRoom.getShareId(), destinationForm.getPlanDate())
+                .orElseThrow(() -> new GlobalException(NOT_FIND_DAY_SCHEDULE_ID)) :
+            dayScheduleRepository.save(destinationForm.toEntityDaySchedule(shareRoom));
+
+        Destination destination =
+            destinationRepository.save(destinationForm.toEntityDestination(daySchedule));
+
+        return ScheduleDto.from(daySchedule, destination);
+    }
+
+
+    @Transactional
+    public String deleteDestination(Long shareId, Long destinationId) {
+
+        shareRoomRepository.getShareById(shareId);
+
+        Destination destination = destinationRepository.getDestinationById(destinationId);
+
+        destinationRepository.delete(destination);
+
+        return "목적지가 삭제 되었습니다.";
     }
 }
