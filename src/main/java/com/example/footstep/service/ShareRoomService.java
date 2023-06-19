@@ -85,8 +85,7 @@ public class ShareRoomService {
             }
         }
 
-        ShareRoom shareRoom = shareRoomRepository.save(shareRoomForm.toEntity(shareCode));
-        member.getShareRooms().add(shareRoom);
+        ShareRoom shareRoom = shareRoomRepository.save(shareRoomForm.toEntity(shareCode,member));
 
         return ShareRoomDto.from(shareRoom);
     }

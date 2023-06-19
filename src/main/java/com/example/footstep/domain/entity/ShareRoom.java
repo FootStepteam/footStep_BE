@@ -41,17 +41,15 @@ public class ShareRoom extends BaseTimeEntity {
     private String startPoint;
     @Column(columnDefinition = "NVARCHAR(255)")
     private String endPoint;
-    @Column(columnDefinition = "NVARCHAR(8) NOT NULL")
+    @Column(columnDefinition = "NVARCHAR(10) NOT NULL")
     private String travelStartDate;
-    @Column(columnDefinition = "NVARCHAR(8) NOT NULL")
+    @Column(columnDefinition = "NVARCHAR(10) NOT NULL")
     private String travelEndDate;
     @Column(columnDefinition = "NVARCHAR(255)")
     private String imageUrl;
+    @Column(columnDefinition = "NVARCHAR(255)")
+    private String s3Url;
 
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "scheduleId")
-    private List<DaySchedule> daySchedules = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "memberId")
