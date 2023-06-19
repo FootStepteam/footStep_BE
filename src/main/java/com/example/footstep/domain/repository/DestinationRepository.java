@@ -17,4 +17,6 @@ public interface DestinationRepository extends JpaRepository<Destination, Long> 
         return findByDestinationId(destinationId)
             .orElseThrow(() -> new GlobalException(NOT_FIND_DESTINATION_ID));
     }
+
+    boolean existsByDaySchedule_PlanDateAndLatAndLng(String planDate, String lat, String lng);
 }

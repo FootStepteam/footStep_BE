@@ -1,5 +1,6 @@
 package com.example.footstep.service;
 
+import static com.example.footstep.exception.ErrorCode.ALREADY_DESTINATION;
 import static com.example.footstep.exception.ErrorCode.NOT_FIND_DAY_SCHEDULE_ID;
 
 import com.example.footstep.domain.dto.schedule.DayScheduleDto;
@@ -14,6 +15,8 @@ import com.example.footstep.domain.repository.ShareRoomRepository;
 import com.example.footstep.exception.GlobalException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,7 @@ public class DestinationService {
     private final ShareRoomRepository shareRoomRepository;
     private final DayScheduleRepository dayScheduleRepository;
     private final DestinationRepository destinationRepository;
+    private final Lock lock = new ReentrantLock();
 
 
     @Transactional(readOnly = true)
@@ -65,14 +69,27 @@ public class DestinationService {
     public ScheduleDto createDestination(Long shareId, DestinationForm destinationForm) {
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+        DaySchedule daySchedule;
 
-        // 일별일정이 있다면 정보조회 없다면 생성
-        DaySchedule daySchedule = dayScheduleRepository.existsByShareRoom_ShareIdAndPlanDate(
-            shareRoom.getShareId(), destinationForm.getPlanDate()) ?
-            dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
-                    shareRoom.getShareId(), destinationForm.getPlanDate())
-                .orElseThrow(() -> new GlobalException(NOT_FIND_DAY_SCHEDULE_ID)) :
-            dayScheduleRepository.save(destinationForm.toEntityDaySchedule(shareRoom));
+        try {
+            lock.lock();
+
+            // 일별일정이 있다면 정보조회 없다면 생성
+            daySchedule = dayScheduleRepository.existsByShareRoom_ShareIdAndPlanDate(
+                shareRoom.getShareId(), destinationForm.getPlanDate()) ?
+                dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
+                        shareRoom.getShareId(), destinationForm.getPlanDate())
+                    .orElseThrow(() -> new GlobalException(NOT_FIND_DAY_SCHEDULE_ID)) :
+                dayScheduleRepository.save(destinationForm.toEntityDaySchedule(shareRoom));
+
+            if (destinationRepository.existsByDaySchedule_PlanDateAndLatAndLng(
+                destinationForm.getPlanDate(), destinationForm.getLat(), destinationForm.getLng())) {
+                throw new GlobalException(ALREADY_DESTINATION);
+            }
+
+        } finally {
+            lock.unlock();
+        }
 
         Destination destination =
             destinationRepository.save(destinationForm.toEntityDestination(daySchedule));

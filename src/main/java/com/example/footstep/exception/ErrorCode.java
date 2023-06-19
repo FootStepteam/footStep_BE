@@ -28,6 +28,7 @@ public enum ErrorCode {
 
     // 목적지
     NOT_FIND_DESTINATION_ID("존재하지 않는 목적지 입니다."),
+    ALREADY_DESTINATION("등록된 목적지 입니다."),
 
     // 게시글
     NOT_FIND_COMMUNITY_ID("존재하지 않는 게시글 입니다."),
