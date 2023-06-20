@@ -1,5 +1,8 @@
 package com.example.footstep.domain.entity;
 
+import static javax.persistence.FetchType.LAZY;
+
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,11 +32,14 @@ public class DaySchedule extends BaseTimeEntity {
     private Long dayScheduleId;
     @Column(columnDefinition = "NVARCHAR(10) NOT NULL")
     private String planDate;
-    @Column(columnDefinition = "NVARCHAR(255)")
+    @Column(columnDefinition = "TEXT")
     private String content;
 
 
-    @ManyToOne
+    @OneToMany(mappedBy = "daySchedule")
+    private List<Destination> destinations;
+
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "shareId")
     private ShareRoom shareRoom;
 }
