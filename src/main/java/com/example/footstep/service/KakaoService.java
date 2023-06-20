@@ -13,6 +13,8 @@ import com.example.footstep.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class KakaoService {
@@ -53,5 +55,23 @@ public class KakaoService {
             kakaoApiClient.kakaoUnlink(accessToken);
         }
 
+    }
+//    public List<String> getFriendUUIDs(OAuthLoginParams kakaoAccessCode){
+//        if(kakaoAccessCode == null) {
+//            throw new GlobalException(ErrorCode.EMPTY_ACCESS_TOKEN);
+//        }else{
+//            //String accessToken = requestOAuthInfoService.getFriendsAccessToken(kakaoAccessCode);
+//            String accessToken = requestOAuthInfoService.getAccessToken(kakaoAccessCode);
+//
+//           return kakaoApiClient.getFriendUUIDs(accessToken);
+//        }
+//    }
+    public String sendMeKakaoImage(OAuthLoginParams kakaoAccessCode,Long shareRoomId){
+        if(kakaoAccessCode == null) {
+            throw new GlobalException(ErrorCode.EMPTY_ACCESS_TOKEN);
+        }else{
+            String accessToken = requestOAuthInfoService.getAccessToken(kakaoAccessCode);
+            return kakaoApiClient.KakaoSendMe(accessToken,shareRoomId);
+        }
     }
 }

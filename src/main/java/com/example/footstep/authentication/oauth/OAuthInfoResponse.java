@@ -6,6 +6,7 @@ import lombok.Getter;
 
 public interface OAuthInfoResponse {
 
+
     String getEmail();
 
     String getNickName();
@@ -24,6 +25,7 @@ public interface OAuthInfoResponse {
         @JsonProperty("kakao_account")
         private KakaoAccount kakaoAccount;
 
+
         @Getter
         @JsonIgnoreProperties(ignoreUnknown = true)
         static class KakaoAccount {
@@ -40,6 +42,7 @@ public interface OAuthInfoResponse {
             private String nickname;
             private String profile_image_url;
         }
+
 
         @Override
         public String getEmail() {
@@ -61,11 +64,6 @@ public interface OAuthInfoResponse {
         public String getImg() {
             return kakaoAccount.profile.profile_image_url;
         }
-
-//        @Override
-//        public String getPassword() {
-//            return null;
-//        }
 
         @Override
         public OAuthProvider getOAuthProvider() {

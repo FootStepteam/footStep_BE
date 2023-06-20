@@ -1,6 +1,7 @@
 package com.example.footstep.domain.entity;
 
 import com.example.footstep.authentication.oauth.OAuthProvider;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,4 +39,5 @@ public class Member extends BaseTimeEntity {
     private String img;
     @Column(columnDefinition = "NVARCHAR(50)")
     private OAuthProvider memberOAuth;
+
 }

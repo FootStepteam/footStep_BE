@@ -43,6 +43,8 @@ public class ShareRoom extends BaseTimeEntity {
     private String travelEndDate;
     @Column(columnDefinition = "NVARCHAR(255)")
     private String imageUrl;
+    @Column(columnDefinition = "NVARCHAR(255)")
+    private String s3Url;
 
 
     @ManyToOne(fetch = LAZY)
