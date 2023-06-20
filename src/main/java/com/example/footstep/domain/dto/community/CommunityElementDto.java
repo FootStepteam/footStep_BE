@@ -11,6 +11,7 @@ import lombok.Getter;
 @Builder
 public class CommunityElementDto {
 
+    private Long communityId;
     private String communityName;
     private String memberNickname;
     private LocalDateTime createdDate;
@@ -18,6 +19,7 @@ public class CommunityElementDto {
 
     public static CommunityElementDto from(Community community) {
         return CommunityElementDto.builder()
+            .communityId(community.getCommunityId())
             .communityName(community.getCommunityName())
             .memberNickname(community.getMember().getNickname())
             .createdDate(community.getCreateDate())
