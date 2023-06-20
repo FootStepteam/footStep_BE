@@ -8,6 +8,7 @@ import com.example.footstep.domain.form.MemberForm;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.repository.MemberRepository;
 
+import com.example.footstep.service.TokenService;
 import java.util.List;
 
 import com.example.footstep.service.MemberService;
@@ -26,6 +27,7 @@ public class MemberController {
 
     private final MemberRepository memberRepository;
     private final AuthTokensGenerator authTokensGenerator;
+    private final TokenService tokenService;
 
     @GetMapping
     public ResponseEntity<List<Member>> getAllMember() {
@@ -46,7 +48,7 @@ public class MemberController {
     @PostMapping("/sign-in")
     public ResponseEntity<AuthTokens> signInMember(@RequestBody @Valid LoginDto loginDto) {
         AuthTokens tokens = memberService.login(loginDto);
-
+        tokenService.saveRefreshToken(tokens.getRefreshToken(), tokens.getJwtAccessToken());
         return ResponseEntity.ok(tokens);
     }
     // 이메일 존재 여부 컨트롤러

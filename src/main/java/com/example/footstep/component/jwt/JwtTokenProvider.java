@@ -2,6 +2,7 @@ package com.example.footstep.component.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -45,13 +46,13 @@ public class JwtTokenProvider {
                 .parseClaimsJws(accessToken)
                 .getBody();
         } catch (SignatureException ex) {
-            throw new SignatureException("invalid token request exception - Incorrect signature");
+            throw new JwtException("invalid token request exception - Incorrect signature");
         } catch (MalformedJwtException ex) {
-            throw new RuntimeException("invalid token request exception - malformed jwt token");
+            throw new JwtException("invalid token request exception - malformed jwt token");
         } catch (ExpiredJwtException ex) {
-            throw new RuntimeException("invalid token request exception - 토큰이 만료. 갱신 필요");
+            throw ex;
         } catch (UnsupportedJwtException ex) {
-            throw new RuntimeException("invalid token request exception - Illegal argument token");
+            throw new JwtException("invalid token request exception - Illegal argument token");
         }
 
         return true;

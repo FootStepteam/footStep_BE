@@ -5,16 +5,23 @@ import com.example.footstep.component.jwt.JwtTokenProvider;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.repository.MemberRepository;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
+@Slf4j
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -31,6 +38,25 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain chain) throws IOException, ServletException {
+
+        // JWT 인증을 거치지 않을 경로들
+        List<String> passUrl = List.of(
+            "/api/auth/**",
+            "/api/kakao/**",
+            "/api/members/sign-up",
+            "/api/members/sign-in");
+
+        RequestMatcher orMatcher = new OrRequestMatcher(
+            passUrl.stream()
+                .map(AntPathRequestMatcher::new)
+                .collect(Collectors.toList())
+        );
+
+        if (orMatcher.matches(request)) {
+            log.info("해당 경로는 jwt 인증 과정 무시 {}", request.getServletPath());
+            chain.doFilter(request, response);
+            return;
+        }
 
         String jwtHeader = request.getHeader("Authorization");
 
