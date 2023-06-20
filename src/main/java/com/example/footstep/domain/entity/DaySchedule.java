@@ -32,7 +32,7 @@ public class DaySchedule extends BaseTimeEntity {
     private Long dayScheduleId;
     @Column(columnDefinition = "NVARCHAR(10) NOT NULL")
     private String planDate;
-    @Column(columnDefinition = "NVARCHAR(255)")
+    @Column(columnDefinition = "TEXT")
     private String content;
 
 

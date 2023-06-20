@@ -12,6 +12,4 @@ public interface DayScheduleRepository extends JpaRepository<DaySchedule, Long> 
     List<DaySchedule> findByShareRoom_ShareIdOrderByPlanDate(Long shareId);
 
     Optional<DaySchedule> findByShareRoom_ShareIdAndPlanDate(Long shareId, String planDate);
-
-    boolean existsByShareRoom_ShareIdAndPlanDate(Long shareId, String planDate);
 }
