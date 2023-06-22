@@ -5,12 +5,17 @@ import static com.example.footstep.exception.ErrorCode.NOT_FIND_DAY_SCHEDULE_ID;
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.schedule.DayScheduleDto;
 import com.example.footstep.domain.dto.schedule.DayScheduleMemoDto;
+import com.example.footstep.domain.dto.schedule.DestinationDto;
 import com.example.footstep.domain.entity.DaySchedule;
+import com.example.footstep.domain.entity.Destination;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.form.DayScheduleForm;
+import com.example.footstep.domain.form.ScheduleRecommendForm;
 import com.example.footstep.domain.repository.DayScheduleRepository;
+import com.example.footstep.domain.repository.DestinationRepository;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
+import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +30,7 @@ public class ScheduleService {
     private final MemberRepository memberRepository;
     private final ShareRoomRepository shareRoomRepository;
     private final DayScheduleRepository dayScheduleRepository;
+    private final DestinationRepository destinationRepository;
 
 
     @Transactional(readOnly = true)
@@ -61,6 +67,57 @@ public class ScheduleService {
     }
 
 
+    @Transactional(readOnly = true)
+    public List<DestinationDto> getAllListScheduleRecommend(
+        Long shareId, ScheduleRecommendForm recommendForm) {
+
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        Destination startDestination =
+            destinationRepository.findByDaySchedule_PlanDateAndLatAndLng(
+                    recommendForm.getPlanDate(), recommendForm.getLat(), recommendForm.getLng())
+                .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_DESTINATION_ID));
+
+        List<Destination> destinationList =
+            destinationRepository.findByDaySchedule_ShareRoom_ShareIdAndDaySchedule_PlanDate(
+                shareRoom.getShareId(), recommendForm.getPlanDate());
+
+        List<Destination> recommendList = new ArrayList<>();
+
+        Destination currentDestination = startDestination;
+        recommendList.add(currentDestination);
+
+        while (recommendList.size() < destinationList.size()) {
+            double minDistance = Double.MAX_VALUE;
+            Destination addDestination = null;
+
+            for (Destination nextDestination : destinationList) {
+                if (!recommendList.contains(nextDestination)) {
+                    double distance = distanceTo(currentDestination, nextDestination);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        addDestination = nextDestination;
+                    }
+                }
+            }
+
+            if (addDestination == null) {
+                break;
+            }
+            recommendList.add(addDestination);
+            currentDestination = addDestination;
+        }
+
+        List<DestinationDto> recommendDestinationList = new ArrayList<>();
+
+        for (Destination recommendDestination : recommendList) {
+            recommendDestinationList.add(DestinationDto.from(recommendDestination));
+        }
+
+        return recommendDestinationList;
+    }
+
+
     @Transactional
     public DayScheduleMemoDto createOrUpdateScheduleMemo(
         LoginMember loginMember, Long shareId, DayScheduleForm dayScheduleForm) {
@@ -76,5 +133,30 @@ public class ScheduleService {
         daySchedule.setContent(dayScheduleForm.getContent());
 
         return DayScheduleMemoDto.from(daySchedule);
+    }
+
+
+    // 경도, 위도 거리
+    public double distanceTo(Destination currentDestination, Destination nextDestination) {
+
+        double earthRadius = 6371;
+
+        double currentLng = Math.toRadians(Double.parseDouble(currentDestination.getLng()));
+        double currentLat = Math.toRadians(Double.parseDouble(currentDestination.getLat()));
+        double nextLng = Math.toRadians(Double.parseDouble(nextDestination.getLng()));
+        double nextLat = Math.toRadians(Double.parseDouble(nextDestination.getLat()));
+
+        double lng = nextLng - currentLng;
+        double lat = nextLat - currentLat;
+
+        // Haversine
+        double firstHaversine =
+            Math.pow(Math.sin(lat / 2), 2) + Math.cos(currentLat) *
+                Math.cos(nextLat) * Math.pow(Math.sin(lng / 2), 2);
+
+        double finalHaversine =
+            2 * Math.atan2(Math.sqrt(firstHaversine), Math.sqrt(1 - firstHaversine));
+
+        return finalHaversine * earthRadius;
     }
 }

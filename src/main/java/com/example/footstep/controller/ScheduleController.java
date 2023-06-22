@@ -3,7 +3,9 @@ package com.example.footstep.controller;
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.schedule.DayScheduleDto;
 import com.example.footstep.domain.dto.schedule.DayScheduleMemoDto;
+import com.example.footstep.domain.dto.schedule.DestinationDto;
 import com.example.footstep.domain.form.DayScheduleForm;
+import com.example.footstep.domain.form.ScheduleRecommendForm;
 import com.example.footstep.service.ScheduleService;
 import java.util.List;
 import javax.validation.Valid;
@@ -39,6 +41,16 @@ public class ScheduleController {
         @PathVariable("shareId") Long shareId, @RequestParam("date") String planDate) {
 
         return ResponseEntity.ok(scheduleService.getAllListScheduleDate(shareId, planDate));
+    }
+
+
+    @GetMapping("/{shareId}/schedule/recommend")
+    public ResponseEntity<List<DestinationDto>> getAllListScheduleRecommend(
+        @PathVariable("shareId") Long shareId,
+        @RequestBody @Valid ScheduleRecommendForm recommendForm) {
+
+        return ResponseEntity.ok(
+            scheduleService.getAllListScheduleRecommend(shareId, recommendForm));
     }
 
 
