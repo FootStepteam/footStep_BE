@@ -40,4 +40,8 @@ public class Member extends BaseTimeEntity {
     @Column(columnDefinition = "NVARCHAR(50)")
     private OAuthProvider memberOAuth;
 
+    public void updateProfile(String nickname, String profileUrl) {
+        this.nickname = nickname;
+        this.img = profileUrl;
+    }
 }

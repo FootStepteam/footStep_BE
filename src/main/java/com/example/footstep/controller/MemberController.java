@@ -2,18 +2,18 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.AuthTokens;
 import com.example.footstep.component.security.AuthTokensGenerator;
+import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.LoginDto;
 import com.example.footstep.domain.dto.member.MemberDto;
+import com.example.footstep.domain.dto.member.MemberProfileResponse;
+import com.example.footstep.domain.dto.member.MemberUpdateResponse;
 import com.example.footstep.domain.form.MemberForm;
-import com.example.footstep.domain.entity.Member;
-import com.example.footstep.domain.repository.MemberRepository;
-
-import com.example.footstep.service.TokenService;
-import java.util.List;
-
+import com.example.footstep.domain.form.MemberUpdateForm;
 import com.example.footstep.service.MemberService;
+import com.example.footstep.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,14 +25,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    private final MemberRepository memberRepository;
     private final AuthTokensGenerator authTokensGenerator;
     private final TokenService tokenService;
-
-    @GetMapping
-    public ResponseEntity<List<Member>> getAllMember() {
-        return ResponseEntity.ok(memberRepository.findAll());
-    }
 
     @GetMapping("/{accessToken}") // 엑세스 토큰 확인용
     public ResponseEntity<MemberDto> findByAccessToken(@PathVariable String accessToken) {
@@ -56,4 +50,25 @@ public class MemberController {
     public ResponseEntity<Boolean> getEmailOne(@RequestParam String email){
         return ResponseEntity.ok(memberService.isEmailExist(email));
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<MemberProfileResponse> getProfile(
+        @AuthenticationPrincipal LoginMember loginMember) {
+
+        return ResponseEntity.ok(
+            MemberProfileResponse.from(memberService.getProfile(loginMember.getMemberId()))
+        );
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<MemberUpdateResponse> updateMemberProfile(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @RequestBody MemberUpdateForm memberUpdateForm) {
+
+        return ResponseEntity.ok(
+            MemberUpdateResponse.from(
+                memberService.update(loginMember.getMemberId(), memberUpdateForm))
+        );
+    }
+
 }

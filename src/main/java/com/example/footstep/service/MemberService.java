@@ -6,15 +6,15 @@ import com.example.footstep.domain.dto.LoginDto;
 import com.example.footstep.domain.dto.member.MemberDto;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.form.MemberForm;
+import com.example.footstep.domain.form.MemberUpdateForm;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
+import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -54,4 +54,21 @@ public class MemberService {
         Member member = memberRepository.findByMemberId(memberId).get();
         return MemberDto.of(member);
     }
+
+    @Transactional(readOnly = true)
+    public Member getProfile(Long memberId) {
+
+        return memberRepository.getMemberById(memberId);
+
+    }
+
+    @Transactional
+    public Member update(Long memberId, MemberUpdateForm memberUpdateForm) {
+
+        Member member = memberRepository.getMemberById(memberId);
+        member.updateProfile(memberUpdateForm.getNickname(), memberUpdateForm.getProfileUrl());
+
+        return member;
+    }
+
 }
