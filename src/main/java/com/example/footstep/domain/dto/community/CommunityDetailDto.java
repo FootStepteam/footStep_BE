@@ -29,7 +29,7 @@ public class CommunityDetailDto {
     private Long communityId;
     private String communityName;
     private int likeCount;
-    private LocalDateTime createdDatetime;
+    private LocalDateTime createdDate;
     private String content;
 
     private String travelStartDate;
@@ -45,7 +45,7 @@ public class CommunityDetailDto {
             .communityId(community.getCommunityId())
             .communityName(community.getCommunityName())
             .likeCount(community.getLikeCount())
-            .createdDatetime(community.getCreateDate())
+            .createdDate(community.getCreateDate())
             .content(community.getContent())
             .memberNickname(member.getNickname())
             .travelStartDate(shareRoom.getTravelStartDate())

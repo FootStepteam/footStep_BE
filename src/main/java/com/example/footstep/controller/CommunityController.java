@@ -2,10 +2,13 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.community.CommunityDetailDto;
+import com.example.footstep.domain.dto.community.CommunityLikedMemberResponse;
 import com.example.footstep.domain.dto.community.CommunityListDto;
 import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.domain.form.CommunityUpdateForm;
 import com.example.footstep.service.CommunityService;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +64,18 @@ public class CommunityController {
 
         return communityService.getAll(pageable);
 
+    }
+
+    @GetMapping("likes")
+    public ResponseEntity<List<CommunityLikedMemberResponse>> getCommunitiesLiked(
+        @AuthenticationPrincipal LoginMember loginMember) {
+
+        return ResponseEntity.ok(
+            communityService.getCommunitiesLikedByMember(loginMember.getMemberId())
+                .stream()
+                .map(CommunityLikedMemberResponse::from)
+                .collect(Collectors.toList())
+            );
     }
 
     @PutMapping("/{community-id}")
