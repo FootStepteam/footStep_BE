@@ -2,10 +2,13 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.community.CommunityDetailDto;
+import com.example.footstep.domain.dto.community.CommunityLikedMemberDto;
 import com.example.footstep.domain.dto.community.CommunityListDto;
 import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.domain.form.CommunityUpdateForm;
 import com.example.footstep.service.CommunityService;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -42,9 +45,9 @@ public class CommunityController {
 
     }
 
-    @GetMapping("/{community-id}")
+    @GetMapping("/{communityId}")
     public ResponseEntity<CommunityDetailDto> getOneCommunity(
-        @PathVariable("community-id") Long communityId) {
+        @PathVariable Long communityId) {
         return ResponseEntity.ok(communityService.getOne(communityId));
 
     }
@@ -63,10 +66,22 @@ public class CommunityController {
 
     }
 
-    @PutMapping("/{community-id}")
+    @GetMapping("likes")
+    public ResponseEntity<List<CommunityLikedMemberDto>> getCommunitiesLiked(
+        @AuthenticationPrincipal LoginMember loginMember) {
+
+        return ResponseEntity.ok(
+            communityService.getCommunitiesLikedByMember(loginMember.getMemberId())
+                .stream()
+                .map(CommunityLikedMemberDto::from)
+                .collect(Collectors.toList())
+            );
+    }
+
+    @PutMapping("/{communityId}")
     public void updateCommunity(
         @AuthenticationPrincipal LoginMember loginMember,
-        @PathVariable("community-id") Long communityId,
+        @PathVariable Long communityId,
         @RequestBody CommunityUpdateForm communityUpdateForm
         ) {
 
@@ -74,10 +89,10 @@ public class CommunityController {
 
     }
 
-    @DeleteMapping("/{community-id}")
+    @DeleteMapping("/{communityId}")
     public void deleteCommunity(
         @AuthenticationPrincipal LoginMember loginMember,
-        @PathVariable("community-id") Long communityId) {
+        @PathVariable Long communityId) {
 
         communityService.delete(loginMember.getMemberId(), communityId);
 

@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberUpdateResponse {
+public class MemberUpdateDto {
 
     private String nickname;
     private String imgUrl;
 
-    public static MemberUpdateResponse from(Member member) {
-        return MemberUpdateResponse.builder()
+    public static MemberUpdateDto from(Member member) {
+        return MemberUpdateDto.builder()
             .nickname(member.getNickname())
             .imgUrl(member.getImg())
             .build();

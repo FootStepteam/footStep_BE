@@ -10,6 +10,7 @@ import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.domain.form.CommunityUpdateForm;
 import com.example.footstep.domain.repository.CommentRepository;
 import com.example.footstep.domain.repository.CommunityRepository;
+import com.example.footstep.domain.repository.LikeRepository;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
 import com.example.footstep.exception.ErrorCode;
@@ -29,6 +30,7 @@ public class CommunityService {
     private final CommunityRepository communityRepository;
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public void create(Long memberId, Long shareId, CommunityCreateForm communityCreateForm) {
@@ -65,6 +67,15 @@ public class CommunityService {
         Slice<Community> communities = communityRepository.findSliceBy(pageable);
         return CommunityListDto.ofSlice(communities);
     }
+
+    @Transactional(readOnly = true)
+    public List<Community> getCommunitiesLikedByMember(Long memberId) {
+
+        List<Long> ids = likeRepository.findCommunityIds(memberId);
+
+        return communityRepository.findCommunitiesLikedBy(ids);
+    }
+
 
     @Transactional
     public void update(Long memberId, Long communityId, CommunityUpdateForm communityUpdateForm) {

@@ -5,8 +5,8 @@ import com.example.footstep.component.security.AuthTokensGenerator;
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.LoginDto;
 import com.example.footstep.domain.dto.member.MemberDto;
-import com.example.footstep.domain.dto.member.MemberProfileResponse;
-import com.example.footstep.domain.dto.member.MemberUpdateResponse;
+import com.example.footstep.domain.dto.member.MemberProfileDto;
+import com.example.footstep.domain.dto.member.MemberUpdateDto;
 import com.example.footstep.domain.form.MemberForm;
 import com.example.footstep.domain.form.MemberUpdateForm;
 import com.example.footstep.service.MemberService;
@@ -52,21 +52,21 @@ public class MemberController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<MemberProfileResponse> getProfile(
+    public ResponseEntity<MemberProfileDto> getProfile(
         @AuthenticationPrincipal LoginMember loginMember) {
 
         return ResponseEntity.ok(
-            MemberProfileResponse.from(memberService.getProfile(loginMember.getMemberId()))
+            MemberProfileDto.from(memberService.getProfile(loginMember.getMemberId()))
         );
     }
 
     @PutMapping("/")
-    public ResponseEntity<MemberUpdateResponse> updateMemberProfile(
+    public ResponseEntity<MemberUpdateDto> updateMemberProfile(
         @AuthenticationPrincipal LoginMember loginMember,
         @RequestBody MemberUpdateForm memberUpdateForm) {
 
         return ResponseEntity.ok(
-            MemberUpdateResponse.from(
+            MemberUpdateDto.from(
                 memberService.update(loginMember.getMemberId(), memberUpdateForm))
         );
     }

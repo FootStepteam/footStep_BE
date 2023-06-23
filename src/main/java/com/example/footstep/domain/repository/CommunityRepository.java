@@ -4,6 +4,7 @@ import com.example.footstep.domain.entity.Community;
 import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
 import io.lettuce.core.dynamic.annotation.Param;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -20,6 +21,12 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
     Slice<Community> findSliceBy(Pageable pageable);
 
     Optional<Community> findByCommunityIdAndMember_MemberId(Long communityId, Long memberId);
+
+    @Query(value = "select c from Community c "
+        + "left join fetch c.shareRoom "
+        + "where c.communityId in :ids")
+    List<Community> findCommunitiesLikedBy(List<Long> ids);
+
 
     @Query(value = "select c "
         + "from Community c "
