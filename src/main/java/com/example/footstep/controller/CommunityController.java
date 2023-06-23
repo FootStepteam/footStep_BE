@@ -45,9 +45,9 @@ public class CommunityController {
 
     }
 
-    @GetMapping("/{community-id}")
+    @GetMapping("/{communityId}")
     public ResponseEntity<CommunityDetailDto> getOneCommunity(
-        @PathVariable("community-id") Long communityId) {
+        @PathVariable Long communityId) {
         return ResponseEntity.ok(communityService.getOne(communityId));
 
     }
@@ -78,10 +78,10 @@ public class CommunityController {
             );
     }
 
-    @PutMapping("/{community-id}")
+    @PutMapping("/{communityId}")
     public void updateCommunity(
         @AuthenticationPrincipal LoginMember loginMember,
-        @PathVariable("community-id") Long communityId,
+        @PathVariable Long communityId,
         @RequestBody CommunityUpdateForm communityUpdateForm
         ) {
 
@@ -89,10 +89,10 @@ public class CommunityController {
 
     }
 
-    @DeleteMapping("/{community-id}")
+    @DeleteMapping("/{communityId}")
     public void deleteCommunity(
         @AuthenticationPrincipal LoginMember loginMember,
-        @PathVariable("community-id") Long communityId) {
+        @PathVariable Long communityId) {
 
         communityService.delete(loginMember.getMemberId(), communityId);
 
