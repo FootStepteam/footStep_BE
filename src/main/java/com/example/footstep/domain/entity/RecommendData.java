@@ -34,4 +34,5 @@ public class RecommendData {
     private String mapy;
     @Column(columnDefinition = "NVARCHAR(255)")
     private String tel;
+
 }

@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 // 각 API 경로에 대한 접근권한 설정
                 .authorizeRequests()
-                .antMatchers("/api/auth/**", "/api/kakao/**", "/api/member/**","/api/uuids","/api/upload","/api/sendme").permitAll()
+                .antMatchers("/api/auth/**", "/api/kakao/**", "/api/member/**","/api/uuids","/api/upload","/api/sendme/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -98,7 +98,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
-            throws Exception {
+        throws Exception {
         return configuration.getAuthenticationManager();
     }
 
