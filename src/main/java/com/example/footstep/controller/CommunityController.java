@@ -2,7 +2,7 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.community.CommunityDetailDto;
-import com.example.footstep.domain.dto.community.CommunityLikedMemberResponse;
+import com.example.footstep.domain.dto.community.CommunityLikedMemberDto;
 import com.example.footstep.domain.dto.community.CommunityListDto;
 import com.example.footstep.domain.form.CommunityCreateForm;
 import com.example.footstep.domain.form.CommunityUpdateForm;
@@ -67,13 +67,13 @@ public class CommunityController {
     }
 
     @GetMapping("likes")
-    public ResponseEntity<List<CommunityLikedMemberResponse>> getCommunitiesLiked(
+    public ResponseEntity<List<CommunityLikedMemberDto>> getCommunitiesLiked(
         @AuthenticationPrincipal LoginMember loginMember) {
 
         return ResponseEntity.ok(
             communityService.getCommunitiesLikedByMember(loginMember.getMemberId())
                 .stream()
-                .map(CommunityLikedMemberResponse::from)
+                .map(CommunityLikedMemberDto::from)
                 .collect(Collectors.toList())
             );
     }

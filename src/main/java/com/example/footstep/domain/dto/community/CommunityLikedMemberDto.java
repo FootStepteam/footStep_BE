@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommunityLikedMemberResponse {
+public class CommunityLikedMemberDto {
 
     private Long communityId;
     private String communityName;
     private String travelStartDate;
     private String travelEndDate;
 
-    public static CommunityLikedMemberResponse from(Community community) {
-        return CommunityLikedMemberResponse.builder()
+    public static CommunityLikedMemberDto from(Community community) {
+        return CommunityLikedMemberDto.builder()
             .communityId(community.getCommunityId())
             .communityName(community.getCommunityName())
             .travelStartDate(community.getShareRoom().getTravelStartDate())

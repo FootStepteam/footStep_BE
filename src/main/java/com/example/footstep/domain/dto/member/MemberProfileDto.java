@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberProfileResponse {
+public class MemberProfileDto {
 
     private Long memberId;
     private String nickname;
     private String imgUrl;
 
-    public static MemberProfileResponse from(Member member) {
+    public static MemberProfileDto from(Member member) {
 
-        return MemberProfileResponse.builder()
+        return MemberProfileDto.builder()
             .memberId(member.getMemberId())
             .nickname(member.getNickname())
             .imgUrl(member.getImg())
