@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DayScheduleRepository extends JpaRepository<DaySchedule, Long> {
 
-    List<DaySchedule> findByShareRoom_ShareIdOrderByPlanDate(Long shareId);
+    List<DaySchedule> findByShareRoom_ShareIdAndPlanDateBetweenOrderByPlanDate(
+        Long shareId, String startDate, String endDate);
 
     Optional<DaySchedule> findByShareRoom_ShareIdAndPlanDate(Long shareId, String planDate);
 }
