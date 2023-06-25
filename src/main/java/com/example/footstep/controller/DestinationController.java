@@ -11,17 +11,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/share-room")
+@RequestMapping("/api/share-room/{shareId}")
 public class DestinationController {
 
     private final DestinationService destinationService;
 
 
-    @PostMapping("/{shareId}/destination")
+    @PostMapping("/destination")
     public ResponseEntity<DestinationDto> createDestination(
         @PathVariable("shareId") Long shareId,
         @RequestBody @Valid DestinationForm destinationForm) {
@@ -30,10 +31,18 @@ public class DestinationController {
     }
 
 
-    @DeleteMapping("/{shareId}/destination/{destinationId}")
-    public ResponseEntity<String> deleteDestination(
+    @DeleteMapping("/destination/plan")
+    public void deleteDestinationPlanDate(
+        @PathVariable("shareId") Long shareId, @RequestParam("date") String planDate) {
+
+        destinationService.deleteDestinationPlanDate(shareId, planDate);
+    }
+
+
+    @DeleteMapping("/destination/{destinationId}")
+    public void deleteDestination(
         @PathVariable("shareId") Long shareId, @PathVariable("destinationId") Long destinationId) {
 
-        return ResponseEntity.ok(destinationService.deleteDestination(shareId, destinationId));
+        destinationService.deleteDestination(shareId, destinationId);
     }
 }
