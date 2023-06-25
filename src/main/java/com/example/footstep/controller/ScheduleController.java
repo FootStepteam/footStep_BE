@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,16 +46,6 @@ public class ScheduleController {
     }
 
 
-    @GetMapping("/schedule/recommend")
-    public ResponseEntity<List<DestinationDto>> getAllListScheduleRecommend(
-        @PathVariable("shareId") Long shareId,
-        @RequestBody @Valid ScheduleRecommendForm recommendForm) {
-
-        return ResponseEntity.ok(
-            scheduleService.getAllListScheduleRecommend(shareId, recommendForm));
-    }
-
-
     @PostMapping("/schedule")
     public ResponseEntity<DayScheduleMemoDto> createOrUpdateScheduleMemo(
         @AuthenticationPrincipal LoginMember loginMember, @PathVariable("shareId") Long shareId,
@@ -62,5 +53,15 @@ public class ScheduleController {
 
         return ResponseEntity.ok(
             scheduleService.createOrUpdateScheduleMemo(loginMember, shareId, dayScheduleForm));
+    }
+
+
+    @PutMapping("/schedule/recommend")
+    public ResponseEntity<List<DestinationDto>> updateScheduleRecommend(
+        @PathVariable("shareId") Long shareId,
+        @RequestBody @Valid ScheduleRecommendForm recommendForm) {
+
+        return ResponseEntity.ok(
+            scheduleService.updateScheduleRecommend(shareId, recommendForm));
     }
 }

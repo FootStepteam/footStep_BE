@@ -58,7 +58,7 @@ public class SecurityConfig {
             // 각 API 경로에 대한 접근권한 설정
             .authorizeRequests()
             .antMatchers("/api/auth/**", "/api/kakao/**", "/api/members/**", "/api/upload","/api/sendme").permitAll()
-            .antMatchers("/api/share-room/**/destination/**").permitAll()
+            .antMatchers("/api/share-room/**/destination/**", "/api/share-room/**/schedule/recommend").permitAll()
             .antMatchers(HttpMethod.GET, "/**").permitAll()
             .anyRequest().authenticated()
             .and()
