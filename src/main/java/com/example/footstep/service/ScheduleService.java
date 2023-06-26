@@ -61,11 +61,11 @@ public class ScheduleService {
 
         DaySchedule daySchedule =
             dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
-                    shareRoom.getShareId(), planDate)
-                .orElseThrow(() -> new GlobalException(NOT_FIND_DAY_SCHEDULE_ID));
+                    shareRoom.getShareId(), planDate).orElse(null);
 
-        return DayScheduleDto.from(daySchedule);
+        return daySchedule != null ? DayScheduleDto.from(daySchedule) : null;
     }
+
 
     @Transactional
     public DayScheduleMemoDto createOrUpdateScheduleMemo(
