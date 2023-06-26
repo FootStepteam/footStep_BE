@@ -34,12 +34,13 @@ public class ScheduleService {
 
 
     @Transactional(readOnly = true)
-    public List<DayScheduleDto> getAllListSchedule(Long shareId) {
+    public List<DayScheduleDto> getAllListSchedule(Long shareId, String startDate, String endDate) {
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
         List<DaySchedule> dayScheduleList =
-            dayScheduleRepository.findByShareRoom_ShareIdOrderByPlanDate(shareRoom.getShareId());
+            dayScheduleRepository.findByShareRoom_ShareIdAndPlanDateBetweenOrderByPlanDate(
+                shareRoom.getShareId(), startDate, endDate);
 
         List<DayScheduleDto> dayScheduleDtoList = new ArrayList<>();
 
@@ -108,9 +109,11 @@ public class ScheduleService {
             currentDestination = addDestination;
         }
 
+        int seqCount = 1;
         List<DestinationDto> recommendDestinationList = new ArrayList<>();
 
         for (Destination recommendDestination : recommendList) {
+            recommendDestination.setSeq(seqCount++);
             recommendDestinationList.add(DestinationDto.from(recommendDestination));
         }
 
