@@ -1,6 +1,7 @@
 package com.example.footstep.service;
 
 import static com.example.footstep.exception.ErrorCode.NOT_FIND_DAY_SCHEDULE_ID;
+import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
 
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.schedule.DayScheduleDto;
@@ -8,6 +9,7 @@ import com.example.footstep.domain.dto.schedule.DayScheduleMemoDto;
 import com.example.footstep.domain.dto.schedule.DestinationDto;
 import com.example.footstep.domain.entity.DaySchedule;
 import com.example.footstep.domain.entity.Destination;
+import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.form.DayScheduleForm;
 import com.example.footstep.domain.form.ScheduleRecommendForm;
@@ -135,6 +137,20 @@ public class ScheduleService {
         }
 
         return recommendDestinationList;
+    }
+
+
+    @Transactional
+    public void deleteOutsideSchedule(LoginMember loginMember, Long shareId) {
+
+        memberRepository.getMemberById(loginMember.getMemberId());
+
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        List<DaySchedule> planDateNotBetween = dayScheduleRepository.findPlanDateNotBetween(
+            shareRoom.getShareId(), shareRoom.getTravelStartDate(), shareRoom.getTravelEndDate());
+
+        dayScheduleRepository.deleteAll(planDateNotBetween);
     }
 
 
