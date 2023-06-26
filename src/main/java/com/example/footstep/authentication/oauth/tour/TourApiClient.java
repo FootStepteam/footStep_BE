@@ -43,9 +43,11 @@ public class TourApiClient {
                 "&pageNo=1" +
                 "&MobileOS=ETC" +
                 "&MobileApp=footStep"+
+                "&listYN=Y"+
                 "&arrange=A"+
                 "&keyword=" + en_keyword +
-                "&_type=json";
+                "&_type=json" +
+                "&contentTypeId=12";
 
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.setContentType(MediaType.APPLICATION_JSON);
@@ -73,11 +75,16 @@ public class TourApiClient {
 
                 List<TourListDto> photoList = new ArrayList<>();
                 for (JsonNode itemNode : itemsNode) {
-                    String galWebImageUrl = itemNode.path("galWebImageUrl").asText();
-                    String galPhotographyLocation = itemNode.path("galPhotographyLocation").asText();
-                    String galTitle = itemNode.path("galTitle").asText();
+                    String firstimage = itemNode.path("firstimage").asText();
+                    String firstimage2 = itemNode.path("firstimage2").asText();
+                    String addr1 = itemNode.path("addr1").asText();
+                    String addr2 = itemNode.path("addr2").asText();
 
-                    TourListDto tourListDto = new TourListDto(galWebImageUrl, galPhotographyLocation, galTitle);
+                    String mapx = itemNode.path("mapx").asText();
+                    String mapy = itemNode.path("mapy").asText();
+                    String title = itemNode.path("title").asText();
+
+                    TourListDto tourListDto = new TourListDto(firstimage, firstimage2, addr1,addr2,mapx,mapy,title);
                     photoList.add(tourListDto);
                 }
 

@@ -10,10 +10,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TourListDto {
-    @JsonProperty("galWebImageUrl")
-    private String imageUrl;
-    @JsonProperty("galPhotographyLocation")
-    private String location;
-    @JsonProperty("galTitle")
+    @JsonProperty("firstimage")
+    private String firstimage;
+    @JsonProperty("firstimage2")
+    private String firstimage2;
+    @JsonProperty("addr1")
+    private String addr1;
+    @JsonProperty("addr2")
+    private String addr2;
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("mapx")
+    private String mapX;
+    @JsonProperty("mapy")
+    private String mapY;
+
 }
