@@ -15,12 +15,14 @@ import lombok.Setter;
 public class CommentResponseDto {
 
     private Long commentId;
+    private Long memberId;
     private String memberNickname;
     private String content;
 
     public static CommentResponseDto of(Comment comment) {
         return CommentResponseDto.builder()
             .commentId(comment.getCommentId())
+            .memberId(comment.getMember().getMemberId())
             .memberNickname(comment.getMember().getNickname())
             .content(comment.getContent())
             .build();
