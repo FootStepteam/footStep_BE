@@ -49,4 +49,8 @@ public class Community extends BaseTimeEntity {
     public void updateContent(String content) {
         this.content = content;
     }
+
+    public boolean isWrittenBy(Long memberId) {
+        return member.getMemberId().equals(memberId);
+    }
 }

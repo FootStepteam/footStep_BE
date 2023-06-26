@@ -21,7 +21,7 @@ public class LikeController {
         @AuthenticationPrincipal LoginMember loginMember,
         @PathVariable("id") Long communityId) {
 
-        likeService.likeCommunity(1L, communityId);
+        likeService.likeCommunity(loginMember.getMemberId(), communityId);
 
     }
 
@@ -29,6 +29,8 @@ public class LikeController {
     public void cancelLike(
         @AuthenticationPrincipal LoginMember loginMember,
         @PathVariable("id") Long communityId) {
+
+        likeService.unLikeCommunity(loginMember.getMemberId(), communityId);
 
     }
 }

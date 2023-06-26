@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.envers.AuditOverride;
 
 @Entity
@@ -31,6 +33,7 @@ public class Comment extends BaseTimeEntity {
 
 
     @ManyToOne(fetch = LAZY)
+    @OnDelete(action= OnDeleteAction.CASCADE)
     @JoinColumn(name = "communityId")
     private Community community;
 
