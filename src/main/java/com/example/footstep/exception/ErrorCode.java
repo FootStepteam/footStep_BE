@@ -32,10 +32,15 @@ public enum ErrorCode {
 
     // 게시글
     NOT_FIND_COMMUNITY_ID("존재하지 않는 게시글 입니다."),
+    UN_MATCHED_MEMBER_AND_COMMUNITY("해당 게시글의 작성자가 아닙니다."),
 
     // 댓글
     NOT_FIND_COMMENT_ID("존재하지 않는 댓글 입니다."),
-    UN_MATCHED_MEMBER_AND_COMMENT("해당 댓글의 작성자가 아닙니다.");
+    UN_MATCHED_MEMBER_AND_COMMENT("해당 댓글의 작성자가 아닙니다."),
+
+    // 좋아요
+    NOT_FIND_LIKE_COMMUNITY("회원이 좋아요한 게시글이 없습니다."),
+    ;
 
     private final String MESSAGE;
 }

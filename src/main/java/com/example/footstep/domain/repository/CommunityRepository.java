@@ -18,6 +18,10 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
     @Query("update Community c set c.likeCount = c.likeCount + 1 where c.communityId = :id")
     void increaseLikeCount(Long id);
 
+    @Modifying(clearAutomatically = true)
+    @Query("update Community c set c.likeCount = c.likeCount - 1 where c.communityId = :id")
+    void decreaseLikeCount(Long id);
+
     Slice<Community> findSliceBy(Pageable pageable);
 
     Optional<Community> findByCommunityIdAndMember_MemberId(Long communityId, Long memberId);

@@ -35,11 +35,13 @@ public class CommunityDetailDto {
     private String travelStartDate;
     private String travelEndDate;
 
+    private boolean isLiked;
+
     private int commentCount;
     private List<CommentResponseDto> comments = new ArrayList<>();
 
     public static CommunityDetailDto of(Community community, Member member,
-                                        ShareRoom shareRoom, List<Comment> comments) {
+                                        ShareRoom shareRoom, List<Comment> comments, boolean isLiked) {
 
         return CommunityDetailDto.builder()
             .communityId(community.getCommunityId())
@@ -51,6 +53,7 @@ public class CommunityDetailDto {
             .travelStartDate(shareRoom.getTravelStartDate())
             .travelEndDate(shareRoom.getTravelEndDate())
             .commentCount(comments.size())
+            .isLiked(isLiked)
             .comments(comments.stream()
                 .map(CommentResponseDto::of)
                 .collect(Collectors.toList())
