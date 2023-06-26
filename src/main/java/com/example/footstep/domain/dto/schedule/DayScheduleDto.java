@@ -3,6 +3,7 @@ package com.example.footstep.domain.dto.schedule;
 import com.example.footstep.domain.entity.DaySchedule;
 import com.example.footstep.domain.entity.Destination;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,8 @@ public class DayScheduleDto {
             DestinationDto destinationDto = DestinationDto.from(destination);
             destinationDtoList.add(destinationDto);
         }
+
+        destinationDtoList.sort(Comparator.comparingInt(DestinationDto::getSeq));
 
         return DayScheduleDto.builder()
             .shareId(daySchedule.getShareRoom().getShareId())
