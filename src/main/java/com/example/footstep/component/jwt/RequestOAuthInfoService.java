@@ -30,4 +30,11 @@ public class RequestOAuthInfoService {
         OAuthApiClient client = clients.get(accessCode.oAuthProvider());
         return client.requestAccessToken(accessCode);
     }
+//    public String getFriendsAccessToken(OAuthLoginParams kakaoAccessCode){
+//        OAuthApiClient client = clients.get(kakaoAccessCode.oAuthProvider());
+//        String accessToken = client.requestAccessToken(kakaoAccessCode);
+//        client.requestOauthInfo(accessToken); // 한번 조회 해야함.
+//        return accessToken;
+//
+//    }
 }
