@@ -11,6 +11,7 @@ import com.example.footstep.domain.repository.DayScheduleRepository;
 import com.example.footstep.domain.repository.DestinationRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
 import com.example.footstep.exception.GlobalException;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import lombok.RequiredArgsConstructor;
@@ -59,14 +60,25 @@ public class DestinationService {
 
 
     @Transactional
-    public String deleteDestination(Long shareId, Long destinationId) {
+    public void deleteDestinationPlanDate(Long shareId, String planDate) {
+
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        List<Destination> destinationList =
+            destinationRepository.findByDaySchedule_ShareRoom_ShareIdAndDaySchedule_PlanDate(
+            shareRoom.getShareId(), planDate);
+
+        destinationRepository.deleteAll(destinationList);
+    }
+
+
+    @Transactional
+    public void deleteDestination(Long shareId, Long destinationId) {
 
         shareRoomRepository.getShareById(shareId);
 
         Destination destination = destinationRepository.getDestinationById(destinationId);
 
         destinationRepository.delete(destination);
-
-        return "목적지가 삭제 되었습니다.";
     }
 }
