@@ -47,8 +47,10 @@ public class CommunityController {
 
     @GetMapping("/{communityId}")
     public ResponseEntity<CommunityDetailDto> getOneCommunity(
+        @AuthenticationPrincipal LoginMember loginMember,
         @PathVariable Long communityId) {
-        return ResponseEntity.ok(communityService.getOne(communityId));
+
+        return ResponseEntity.ok(communityService.getOne(communityId, loginMember));
 
     }
 

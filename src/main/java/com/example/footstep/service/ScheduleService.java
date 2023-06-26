@@ -34,12 +34,13 @@ public class ScheduleService {
 
 
     @Transactional(readOnly = true)
-    public List<DayScheduleDto> getAllListSchedule(Long shareId) {
+    public List<DayScheduleDto> getAllListSchedule(Long shareId, String startDate, String endDate) {
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
         List<DaySchedule> dayScheduleList =
-            dayScheduleRepository.findByShareRoom_ShareIdOrderByPlanDate(shareRoom.getShareId());
+            dayScheduleRepository.findByShareRoom_ShareIdAndPlanDateBetweenOrderByPlanDate(
+                shareRoom.getShareId(), startDate, endDate);
 
         List<DayScheduleDto> dayScheduleDtoList = new ArrayList<>();
 
@@ -66,9 +67,26 @@ public class ScheduleService {
         return DayScheduleDto.from(daySchedule);
     }
 
+    @Transactional
+    public DayScheduleMemoDto createOrUpdateScheduleMemo(
+        LoginMember loginMember, Long shareId, DayScheduleForm dayScheduleForm) {
 
-    @Transactional(readOnly = true)
-    public List<DestinationDto> getAllListScheduleRecommend(
+        memberRepository.getMemberById(loginMember.getMemberId());
+
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        DaySchedule daySchedule = dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
+            shareRoom.getShareId(), dayScheduleForm.getPlanDate()).orElseGet(() ->
+            dayScheduleRepository.save(dayScheduleForm.toEntity(shareRoom)));
+
+        daySchedule.setContent(dayScheduleForm.getContent());
+
+        return DayScheduleMemoDto.from(daySchedule);
+    }
+
+
+    @Transactional
+    public List<DestinationDto> updateScheduleRecommend(
         Long shareId, ScheduleRecommendForm recommendForm) {
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
@@ -108,31 +126,15 @@ public class ScheduleService {
             currentDestination = addDestination;
         }
 
+        int seqCount = 1;
         List<DestinationDto> recommendDestinationList = new ArrayList<>();
 
         for (Destination recommendDestination : recommendList) {
+            recommendDestination.setSeq(seqCount++);
             recommendDestinationList.add(DestinationDto.from(recommendDestination));
         }
 
         return recommendDestinationList;
-    }
-
-
-    @Transactional
-    public DayScheduleMemoDto createOrUpdateScheduleMemo(
-        LoginMember loginMember, Long shareId, DayScheduleForm dayScheduleForm) {
-
-        memberRepository.getMemberById(loginMember.getMemberId());
-
-        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
-
-        DaySchedule daySchedule = dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
-            shareRoom.getShareId(), dayScheduleForm.getPlanDate()).orElseGet(() ->
-            dayScheduleRepository.save(dayScheduleForm.toEntity(shareRoom)));
-
-        daySchedule.setContent(dayScheduleForm.getContent());
-
-        return DayScheduleMemoDto.from(daySchedule);
     }
 
 

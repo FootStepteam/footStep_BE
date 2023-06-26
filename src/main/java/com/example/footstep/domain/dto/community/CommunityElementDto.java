@@ -16,6 +16,7 @@ public class CommunityElementDto {
     private String memberNickname;
     private LocalDateTime createdDate;
     private int likeCount;
+    private boolean communityPublicState;
 
     public static CommunityElementDto from(Community community) {
         return CommunityElementDto.builder()
@@ -24,6 +25,7 @@ public class CommunityElementDto {
             .memberNickname(community.getMember().getNickname())
             .createdDate(community.getCreateDate())
             .likeCount(community.getLikeCount())
+            .communityPublicState(community.isCommunityPublicState())
             .build();
     }
 }

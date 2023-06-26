@@ -1,5 +1,6 @@
 package com.example.footstep.service;
 
+import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.community.CommunityDetailDto;
 import com.example.footstep.domain.dto.community.CommunityListDto;
 import com.example.footstep.domain.entity.Comment;
@@ -49,7 +50,15 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
-    public CommunityDetailDto getOne(Long communityId) {
+    public CommunityDetailDto getOne(Long communityId, LoginMember loginMember) {
+
+        // 일반 사용자 조회 or 해당 게시글에 좋아요를 하지 않았을 경우
+        boolean isLiked = false;
+        if (loginMember != null
+            && likeRepository
+            .existsByCommunity_CommunityIdAndMember_MemberId(communityId, loginMember.getMemberId())) {
+            isLiked = true;
+        }
 
         Community community = communityRepository.findByIdWithShareRoomAndMember(communityId)
             .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
@@ -58,7 +67,7 @@ public class CommunityService {
             communityId);
 
         return CommunityDetailDto.of(community, community.getMember(),
-            community.getShareRoom(), comments);
+            community.getShareRoom(), comments, isLiked);
 
     }
 
@@ -89,7 +98,13 @@ public class CommunityService {
     @Transactional
     public void delete(Long memberId, Long communityId) {
 
-        Community community = findByCommunityIdAndMemberId(memberId, communityId);
+        Community community = communityRepository.getCommunityById(communityId);
+
+        if(!community.isWrittenBy(memberId)) {
+            throw new GlobalException(ErrorCode.UN_MATCHED_MEMBER_AND_COMMUNITY);
+        }
+
+        System.out.println("게시글의 작성자 일치");
 
         communityRepository.delete(community);
 

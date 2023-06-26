@@ -49,7 +49,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 
         // 응답 객체 초기화
         body.put("status", status);
-        body.put("error", "Unauthorized");
+        body.put("errorCode", "Unauthorized");
         body.put("message", message);
         body.put("path", request.getServletPath());
         body.put("code", code);

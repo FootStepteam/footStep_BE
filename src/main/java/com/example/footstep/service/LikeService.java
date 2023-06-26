@@ -6,6 +6,8 @@ import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.repository.CommunityRepository;
 import com.example.footstep.domain.repository.LikeRepository;
 import com.example.footstep.domain.repository.MemberRepository;
+import com.example.footstep.exception.ErrorCode;
+import com.example.footstep.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,4 +35,16 @@ public class LikeService {
             .build());
     }
 
+    @Transactional
+    public void unLikeCommunity(Long memberId, Long communityId) {
+
+        // 좋아요를 안했는데 좋아요 취소를 눌렀을 경우 예외 처리도 해야하나
+        Likes likes = likeRepository.findByCommunity_CommunityIdAndMember_MemberId(communityId,
+                memberId)
+            .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_LIKE_COMMUNITY));
+        System.out.println(likes.getLikesId());
+        likeRepository.deleteById(likes.getLikesId());
+        communityRepository.decreaseLikeCount(communityId);
+
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,21 +23,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/share-room")
+@RequestMapping("/api/share-room/{shareId}")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
 
-    @GetMapping("/{shareId}/schedule")
+    @GetMapping("/schedule")
     public ResponseEntity<List<DayScheduleDto>> getAllListSchedule(
-        @PathVariable("shareId") Long shareId) {
+        @PathVariable("shareId") Long shareId,
+        @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
 
-        return ResponseEntity.ok(scheduleService.getAllListSchedule(shareId));
+        return ResponseEntity.ok(scheduleService.getAllListSchedule(shareId, startDate, endDate));
     }
 
 
-    @GetMapping("/{shareId}/schedule/plan")
+    @GetMapping("/schedule/plan")
     public ResponseEntity<DayScheduleDto> getAllListScheduleDate(
         @PathVariable("shareId") Long shareId, @RequestParam("date") String planDate) {
 
@@ -44,22 +46,22 @@ public class ScheduleController {
     }
 
 
-    @GetMapping("/{shareId}/schedule/recommend")
-    public ResponseEntity<List<DestinationDto>> getAllListScheduleRecommend(
-        @PathVariable("shareId") Long shareId,
-        @RequestBody @Valid ScheduleRecommendForm recommendForm) {
-
-        return ResponseEntity.ok(
-            scheduleService.getAllListScheduleRecommend(shareId, recommendForm));
-    }
-
-
-    @PostMapping("/{shareId}/schedule")
+    @PostMapping("/schedule")
     public ResponseEntity<DayScheduleMemoDto> createOrUpdateScheduleMemo(
         @AuthenticationPrincipal LoginMember loginMember, @PathVariable("shareId") Long shareId,
         @RequestBody @Valid DayScheduleForm dayScheduleForm) {
 
         return ResponseEntity.ok(
             scheduleService.createOrUpdateScheduleMemo(loginMember, shareId, dayScheduleForm));
+    }
+
+
+    @PutMapping("/schedule/recommend")
+    public ResponseEntity<List<DestinationDto>> updateScheduleRecommend(
+        @PathVariable("shareId") Long shareId,
+        @RequestBody @Valid ScheduleRecommendForm recommendForm) {
+
+        return ResponseEntity.ok(
+            scheduleService.updateScheduleRecommend(shareId, recommendForm));
     }
 }

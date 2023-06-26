@@ -23,7 +23,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         // 응답 객체 초기화
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("error", "Unauthorized");
+        body.put("errorCode", "Unauthorized");
         body.put("message", authException.getMessage());
         body.put("path", request.getServletPath());
         final ObjectMapper mapper = new ObjectMapper();
