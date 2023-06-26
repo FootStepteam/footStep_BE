@@ -33,7 +33,7 @@ public class ChatRoomController {
         return "redirect:/";
     }
     @GetMapping("/chat/room")
-    public String roomDetail(Model model, String roomId){
+    public String roomDetail(Model model, Long roomId){
 
         log.info("roomId {}", roomId);
         model.addAttribute("room", chatRepository.findChatRoomDtoByRoomId(roomId));
