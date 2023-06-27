@@ -13,7 +13,6 @@ import com.example.footstep.domain.form.DayScheduleForm;
 import com.example.footstep.domain.form.ScheduleRecommendForm;
 import com.example.footstep.domain.repository.DayScheduleRepository;
 import com.example.footstep.domain.repository.DestinationRepository;
-import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
 import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
@@ -27,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ScheduleService {
 
-    private final MemberRepository memberRepository;
     private final ShareRoomRepository shareRoomRepository;
     private final DayScheduleRepository dayScheduleRepository;
     private final DestinationRepository destinationRepository;

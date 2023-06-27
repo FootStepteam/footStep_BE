@@ -25,6 +25,4 @@ public interface ShareRoomRepository extends JpaRepository<ShareRoom, Long> {
     }
 
     boolean existsByShareCode(String shareCode);
-
-    boolean existsByShareIdAndMember_MemberId(Long shareId, Long memberId);
 }
