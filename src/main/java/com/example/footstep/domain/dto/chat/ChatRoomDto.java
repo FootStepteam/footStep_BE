@@ -10,9 +10,9 @@ import java.util.UUID;
 public class ChatRoomDto {
     private String roomId;
     private String name;
-    public static ChatRoomDto create(String name) {
+    public static ChatRoomDto create(String name,Long shareId) {
         ChatRoomDto chatRoom = new ChatRoomDto();
-        chatRoom.roomId = UUID.randomUUID().toString();
+        chatRoom.roomId = String.valueOf(shareId);
         chatRoom.name = name;
         return chatRoom;
     }

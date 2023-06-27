@@ -4,6 +4,7 @@ import com.example.footstep.domain.dto.chat.ChatRoomDto;
 import com.example.footstep.domain.repository.ChatRoomRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +30,11 @@ public class ChatRoomController {
         return chatRoomRepository.findAllRoom();
     }
     // 채팅방 생성
-    @PostMapping("/room")
-    @ResponseBody
-    public ChatRoomDto createRoom(@RequestParam String name) {
-        return chatRoomRepository.createChatRoom(name);
-    }
+//    @PostMapping("/room")
+//    @ResponseBody
+//    public ChatRoomDto createRoom(@RequestParam String name) {
+//        return chatRoomRepository.createChatRoom(name);
+//    }
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable String roomId) {

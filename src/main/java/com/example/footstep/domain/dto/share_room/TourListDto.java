@@ -18,11 +18,11 @@ public class TourListDto {
     private String addr1;
     @JsonProperty("addr2")
     private String addr2;
-    @JsonProperty("title")
-    private String title;
     @JsonProperty("mapx")
     private String mapX;
     @JsonProperty("mapy")
     private String mapY;
+    @JsonProperty("title")
+    private String title;
 
 }
