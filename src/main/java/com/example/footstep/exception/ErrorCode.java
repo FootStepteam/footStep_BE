@@ -21,7 +21,7 @@ public enum ErrorCode {
 
     // 공유방
     NOT_FIND_SHARE_ID("존재하지 않는 공유방 입니다."),
-    NOT_MATCH_CREATE_MEMBER("공유방을 생성한 사용자가 아닙니다."),
+    NOT_MATCH_CREATE_MEMBER("공유방 생성자가 아닙니다."),
     NOT_HAVE_DATA_TOUR("여행 데이터가 없습니다."),
 
     // 일정

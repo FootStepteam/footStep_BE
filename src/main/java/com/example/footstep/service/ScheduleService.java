@@ -1,6 +1,5 @@
 package com.example.footstep.service;
 
-import static com.example.footstep.exception.ErrorCode.NOT_FIND_DAY_SCHEDULE_ID;
 import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
 
 import com.example.footstep.component.security.LoginMember;
@@ -63,7 +62,7 @@ public class ScheduleService {
 
         DaySchedule daySchedule =
             dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
-                    shareRoom.getShareId(), planDate).orElse(null);
+                shareRoom.getShareId(), planDate).orElse(null);
 
         return daySchedule != null ? DayScheduleDto.from(daySchedule) : null;
     }
@@ -73,9 +72,14 @@ public class ScheduleService {
     public DayScheduleMemoDto createOrUpdateScheduleMemo(
         LoginMember loginMember, Long shareId, DayScheduleForm dayScheduleForm) {
 
-        memberRepository.getMemberById(loginMember.getMemberId());
+        Member member = memberRepository.getMemberById(loginMember.getMemberId());
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        if (!shareRoomRepository.existsByShareIdAndMember_MemberId(
+            shareRoom.getShareId(), member.getMemberId())) {
+            throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
+        }
 
         DaySchedule daySchedule = dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
             shareRoom.getShareId(), dayScheduleForm.getPlanDate()).orElseGet(() ->
@@ -143,9 +147,14 @@ public class ScheduleService {
     @Transactional
     public void deleteOutsideSchedule(LoginMember loginMember, Long shareId) {
 
-        memberRepository.getMemberById(loginMember.getMemberId());
+        Member member = memberRepository.getMemberById(loginMember.getMemberId());
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        if (!shareRoomRepository.existsByShareIdAndMember_MemberId(
+            shareRoom.getShareId(), member.getMemberId())) {
+            throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
+        }
 
         List<DaySchedule> planDateNotBetween = dayScheduleRepository.findPlanDateNotBetween(
             shareRoom.getShareId(), shareRoom.getTravelStartDate(), shareRoom.getTravelEndDate());
