@@ -25,7 +25,7 @@ import lombok.ToString;
 public class CommunityDetailDto {
 
     private String memberNickname;
-
+    private Long memberId;
     private Long communityId;
     private String communityName;
     private int likeCount;
@@ -49,6 +49,7 @@ public class CommunityDetailDto {
             .likeCount(community.getLikeCount())
             .createdDate(community.getCreateDate())
             .content(community.getContent())
+            .memberId(member.getMemberId())
             .memberNickname(member.getNickname())
             .travelStartDate(shareRoom.getTravelStartDate())
             .travelEndDate(shareRoom.getTravelEndDate())
