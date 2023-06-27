@@ -3,6 +3,7 @@ package com.example.footstep.domain.entity;
 import static javax.persistence.FetchType.LAZY;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class DaySchedule extends BaseTimeEntity {
     private String content;
 
 
-    @OneToMany(mappedBy = "daySchedule")
+    @OneToMany(mappedBy = "daySchedule", cascade = CascadeType.REMOVE)
     private List<Destination> destinations;
 
     @ManyToOne(fetch = LAZY)
