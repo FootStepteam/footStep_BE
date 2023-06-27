@@ -8,7 +8,6 @@ import com.example.footstep.domain.dto.schedule.DayScheduleMemoDto;
 import com.example.footstep.domain.dto.schedule.DestinationDto;
 import com.example.footstep.domain.entity.DaySchedule;
 import com.example.footstep.domain.entity.Destination;
-import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.form.DayScheduleForm;
 import com.example.footstep.domain.form.ScheduleRecommendForm;
@@ -72,12 +71,9 @@ public class ScheduleService {
     public DayScheduleMemoDto createOrUpdateScheduleMemo(
         LoginMember loginMember, Long shareId, DayScheduleForm dayScheduleForm) {
 
-        Member member = memberRepository.getMemberById(loginMember.getMemberId());
-
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
-        if (!shareRoomRepository.existsByShareIdAndMember_MemberId(
-            shareRoom.getShareId(), member.getMemberId())) {
+        if (!isShareRoomManager(loginMember, shareRoom)) {
             throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
         }
 
@@ -147,12 +143,9 @@ public class ScheduleService {
     @Transactional
     public void deleteOutsideSchedule(LoginMember loginMember, Long shareId) {
 
-        Member member = memberRepository.getMemberById(loginMember.getMemberId());
-
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
-        if (!shareRoomRepository.existsByShareIdAndMember_MemberId(
-            shareRoom.getShareId(), member.getMemberId())) {
+        if (!isShareRoomManager(loginMember, shareRoom)) {
             throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
         }
 
@@ -185,5 +178,10 @@ public class ScheduleService {
             2 * Math.atan2(Math.sqrt(firstHaversine), Math.sqrt(1 - firstHaversine));
 
         return finalHaversine * earthRadius;
+    }
+
+
+    public boolean isShareRoomManager(LoginMember loginMember, ShareRoom shareRoom) {
+        return loginMember.getMemberId().equals(shareRoom.getMember().getMemberId());
     }
 }
