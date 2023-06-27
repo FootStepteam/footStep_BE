@@ -32,13 +32,13 @@ public class ScheduleService {
 
 
     @Transactional(readOnly = true)
-    public List<DayScheduleDto> getAllListSchedule(Long shareId, String startDate, String endDate) {
+    public List<DayScheduleDto> getAllListSchedule(Long shareId) {
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
         List<DaySchedule> dayScheduleList =
             dayScheduleRepository.findByShareRoom_ShareIdAndPlanDateBetweenOrderByPlanDate(
-                shareRoom.getShareId(), startDate, endDate);
+                shareRoom.getShareId(), shareRoom.getTravelStartDate(), shareRoom.getTravelEndDate());
 
         List<DayScheduleDto> dayScheduleDtoList = new ArrayList<>();
 
