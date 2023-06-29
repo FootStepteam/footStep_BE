@@ -3,6 +3,7 @@ package com.example.footstep.controller;
 import com.example.footstep.component.security.AuthTokens;
 import com.example.footstep.component.security.AuthTokensGenerator;
 import com.example.footstep.component.security.LoginMember;
+import com.example.footstep.domain.form.ChangePasswordForm;
 import com.example.footstep.domain.dto.LoginDto;
 import com.example.footstep.domain.dto.member.MemberDto;
 import com.example.footstep.domain.dto.member.MemberProfileDto;
@@ -60,15 +61,22 @@ public class MemberController {
         );
     }
 
-    @PutMapping("/")
+    @PutMapping("")
     public ResponseEntity<MemberUpdateDto> updateMemberProfile(
         @AuthenticationPrincipal LoginMember loginMember,
         @RequestBody MemberUpdateForm memberUpdateForm) {
+        MemberUpdateDto updateDto = MemberUpdateDto.from(
+            memberService.update(loginMember.getMemberId(), memberUpdateForm));
+        return ResponseEntity.ok(updateDto);
+    }
 
-        return ResponseEntity.ok(
-            MemberUpdateDto.from(
-                memberService.update(loginMember.getMemberId(), memberUpdateForm))
-        );
+    @PostMapping("/password")
+    public void changePassword(
+        @AuthenticationPrincipal LoginMember loginMember,
+        @RequestBody ChangePasswordForm changePasswordForm) {
+
+        memberService.changePassword(loginMember.getMemberId(), changePasswordForm.getPassword());
+
     }
 
 }

@@ -13,5 +13,6 @@ public class MemberUpdateForm {
 
     private String profileUrl;
     private String nickname;
+    private String description;
 
 }

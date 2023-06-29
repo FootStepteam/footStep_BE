@@ -14,6 +14,7 @@ public enum ErrorCode {
     EMPTY_MEMBER_EMAIL("이메일을 입력해 주세요"),
     EMPTY_MEMBER_PASSWORD("패스워드를 입력해 주세요"),
     EMPTY_MEMBER_NICKNAME("닉네임을 입력 해주세요"),
+    NOT_CHANGED_PASSWORD("기존의 패스워드 입니다."),
 
     // 카카오API
     WRONG_ACCESS_TOKEN_AUTH("잘못된 인증입니다."),

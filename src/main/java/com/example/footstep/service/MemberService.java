@@ -66,9 +66,26 @@ public class MemberService {
     public Member update(Long memberId, MemberUpdateForm memberUpdateForm) {
 
         Member member = memberRepository.getMemberById(memberId);
-        member.updateProfile(memberUpdateForm.getNickname(), memberUpdateForm.getProfileUrl());
+        member.updateProfile(
+            memberUpdateForm.getNickname(),
+            memberUpdateForm.getProfileUrl(),
+            memberUpdateForm.getDescription()
+        );
 
         return member;
     }
 
+    @Transactional
+    public void changePassword(Long memberId, String password) {
+
+        Member member = memberRepository.getMemberById(memberId);
+        String encodedPassword = passwordEncoder.encode(password);
+
+        if(passwordEncoder.matches(member.getPassword(), encodedPassword)) {
+            throw new GlobalException(ErrorCode.NOT_CHANGED_PASSWORD);
+        }
+
+        member.changePassword(encodedPassword);
+
+    }
 }
