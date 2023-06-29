@@ -24,9 +24,9 @@ public class AuthController {
 
     private final KakaoService kakaoService;
     private final TokenService tokenService;
-    //https://kauth.kakao.com/oauth/authorize?client_id=361fc4d12b75888a392207252d5db496&redirect_uri=http://localhost:8080/api/kakao/callback&response_type=code
+    //https://kauth.kakao.com/oauth/authorize?client_id=361fc4d12b75888a392207252d5db496&redirect_uri=http://localhost:8080/api/kakao/callback&response_type=code&scope=talk_message
 
-    //https://kauth.kakao.com/oauth/authorize?client_id=361fc4d12b75888a392207252d5db496&redirect_uri=http://43.200.76.174:8080/api/kakao/callback&response_type=code
+    //https://kauth.kakao.com/oauth/authorize?client_id=361fc4d12b75888a392207252d5db496&redirect_uri=http://43.200.76.174:8080/api/kakao/callback&response_type=code&scope=talk_message
     //https://kauth.kakao.com/oauth/logout?client_id=361fc4d12b75888a392207252d5db496&logout_redirect_uri=http://43.200.76.174:8080/api/kakao/logout
 
 

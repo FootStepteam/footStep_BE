@@ -6,11 +6,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ChatMessageDto {
+    private String content;
+    private String sender;
+    private MessageType type;
+
     public enum MessageType{
         ENTER , TALK ,JOIN
     }
-    private MessageType type;
-    private String roomId;
-    private String sender;
-    private String message;
 }
