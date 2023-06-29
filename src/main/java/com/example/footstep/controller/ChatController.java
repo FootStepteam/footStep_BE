@@ -1,5 +1,6 @@
 package com.example.footstep.controller;
 
+
 import com.example.footstep.domain.dto.chat.ChatMessageDto;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
