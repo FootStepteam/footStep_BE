@@ -1,5 +1,6 @@
 package com.example.footstep.controller;
 
+import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.schedule.DayScheduleDto;
 import com.example.footstep.domain.dto.schedule.DayScheduleMemoDto;
@@ -11,7 +12,6 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +48,7 @@ public class ScheduleController {
 
     @PostMapping("/schedule")
     public ResponseEntity<DayScheduleMemoDto> createOrUpdateScheduleMemo(
-        @AuthenticationPrincipal LoginMember loginMember, @PathVariable("shareId") Long shareId,
+        @LoginMember CurrentMember loginMember, @PathVariable("shareId") Long shareId,
         @RequestBody @Valid DayScheduleForm dayScheduleForm) {
 
         return ResponseEntity.ok(
@@ -68,7 +68,7 @@ public class ScheduleController {
 
     @DeleteMapping("/schedule")
     public void deleteOutsideSchedule(
-        @AuthenticationPrincipal LoginMember loginMember, @PathVariable("shareId") Long shareId) {
+        @LoginMember CurrentMember loginMember, @PathVariable("shareId") Long shareId) {
 
         scheduleService.deleteOutsideSchedule(loginMember, shareId);
     }

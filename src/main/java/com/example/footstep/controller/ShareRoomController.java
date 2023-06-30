@@ -1,6 +1,7 @@
 package com.example.footstep.controller;
 
 import com.example.footstep.authentication.oauth.tour.TourApiClient;
+import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.share_room.RecommendDto;
 import com.example.footstep.domain.dto.share_room.ShareRoomDto;
@@ -13,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +35,7 @@ public class ShareRoomController {
 
     @GetMapping
     public ResponseEntity<List<ShareRoomDto>> getAllListShareRoom(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @RequestParam("page") int page, @RequestParam("size") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
@@ -47,7 +47,7 @@ public class ShareRoomController {
 
     @GetMapping("/{shareId}")
     public ResponseEntity<ShareRoomDto> getOneShareRoom(
-        @AuthenticationPrincipal LoginMember loginMember, @PathVariable("shareId") Long shareId) {
+        @LoginMember CurrentMember loginMember, @PathVariable("shareId") Long shareId) {
 
         return ResponseEntity.ok(
             shareRoomService.getOneShareRoom(loginMember.getMemberId(), shareId));
@@ -64,7 +64,7 @@ public class ShareRoomController {
 
     @PostMapping
     public ResponseEntity<ShareRoomDto> createShareRoom(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @RequestBody @Valid ShareRoomForm shareRoomForm) {
 
         return ResponseEntity.ok(
@@ -74,7 +74,7 @@ public class ShareRoomController {
 
     @PutMapping("/{shareId}")
     public ResponseEntity<ShareRoomDto> updateShareRoom(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @PathVariable("shareId") Long shareId,
         @RequestBody @Valid ShareRoomForm shareRoomForm) {
 
@@ -85,7 +85,7 @@ public class ShareRoomController {
 
     @DeleteMapping("/{shareId}")
     public void deleteShareRoom(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @PathVariable("shareId") Long shareId) {
 
         shareRoomService.deleteShareRoom(loginMember.getMemberId(), shareId);

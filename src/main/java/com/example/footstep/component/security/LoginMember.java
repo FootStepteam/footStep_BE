@@ -1,15 +1,14 @@
 package com.example.footstep.component.security;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@Getter
-@Setter
-@ToString
-public class LoginMember {
-
-    private Long memberId;
-//    private Role role;
+@Target({ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface LoginMember {
 
 }

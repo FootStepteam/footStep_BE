@@ -43,6 +43,9 @@ public enum ErrorCode {
 
     // 좋아요
     NOT_FIND_LIKE_COMMUNITY("회원이 좋아요한 게시글이 없습니다."),
+    WRONG_AUTHORIZATION_HEADER("비정상적인 인증 헤더입니다."),
+    EXPIRED_ACCESS_TOKEN("토큰이 만료되었습니다."),
+    JWT_EXCEPTION("JWT 토큰 예외가 발생하였습니다."),
     ;
 
     private final String MESSAGE;

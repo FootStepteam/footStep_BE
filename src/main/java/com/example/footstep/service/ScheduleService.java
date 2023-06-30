@@ -2,7 +2,7 @@ package com.example.footstep.service;
 
 import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
 
-import com.example.footstep.component.security.LoginMember;
+import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.domain.dto.schedule.DayScheduleDto;
 import com.example.footstep.domain.dto.schedule.DayScheduleMemoDto;
 import com.example.footstep.domain.dto.schedule.DestinationDto;
@@ -67,7 +67,7 @@ public class ScheduleService {
 
     @Transactional
     public DayScheduleMemoDto createOrUpdateScheduleMemo(
-        LoginMember loginMember, Long shareId, DayScheduleForm dayScheduleForm) {
+        CurrentMember loginMember, Long shareId, DayScheduleForm dayScheduleForm) {
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
@@ -139,7 +139,7 @@ public class ScheduleService {
 
 
     @Transactional
-    public void deleteOutsideSchedule(LoginMember loginMember, Long shareId) {
+    public void deleteOutsideSchedule(CurrentMember loginMember, Long shareId) {
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
@@ -179,7 +179,7 @@ public class ScheduleService {
     }
 
 
-    public boolean isShareRoomManager(LoginMember loginMember, ShareRoom shareRoom) {
+    public boolean isShareRoomManager(CurrentMember loginMember, ShareRoom shareRoom) {
         return loginMember.getMemberId().equals(shareRoom.getMember().getMemberId());
     }
 }

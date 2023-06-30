@@ -1,5 +1,6 @@
 package com.example.footstep.controller;
 
+import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.community.CommunityDetailDto;
 import com.example.footstep.domain.dto.community.CommunityLikedMemberDto;
@@ -15,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,9 +36,8 @@ public class CommunityController {
 
     @PostMapping
     public void createCommunity(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @RequestBody CommunityCreateForm communityCreateForm) {
-
         communityService.create(loginMember.getMemberId(),
             communityCreateForm.getShareId(),
             communityCreateForm);
@@ -47,7 +46,7 @@ public class CommunityController {
 
     @GetMapping("/{communityId}")
     public ResponseEntity<CommunityDetailDto> getOneCommunity(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @PathVariable Long communityId) {
 
         return ResponseEntity.ok(communityService.getOne(communityId, loginMember));
@@ -70,7 +69,7 @@ public class CommunityController {
 
     @GetMapping("likes")
     public ResponseEntity<List<CommunityLikedMemberDto>> getCommunitiesLiked(
-        @AuthenticationPrincipal LoginMember loginMember) {
+        @LoginMember CurrentMember loginMember) {
 
         return ResponseEntity.ok(
             communityService.getCommunitiesLikedByMember(loginMember.getMemberId())
@@ -82,7 +81,7 @@ public class CommunityController {
 
     @PutMapping("/{communityId}")
     public void updateCommunity(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @PathVariable Long communityId,
         @RequestBody CommunityUpdateForm communityUpdateForm
         ) {
@@ -93,7 +92,7 @@ public class CommunityController {
 
     @DeleteMapping("/{communityId}")
     public void deleteCommunity(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @PathVariable Long communityId) {
 
         communityService.delete(loginMember.getMemberId(), communityId);

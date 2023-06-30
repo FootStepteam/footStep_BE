@@ -1,6 +1,6 @@
 package com.example.footstep.service;
 
-import com.example.footstep.component.security.LoginMember;
+import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.domain.dto.community.CommunityDetailDto;
 import com.example.footstep.domain.dto.community.CommunityListDto;
 import com.example.footstep.domain.entity.Comment;
@@ -50,7 +50,7 @@ public class CommunityService {
     }
 
     @Transactional(readOnly = true)
-    public CommunityDetailDto getOne(Long communityId, LoginMember loginMember) {
+    public CommunityDetailDto getOne(Long communityId, CurrentMember loginMember) {
 
         // 일반 사용자 조회 or 해당 게시글에 좋아요를 하지 않았을 경우
         boolean isLiked = false;
