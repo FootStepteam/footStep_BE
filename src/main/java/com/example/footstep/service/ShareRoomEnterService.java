@@ -7,9 +7,6 @@ import com.example.footstep.domain.entity.ShareRoomEnter;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomEnterRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,20 +19,10 @@ public class ShareRoomEnterService {
     private final ShareRoomRepository shareRoomRepository;
     private final ShareRoomEnterRepository shareRoomEnterRepository;
 
-    private Map<Long, ShareRoomEnterDto> chatRooms;
-
-
-    @PostConstruct
-    private void init() {
-        chatRooms = new LinkedHashMap<>();
-    }
-
-
-    //채팅방 하나 불러오기
-    public ShareRoomEnterDto getOneShareRoomEnter(Long shareRoomEnterId) {
-
-        return chatRooms.get(shareRoomEnterId);
-    }
+//    public ShareRoomEnterDto getOneShareRoomEnter(Long shareId) {
+//
+//        return chatRooms.get(shareId);
+//    }
 
 
     @Transactional
@@ -51,12 +38,6 @@ public class ShareRoomEnterService {
                 shareRoomEnterRepository.save(
                     ShareRoomEnter.builder().member(member).shareRoom(shareRoom).build()));
 
-        ShareRoomEnterDto shareRoomEnterDto = ShareRoomEnterDto.of(
-            shareRoomEnter.getShareRoom().getShareId(),
-            shareRoomEnter.getShareRoom().getShareName());
-
-        chatRooms.put(shareRoomEnterDto.getShareId(), shareRoomEnterDto);
-
-        return shareRoomEnterDto;
+        return ShareRoomEnterDto.from(shareRoomEnter);
     }
 }
