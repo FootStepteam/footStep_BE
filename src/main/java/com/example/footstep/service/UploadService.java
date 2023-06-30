@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -26,7 +27,7 @@ public class UploadService {
     public String uploadFile(MultipartFile file, Long shareRoomId) {
         try {
             ShareRoom shareRoom = shareRoomRepository.getShareById(shareRoomId);
-            String fileName = file.getOriginalFilename();
+            String fileName = file.getOriginalFilename() + UUID.randomUUID().toString();
 
             String fileUrl = "https://" + bucket + "/test" + fileName;
 
