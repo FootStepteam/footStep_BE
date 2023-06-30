@@ -42,9 +42,8 @@ public class LikeService {
         Likes likes = likeRepository.findByCommunity_CommunityIdAndMember_MemberId(communityId,
                 memberId)
             .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_LIKE_COMMUNITY));
-        System.out.println(likes.getLikesId());
-        likeRepository.deleteById(likes.getLikesId());
         communityRepository.decreaseLikeCount(communityId);
+        likeRepository.deleteById(likes.getLikesId());
 
     }
 }

@@ -4,6 +4,8 @@ import com.example.footstep.authentication.oauth.OAuthProvider;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,14 +36,24 @@ public class Member extends BaseTimeEntity {
     private String password;
     @Column(columnDefinition = "CHAR(30)")
     private String gender;
+    @Column(columnDefinition = "NVARCHAR(255)")
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private MemberStatus memberStatus = MemberStatus.NORMAL;
 
     @Column(columnDefinition = "NVARCHAR(255)")
     private String img;
     @Column(columnDefinition = "NVARCHAR(50)")
     private OAuthProvider memberOAuth;
 
-    public void updateProfile(String nickname, String profileUrl) {
+    public void updateProfile(String nickname, String profileUrl, String description) {
         this.nickname = nickname;
         this.img = profileUrl;
+        this.description = description;
+    }
+
+    public void changePassword(String password) {
+        this.password = password;
     }
 }
