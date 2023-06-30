@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,10 +32,9 @@ public class ScheduleController {
 
     @GetMapping("/schedule")
     public ResponseEntity<List<DayScheduleDto>> getAllListSchedule(
-        @PathVariable("shareId") Long shareId,
-        @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+        @PathVariable("shareId") Long shareId) {
 
-        return ResponseEntity.ok(scheduleService.getAllListSchedule(shareId, startDate, endDate));
+        return ResponseEntity.ok(scheduleService.getAllListSchedule(shareId));
     }
 
 
@@ -63,5 +63,13 @@ public class ScheduleController {
 
         return ResponseEntity.ok(
             scheduleService.updateScheduleRecommend(shareId, recommendForm));
+    }
+
+
+    @DeleteMapping("/schedule")
+    public void deleteOutsideSchedule(
+        @AuthenticationPrincipal LoginMember loginMember, @PathVariable("shareId") Long shareId) {
+
+        scheduleService.deleteOutsideSchedule(loginMember, shareId);
     }
 }

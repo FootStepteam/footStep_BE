@@ -1,6 +1,6 @@
 package com.example.footstep.service;
 
-import static com.example.footstep.exception.ErrorCode.NOT_FIND_DAY_SCHEDULE_ID;
+import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
 
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.dto.schedule.DayScheduleDto;
@@ -13,7 +13,6 @@ import com.example.footstep.domain.form.DayScheduleForm;
 import com.example.footstep.domain.form.ScheduleRecommendForm;
 import com.example.footstep.domain.repository.DayScheduleRepository;
 import com.example.footstep.domain.repository.DestinationRepository;
-import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
 import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
@@ -27,20 +26,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ScheduleService {
 
-    private final MemberRepository memberRepository;
     private final ShareRoomRepository shareRoomRepository;
     private final DayScheduleRepository dayScheduleRepository;
     private final DestinationRepository destinationRepository;
 
 
     @Transactional(readOnly = true)
-    public List<DayScheduleDto> getAllListSchedule(Long shareId, String startDate, String endDate) {
+    public List<DayScheduleDto> getAllListSchedule(Long shareId) {
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
         List<DaySchedule> dayScheduleList =
             dayScheduleRepository.findByShareRoom_ShareIdAndPlanDateBetweenOrderByPlanDate(
-                shareRoom.getShareId(), startDate, endDate);
+                shareRoom.getShareId(), shareRoom.getTravelStartDate(), shareRoom.getTravelEndDate());
 
         List<DayScheduleDto> dayScheduleDtoList = new ArrayList<>();
 
@@ -61,19 +59,21 @@ public class ScheduleService {
 
         DaySchedule daySchedule =
             dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
-                    shareRoom.getShareId(), planDate)
-                .orElseThrow(() -> new GlobalException(NOT_FIND_DAY_SCHEDULE_ID));
+                shareRoom.getShareId(), planDate).orElse(null);
 
-        return DayScheduleDto.from(daySchedule);
+        return daySchedule != null ? DayScheduleDto.from(daySchedule) : null;
     }
+
 
     @Transactional
     public DayScheduleMemoDto createOrUpdateScheduleMemo(
         LoginMember loginMember, Long shareId, DayScheduleForm dayScheduleForm) {
 
-        memberRepository.getMemberById(loginMember.getMemberId());
-
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        if (!isShareRoomManager(loginMember, shareRoom)) {
+            throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
+        }
 
         DaySchedule daySchedule = dayScheduleRepository.findByShareRoom_ShareIdAndPlanDate(
             shareRoom.getShareId(), dayScheduleForm.getPlanDate()).orElseGet(() ->
@@ -138,6 +138,22 @@ public class ScheduleService {
     }
 
 
+    @Transactional
+    public void deleteOutsideSchedule(LoginMember loginMember, Long shareId) {
+
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        if (!isShareRoomManager(loginMember, shareRoom)) {
+            throw new GlobalException(NOT_MATCH_CREATE_MEMBER);
+        }
+
+        List<DaySchedule> planDateNotBetween = dayScheduleRepository.findPlanDateNotBetween(
+            shareRoom.getShareId(), shareRoom.getTravelStartDate(), shareRoom.getTravelEndDate());
+
+        dayScheduleRepository.deleteAll(planDateNotBetween);
+    }
+
+
     // 경도, 위도 거리
     public double distanceTo(Destination currentDestination, Destination nextDestination) {
 
@@ -160,5 +176,10 @@ public class ScheduleService {
             2 * Math.atan2(Math.sqrt(firstHaversine), Math.sqrt(1 - firstHaversine));
 
         return finalHaversine * earthRadius;
+    }
+
+
+    public boolean isShareRoomManager(LoginMember loginMember, ShareRoom shareRoom) {
+        return loginMember.getMemberId().equals(shareRoom.getMember().getMemberId());
     }
 }
