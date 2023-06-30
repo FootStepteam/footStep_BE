@@ -21,12 +21,12 @@ public class ShareRoomEnterController {
     private final ShareRoomEnterService shareRoomEnterService;
 
 
-    @GetMapping("/chat/{shareRoomEnterId}")
-    public ResponseEntity<ShareRoomEnterDto> getOneShareRoomEnter(
-        @PathVariable("shareRoomEnterId") Long shareRoomEnterId) {
-
-        return ResponseEntity.ok(shareRoomEnterService.getOneShareRoomEnter(shareRoomEnterId));
-    }
+//    @GetMapping("/{shareId}/enter")
+//    public ResponseEntity<ShareRoomEnterDto> getOneShareRoomEnter(
+//        @PathVariable("shareId") Long shareId) {
+//
+//        return ResponseEntity.ok(shareRoomEnterService.getOneShareRoomEnter(shareId));
+//    }
 
 
     @PostMapping("/{shareId}/enter")
