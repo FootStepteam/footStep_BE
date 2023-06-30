@@ -4,7 +4,6 @@ import static com.example.footstep.exception.ErrorCode.NOT_FIND_SHARE_ID;
 import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
 
 import com.example.footstep.domain.dto.share_room.ShareRoomDto;
-import com.example.footstep.domain.dto.share_room.ShareRoomListDto;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.entity.ShareRoomEnter;
