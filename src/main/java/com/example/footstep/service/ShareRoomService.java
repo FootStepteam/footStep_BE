@@ -8,6 +8,7 @@ import com.example.footstep.domain.dto.share_room.ShareRoomListDto;
 import com.example.footstep.domain.entity.Member;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.form.ShareRoomForm;
+import com.example.footstep.domain.repository.ChatRoomRepository;
 import com.example.footstep.domain.repository.MemberRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
 import com.example.footstep.exception.GlobalException;
@@ -25,6 +26,7 @@ public class ShareRoomService {
     private final MemberRepository memberRepository;
     private final ShareRoomRepository shareRoomRepository;
 
+    private final ChatRoomRepository chatRoomRepository;
     // 공유방 코드에 사용되는 문자
     private static final String SHARE_USE_CODE =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -79,7 +81,7 @@ public class ShareRoomService {
         }
 
         ShareRoom shareRoom = shareRoomRepository.save(shareRoomForm.toEntity(shareCode, member));
-        //chatRoomRepository.createChatRoom(shareRoom.getShareName(), shareRoom.getShareId());
+        chatRoomRepository.createChatRoom(shareRoom.getShareName(), shareRoom.getShareId());
         return ShareRoomDto.from(shareRoom);
     }
 
