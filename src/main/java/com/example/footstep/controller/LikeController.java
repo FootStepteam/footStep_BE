@@ -1,9 +1,9 @@
 package com.example.footstep.controller;
 
+import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.service.LikeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public class LikeController {
 
     @PostMapping("/{id}/like")
     public void likeCommunity(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @PathVariable("id") Long communityId) {
 
         likeService.likeCommunity(loginMember.getMemberId(), communityId);
@@ -27,7 +27,7 @@ public class LikeController {
 
     @PostMapping("/{id}/un-like")
     public void cancelLike(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @PathVariable("id") Long communityId) {
 
         likeService.unLikeCommunity(loginMember.getMemberId(), communityId);

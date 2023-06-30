@@ -38,7 +38,7 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    public boolean isValid(String accessToken) {
+    public void validate(String accessToken) {
         try {
             Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -54,8 +54,6 @@ public class JwtTokenProvider {
         } catch (UnsupportedJwtException ex) {
             throw new JwtException("invalid token request exception - Illegal argument token");
         }
-
-        return true;
     }
 
     private Claims parseClaims(String accessToken) {

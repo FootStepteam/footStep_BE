@@ -2,6 +2,7 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.AuthTokens;
 import com.example.footstep.component.security.AuthTokensGenerator;
+import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.domain.form.ChangePasswordForm;
 import com.example.footstep.domain.dto.LoginDto;
@@ -14,7 +15,6 @@ import com.example.footstep.service.MemberService;
 import com.example.footstep.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -54,7 +54,7 @@ public class MemberController {
 
     @GetMapping("/profile")
     public ResponseEntity<MemberProfileDto> getProfile(
-        @AuthenticationPrincipal LoginMember loginMember) {
+        @LoginMember CurrentMember loginMember) {
 
         return ResponseEntity.ok(
             MemberProfileDto.from(memberService.getProfile(loginMember.getMemberId()))
@@ -63,7 +63,7 @@ public class MemberController {
 
     @PutMapping("")
     public ResponseEntity<MemberUpdateDto> updateMemberProfile(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @RequestBody MemberUpdateForm memberUpdateForm) {
         MemberUpdateDto updateDto = MemberUpdateDto.from(
             memberService.update(loginMember.getMemberId(), memberUpdateForm));
@@ -72,7 +72,7 @@ public class MemberController {
 
     @PostMapping("/password")
     public void changePassword(
-        @AuthenticationPrincipal LoginMember loginMember,
+        @LoginMember CurrentMember loginMember,
         @RequestBody ChangePasswordForm changePasswordForm) {
 
         memberService.changePassword(loginMember.getMemberId(), changePasswordForm.getPassword());
