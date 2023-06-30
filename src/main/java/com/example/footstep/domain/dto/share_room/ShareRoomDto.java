@@ -22,6 +22,7 @@ public class ShareRoomDto {
     private String travelStartDate;
     private String travelEndDate;
     private String imageUrl;
+    private boolean hostFlag;
 
 
     public static ShareRoomDto from(ShareRoom shareRoom) {
@@ -34,6 +35,20 @@ public class ShareRoomDto {
             .travelStartDate(shareRoom.getTravelStartDate())
             .travelEndDate(shareRoom.getTravelEndDate())
             .imageUrl(shareRoom.getImageUrl())
+            .build();
+    }
+
+    public static ShareRoomDto of(ShareRoom shareRoom, boolean hostFlag) {
+        return ShareRoomDto.builder()
+            .shareId(shareRoom.getShareId())
+            .shareName(shareRoom.getShareName())
+            .shareCode(shareRoom.getShareCode())
+            .startPoint(shareRoom.getStartPoint())
+            .endPoint(shareRoom.getEndPoint())
+            .travelStartDate(shareRoom.getTravelStartDate())
+            .travelEndDate(shareRoom.getTravelEndDate())
+            .imageUrl(shareRoom.getImageUrl())
+            .hostFlag(hostFlag)
             .build();
     }
 }
