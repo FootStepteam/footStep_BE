@@ -25,13 +25,15 @@ public enum ErrorCode {
     NOT_MATCH_CREATE_MEMBER("공유방 생성자가 아닙니다."),
     NOT_HAVE_DATA_TOUR("여행 데이터가 없습니다."),
 
+    // 공유방 입장
+    NOT_FIND_SHARE_ENTER_ID("공유방에 입장하지 않은 사용자 입니다."),
+
     // 일정
     NOT_FIND_DAY_SCHEDULE_ID("존재하지 않는 일정 입니다."),
 
     // 목적지
     NOT_FIND_DESTINATION_ID("존재하지 않는 목적지 입니다."),
     ALREADY_DESTINATION("등록된 목적지 입니다."),
-
 
     // 게시글
     NOT_FIND_COMMUNITY_ID("존재하지 않는 게시글 입니다."),

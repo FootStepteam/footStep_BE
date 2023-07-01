@@ -13,6 +13,7 @@ import io.jsonwebtoken.security.SignatureException;
 import java.security.Key;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,10 +21,12 @@ public class JwtTokenProvider {
 
     private final Key key;
 
+
     public JwtTokenProvider(@Value("${jwt.secret-key}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
+
 
     public String generate(String subject, Date expiredAt) {
         return Jwts.builder()
@@ -33,10 +36,17 @@ public class JwtTokenProvider {
             .compact();
     }
 
+
+    public String extractJwt(final StompHeaderAccessor accessor) {
+        return accessor.getFirstNativeHeader("Authorization");
+    }
+
+
     public String extractSubject(String accessToken) {
         Claims claims = parseClaims(accessToken);
         return claims.getSubject();
     }
+
 
     public void validate(String accessToken) {
         try {
@@ -55,6 +65,7 @@ public class JwtTokenProvider {
             throw new JwtException("invalid token request exception - Illegal argument token");
         }
     }
+
 
     private Claims parseClaims(String accessToken) {
 
