@@ -2,8 +2,10 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
+import com.example.footstep.domain.dto.chat.MessageDto;
 import com.example.footstep.domain.dto.chat.ShareRoomEnterDto;
 import com.example.footstep.service.ShareRoomEnterService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +23,12 @@ public class ShareRoomEnterController {
     private final ShareRoomEnterService shareRoomEnterService;
 
 
-//    @GetMapping("/{shareId}/enter")
-//    public ResponseEntity<ShareRoomEnterDto> getOneShareRoomEnter(
-//        @PathVariable("shareId") Long shareId) {
-//
-//        return ResponseEntity.ok(shareRoomEnterService.getOneShareRoomEnter(shareId));
-//    }
+    @GetMapping("/{shareId}/enter")
+    public ResponseEntity<List<MessageDto>> getListShareRoomEnterMessage(
+        @PathVariable("shareId") Long shareId) {
+
+        return ResponseEntity.ok(shareRoomEnterService.getListShareRoomEnterMessage(shareId));
+    }
 
 
     @PostMapping("/{shareId}/enter")

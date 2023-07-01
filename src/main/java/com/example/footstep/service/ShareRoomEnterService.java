@@ -1,12 +1,17 @@
 package com.example.footstep.service;
 
+import com.example.footstep.domain.dto.chat.MessageDto;
 import com.example.footstep.domain.dto.chat.ShareRoomEnterDto;
 import com.example.footstep.domain.entity.Member;
+import com.example.footstep.domain.entity.Message;
 import com.example.footstep.domain.entity.ShareRoom;
 import com.example.footstep.domain.entity.ShareRoomEnter;
 import com.example.footstep.domain.repository.MemberRepository;
+import com.example.footstep.domain.repository.MessageRepository;
 import com.example.footstep.domain.repository.ShareRoomEnterRepository;
 import com.example.footstep.domain.repository.ShareRoomRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +23,24 @@ public class ShareRoomEnterService {
     private final MemberRepository memberRepository;
     private final ShareRoomRepository shareRoomRepository;
     private final ShareRoomEnterRepository shareRoomEnterRepository;
+    private final MessageRepository messageRepository;
 
-//    public ShareRoomEnterDto getOneShareRoomEnter(Long shareId) {
-//
-//        return chatRooms.get(shareId);
-//    }
+
+    public List<MessageDto> getListShareRoomEnterMessage(Long shareId) {
+
+        List<Message> messageList =
+            messageRepository.findByShareRoomEnter_ShareRoom_ShareIdOrderByCreateDate(shareId);
+
+        List<MessageDto> MessageDtoList = new ArrayList<>();
+
+        for (Message message : messageList) {
+
+            MessageDto messageDto = MessageDto.from(message);
+            MessageDtoList.add(messageDto);
+        }
+
+        return MessageDtoList;
+    }
 
 
     @Transactional

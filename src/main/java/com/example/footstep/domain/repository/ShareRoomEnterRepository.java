@@ -12,5 +12,7 @@ public interface ShareRoomEnterRepository extends JpaRepository<ShareRoomEnter, 
 
     List<ShareRoomEnter> findByMember_MemberId(Long memberId, Pageable pageable);
 
+    Optional<ShareRoomEnter> findByShareRoomEnterId(Long shareRoomEnterId);
+
     Optional<ShareRoomEnter> findByShareRoom_ShareIdAndMember_MemberId(Long shareId, Long memberId);
 }

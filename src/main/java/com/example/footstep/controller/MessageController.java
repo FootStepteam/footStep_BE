@@ -1,6 +1,7 @@
 package com.example.footstep.controller;
 
 import com.example.footstep.domain.dto.chat.MessageDto;
+import com.example.footstep.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -8,8 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class ChattingMessageController {
+public class MessageController {
 
+    private final MessageService messageService;
     private final SimpMessageSendingOperations simpMessageSendingOperations;
 
 
@@ -22,5 +24,7 @@ public class ChattingMessageController {
 
         simpMessageSendingOperations.convertAndSend(
             "/sub/share-room/" + messageDto.getShareId(), messageDto);
+
+        messageService.createMessage(messageDto);
     }
 }
