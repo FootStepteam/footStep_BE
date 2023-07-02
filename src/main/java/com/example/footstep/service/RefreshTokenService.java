@@ -1,7 +1,7 @@
 package com.example.footstep.service;
 
-import com.example.footstep.domain.entity.RefreshToken;
-import com.example.footstep.domain.repository.RefreshTokenRepository;
+import com.example.footstep.model.entity.RefreshToken;
+import com.example.footstep.model.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,5 @@ public class RefreshTokenService {
 
         return refreshTokenRepository.findByTokenValueWithMember(refreshToken)
             .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 토큰입니다."));
-
     }
 }

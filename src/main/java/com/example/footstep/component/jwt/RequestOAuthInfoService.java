@@ -15,26 +15,26 @@ public class RequestOAuthInfoService {
 
     private final Map<OAuthProvider, OAuthApiClient> clients;
 
+
     public RequestOAuthInfoService(List<OAuthApiClient> clients) {
+
         this.clients = clients.stream().collect(
             Collectors.toUnmodifiableMap(OAuthApiClient::oAuthProvider, Function.identity())
         );
     }
 
+
     public OAuthInfoResponse request(OAuthLoginParams kakaoAccessCode) {
+
         OAuthApiClient client = clients.get(kakaoAccessCode.oAuthProvider());
         String accessToken = client.requestAccessToken(kakaoAccessCode);
         return client.requestOauthInfo(accessToken);
     }
-    public String getAccessToken(OAuthLoginParams accessCode){
+
+
+    public String getAccessToken(OAuthLoginParams accessCode) {
+
         OAuthApiClient client = clients.get(accessCode.oAuthProvider());
         return client.requestAccessToken(accessCode);
     }
-//    public String getFriendsAccessToken(OAuthLoginParams kakaoAccessCode){
-//        OAuthApiClient client = clients.get(kakaoAccessCode.oAuthProvider());
-//        String accessToken = client.requestAccessToken(kakaoAccessCode);
-//        client.requestOauthInfo(accessToken); // 한번 조회 해야함.
-//        return accessToken;
-//
-//    }
 }

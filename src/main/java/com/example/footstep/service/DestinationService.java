@@ -2,14 +2,14 @@ package com.example.footstep.service;
 
 import static com.example.footstep.exception.ErrorCode.ALREADY_DESTINATION;
 
-import com.example.footstep.domain.dto.schedule.DestinationDto;
-import com.example.footstep.domain.entity.DaySchedule;
-import com.example.footstep.domain.entity.Destination;
-import com.example.footstep.domain.entity.ShareRoom;
-import com.example.footstep.domain.form.DestinationForm;
-import com.example.footstep.domain.repository.DayScheduleRepository;
-import com.example.footstep.domain.repository.DestinationRepository;
-import com.example.footstep.domain.repository.ShareRoomRepository;
+import com.example.footstep.model.dto.schedule.DestinationDto;
+import com.example.footstep.model.entity.DaySchedule;
+import com.example.footstep.model.entity.Destination;
+import com.example.footstep.model.entity.ShareRoom;
+import com.example.footstep.model.form.DestinationForm;
+import com.example.footstep.model.repository.DayScheduleRepository;
+import com.example.footstep.model.repository.DestinationRepository;
+import com.example.footstep.model.repository.ShareRoomRepository;
 import com.example.footstep.exception.GlobalException;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -66,7 +66,7 @@ public class DestinationService {
 
         List<Destination> destinationList =
             destinationRepository.findByDaySchedule_ShareRoom_ShareIdAndDaySchedule_PlanDate(
-            shareRoom.getShareId(), planDate);
+                shareRoom.getShareId(), planDate);
 
         destinationRepository.deleteAll(destinationList);
     }

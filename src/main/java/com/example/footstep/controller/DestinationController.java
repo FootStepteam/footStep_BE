@@ -1,7 +1,7 @@
 package com.example.footstep.controller;
 
-import com.example.footstep.domain.dto.schedule.DestinationDto;
-import com.example.footstep.domain.form.DestinationForm;
+import com.example.footstep.model.dto.schedule.DestinationDto;
+import com.example.footstep.model.form.DestinationForm;
 import com.example.footstep.service.DestinationService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;

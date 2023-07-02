@@ -2,8 +2,8 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
-import com.example.footstep.domain.form.CommentCreateForm;
-import com.example.footstep.domain.form.CommentUpdateForm;
+import com.example.footstep.model.form.CommentCreateForm;
+import com.example.footstep.model.form.CommentUpdateForm;
 import com.example.footstep.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +26,10 @@ public class CommentController {
         @LoginMember CurrentMember loginMember,
         @PathVariable Long communityId,
         @RequestBody CommentCreateForm commentCreateForm) {
+
         commentService.create(loginMember.getMemberId(), communityId, commentCreateForm);
     }
+
 
     @PutMapping("/comments/{commentId}")
     public void updateComment(
@@ -36,8 +38,8 @@ public class CommentController {
         @RequestBody CommentUpdateForm commentUpdateForm) {
 
         commentService.update(loginMember.getMemberId(), commentId, commentUpdateForm);
-
     }
+
 
     @DeleteMapping("/comments/{commentId}")
     public void deleteComment(
@@ -47,5 +49,4 @@ public class CommentController {
         commentService.delete(loginMember.getMemberId(), commentId);
 
     }
-
 }

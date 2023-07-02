@@ -6,17 +6,16 @@ import lombok.Getter;
 
 public interface OAuthInfoResponse {
 
-
     String getEmail();
 
     String getNickName();
 
     String getGender();
-    //String getPassword();
 
     String getImg();
 
     OAuthProvider getOAuthProvider();
+
 
     @Getter
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -35,6 +34,7 @@ public interface OAuthInfoResponse {
             private String gender;
         }
 
+
         @Getter
         @JsonIgnoreProperties(ignoreUnknown = true)
         static class KakaoProfile {
@@ -49,21 +49,24 @@ public interface OAuthInfoResponse {
             return kakaoAccount.email;
         }
 
+
         @Override
         public String getNickName() {
-
             return kakaoAccount.profile.nickname;
         }
+
 
         @Override
         public String getGender() {
             return kakaoAccount.gender;
         }
 
+
         @Override
         public String getImg() {
             return kakaoAccount.profile.profile_image_url;
         }
+
 
         @Override
         public OAuthProvider getOAuthProvider() {

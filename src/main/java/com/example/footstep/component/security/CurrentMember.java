@@ -12,5 +12,4 @@ import lombok.Setter;
 public class CurrentMember {
 
     private Long memberId;
-
 }

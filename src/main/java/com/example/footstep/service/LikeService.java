@@ -1,11 +1,11 @@
 package com.example.footstep.service;
 
-import com.example.footstep.domain.entity.Community;
-import com.example.footstep.domain.entity.Likes;
-import com.example.footstep.domain.entity.Member;
-import com.example.footstep.domain.repository.CommunityRepository;
-import com.example.footstep.domain.repository.LikeRepository;
-import com.example.footstep.domain.repository.MemberRepository;
+import com.example.footstep.model.entity.Community;
+import com.example.footstep.model.entity.Likes;
+import com.example.footstep.model.entity.Member;
+import com.example.footstep.model.repository.CommunityRepository;
+import com.example.footstep.model.repository.LikeRepository;
+import com.example.footstep.model.repository.MemberRepository;
 import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,7 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final MemberRepository memberRepository;
     private final CommunityRepository communityRepository;
+
 
     @Transactional
     public void likeCommunity(Long memberId, Long communityId) {
@@ -34,6 +35,7 @@ public class LikeService {
             .community(community)
             .build());
     }
+
 
     @Transactional
     public void unLikeCommunity(Long memberId, Long communityId) {
