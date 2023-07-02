@@ -7,12 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShareRoomEnterDto {
+
+
 
     private Long shareRoomEnterId;
     private Long memberId;
@@ -23,11 +27,13 @@ public class ShareRoomEnterDto {
 
     public static ShareRoomEnterDto from(ShareRoomEnter shareRoomEnter) {
         return ShareRoomEnterDto.builder()
-            .shareRoomEnterId(shareRoomEnter.getShareRoomEnterId())
+            //.shareRoomEnterId(shareRoomEnter.getShareRoomEnterId())
+                .shareRoomEnterId(47L)
             .memberId(shareRoomEnter.getMember().getMemberId())
             .nickname(shareRoomEnter.getMember().getNickname())
             .shareId(shareRoomEnter.getShareRoom().getShareId())
             .shareName(shareRoomEnter.getShareRoom().getShareName())
             .build();
     }
+
 }

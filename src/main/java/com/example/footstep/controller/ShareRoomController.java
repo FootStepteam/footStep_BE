@@ -3,9 +3,11 @@ package com.example.footstep.controller;
 import com.example.footstep.authentication.oauth.tour.TourApiClient;
 import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
+import com.example.footstep.domain.dto.chat.MessageDto;
 import com.example.footstep.domain.dto.share_room.RecommendDto;
 import com.example.footstep.domain.dto.share_room.ShareRoomDto;
 import com.example.footstep.domain.form.ShareRoomForm;
+import com.example.footstep.service.ShareRoomEnterService;
 import com.example.footstep.service.ShareRoomService;
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +33,8 @@ public class ShareRoomController {
 
     private final ShareRoomService shareRoomService;
     private final TourApiClient tourApiService;
+    private final ShareRoomEnterService shareRoomEnterService;
+
 
 
     @GetMapping
@@ -96,5 +100,10 @@ public class ShareRoomController {
     public ResponseEntity<RecommendDto> getAllImageTourList(
         @RequestParam String keyword) throws IOException {
         return ResponseEntity.ok(tourApiService.searchTourImageKeyword(keyword));
+    }
+
+    @GetMapping("/redis/{shareId}")
+    public ResponseEntity<List<MessageDto>> getAllChatLog(@PathVariable("shareId") Long shareId){
+       return ResponseEntity.ok(shareRoomEnterService.getChatLog(shareId));
     }
 }
