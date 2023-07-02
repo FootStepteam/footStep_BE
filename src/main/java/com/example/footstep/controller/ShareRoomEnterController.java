@@ -2,8 +2,8 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
-import com.example.footstep.domain.dto.chat.MessageDto;
-import com.example.footstep.domain.dto.chat.ShareRoomEnterDto;
+import com.example.footstep.model.dto.chat.MessageDto;
+import com.example.footstep.model.dto.chat.ShareRoomEnterDto;
 import com.example.footstep.service.ShareRoomEnterService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

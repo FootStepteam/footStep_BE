@@ -1,6 +1,6 @@
 package com.example.footstep.controller;
 
-import com.example.footstep.domain.dto.chat.MessageDto;
+import com.example.footstep.model.dto.chat.MessageDto;
 import com.example.footstep.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;

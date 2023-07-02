@@ -11,26 +11,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/community")
+@RequestMapping("/api/community/{communityId}")
 public class LikeController {
 
     private final LikeService likeService;
 
-    @PostMapping("/{id}/like")
+
+    @PostMapping("/like")
     public void likeCommunity(
         @LoginMember CurrentMember loginMember,
-        @PathVariable("id") Long communityId) {
+        @PathVariable("communityId") Long communityId) {
 
         likeService.likeCommunity(loginMember.getMemberId(), communityId);
-
     }
 
-    @PostMapping("/{id}/un-like")
+
+    @PostMapping("/un-like")
     public void cancelLike(
         @LoginMember CurrentMember loginMember,
-        @PathVariable("id") Long communityId) {
+        @PathVariable("communityId") Long communityId) {
 
         likeService.unLikeCommunity(loginMember.getMemberId(), communityId);
-
     }
 }

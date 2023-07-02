@@ -2,11 +2,11 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
-import com.example.footstep.domain.dto.schedule.DayScheduleDto;
-import com.example.footstep.domain.dto.schedule.DayScheduleMemoDto;
-import com.example.footstep.domain.dto.schedule.DestinationDto;
-import com.example.footstep.domain.form.DayScheduleForm;
-import com.example.footstep.domain.form.ScheduleRecommendForm;
+import com.example.footstep.model.dto.schedule.DayScheduleDto;
+import com.example.footstep.model.dto.schedule.DayScheduleMemoDto;
+import com.example.footstep.model.dto.schedule.DestinationDto;
+import com.example.footstep.model.form.DayScheduleForm;
+import com.example.footstep.model.form.ScheduleRecommendForm;
 import com.example.footstep.service.ScheduleService;
 import java.util.List;
 import javax.validation.Valid;

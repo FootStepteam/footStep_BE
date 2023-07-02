@@ -23,10 +23,12 @@ public class AuthenticationResolver implements HandlerMethodArgumentResolver {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(LoginMember.class);
     }
+
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
@@ -46,27 +48,31 @@ public class AuthenticationResolver implements HandlerMethodArgumentResolver {
             jwtTokenProvider.validate(accessToken);
             String subject = jwtTokenProvider.extractSubject(accessToken);
             return new CurrentMember(Long.valueOf(subject));
-        }catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             log.info("토큰 만료되었습니다.");
             throw new GlobalException(ErrorCode.EXPIRED_ACCESS_TOKEN);
-        }catch (JwtException e) {
+        } catch (JwtException e) {
             log.info("JWT 오류 발생.");
             throw new GlobalException(ErrorCode.JWT_EXCEPTION);
         }
-
     }
 
     private String extractAccessToken(String authorizationHeader) {
+
         return authorizationHeader.replace("Bearer ", "");
     }
 
+
     private void validateHeader(String authorizationHeader) {
+
         if (ObjectUtils.isEmpty(authorizationHeader) || !authorizationHeader.startsWith("Bearer")) {
             throw new GlobalException(ErrorCode.WRONG_AUTHORIZATION_HEADER);
         }
     }
 
+
     private String resolveHeader(NativeWebRequest webRequest) {
+
         return webRequest.getHeader(HttpHeaders.AUTHORIZATION);
     }
 }

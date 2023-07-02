@@ -2,8 +2,8 @@ package com.example.footstep.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.example.footstep.domain.entity.ShareRoom;
-import com.example.footstep.domain.repository.ShareRoomRepository;
+import com.example.footstep.model.entity.ShareRoom;
+import com.example.footstep.model.repository.ShareRoomRepository;
 import java.io.IOException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -12,21 +12,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.UUID;
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UploadService {
 
     private final AmazonS3Client amazonS3Client;
-
+    private final ShareRoomRepository shareRoomRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    private final ShareRoomRepository shareRoomRepository;
 
     public String uploadFile(MultipartFile file, Long shareRoomId) {
+
         try {
+
             ShareRoom shareRoom = shareRoomRepository.getShareById(shareRoomId);
             String fileName = file.getOriginalFilename() + UUID.randomUUID().toString();
 
@@ -39,11 +38,12 @@ public class UploadService {
             amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
             shareRoom.setS3Url(amazonS3Client.getUrl(bucket, fileName).toString());
             shareRoomRepository.save(shareRoom);
+
             return fileUrl;
+
         } catch (IOException e) {
-            e.printStackTrace();
+
             return String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

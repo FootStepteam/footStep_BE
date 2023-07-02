@@ -1,15 +1,15 @@
 package com.example.footstep.service;
 
-import com.example.footstep.domain.dto.chat.MessageDto;
-import com.example.footstep.domain.dto.chat.ShareRoomEnterDto;
-import com.example.footstep.domain.entity.Member;
-import com.example.footstep.domain.entity.Message;
-import com.example.footstep.domain.entity.ShareRoom;
-import com.example.footstep.domain.entity.ShareRoomEnter;
-import com.example.footstep.domain.repository.MemberRepository;
-import com.example.footstep.domain.repository.MessageRepository;
-import com.example.footstep.domain.repository.ShareRoomEnterRepository;
-import com.example.footstep.domain.repository.ShareRoomRepository;
+import com.example.footstep.model.dto.chat.MessageDto;
+import com.example.footstep.model.dto.chat.ShareRoomEnterDto;
+import com.example.footstep.model.entity.Member;
+import com.example.footstep.model.entity.Message;
+import com.example.footstep.model.entity.ShareRoom;
+import com.example.footstep.model.entity.ShareRoomEnter;
+import com.example.footstep.model.repository.MemberRepository;
+import com.example.footstep.model.repository.MessageRepository;
+import com.example.footstep.model.repository.ShareRoomEnterRepository;
+import com.example.footstep.model.repository.ShareRoomRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

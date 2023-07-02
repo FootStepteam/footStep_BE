@@ -13,9 +13,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private final AuthenticationResolver authenticationResolver;
 
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(authenticationResolver);
     }
-
 }

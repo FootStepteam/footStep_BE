@@ -2,11 +2,11 @@ package com.example.footstep.service;
 
 import static com.example.footstep.exception.ErrorCode.NOT_FIND_SHARE_ENTER_ID;
 
-import com.example.footstep.domain.dto.chat.MessageDto;
-import com.example.footstep.domain.entity.Message;
-import com.example.footstep.domain.entity.ShareRoomEnter;
-import com.example.footstep.domain.repository.MessageRepository;
-import com.example.footstep.domain.repository.ShareRoomEnterRepository;
+import com.example.footstep.model.dto.chat.MessageDto;
+import com.example.footstep.model.entity.Message;
+import com.example.footstep.model.entity.ShareRoomEnter;
+import com.example.footstep.model.repository.MessageRepository;
+import com.example.footstep.model.repository.ShareRoomEnterRepository;
 import com.example.footstep.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +28,9 @@ public class MessageService {
                 .orElseThrow(() -> new GlobalException(NOT_FIND_SHARE_ENTER_ID));
 
         messageRepository.save(
-            Message.builder().message(messageDto.getMessage()).shareRoomEnter(shareRoomEnter).build());
+            Message.builder()
+                .message(messageDto.getMessage())
+                .shareRoomEnter(shareRoomEnter)
+                .build());
     }
 }

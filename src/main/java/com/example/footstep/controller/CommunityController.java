@@ -2,11 +2,11 @@ package com.example.footstep.controller;
 
 import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
-import com.example.footstep.domain.dto.community.CommunityDetailDto;
-import com.example.footstep.domain.dto.community.CommunityLikedMemberDto;
-import com.example.footstep.domain.dto.community.CommunityListDto;
-import com.example.footstep.domain.form.CommunityCreateForm;
-import com.example.footstep.domain.form.CommunityUpdateForm;
+import com.example.footstep.model.dto.community.CommunityDetailDto;
+import com.example.footstep.model.dto.community.CommunityLikedMemberDto;
+import com.example.footstep.model.dto.community.CommunityListDto;
+import com.example.footstep.model.form.CommunityCreateForm;
+import com.example.footstep.model.form.CommunityUpdateForm;
 import com.example.footstep.service.CommunityService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,14 +34,15 @@ public class CommunityController {
 
     private final CommunityService communityService;
 
+
     @PostMapping
     public void createCommunity(
         @LoginMember CurrentMember loginMember,
         @RequestBody CommunityCreateForm communityCreateForm) {
+
         communityService.create(loginMember.getMemberId(),
             communityCreateForm.getShareId(),
             communityCreateForm);
-
     }
 
     @GetMapping("/{communityId}")
@@ -50,8 +51,8 @@ public class CommunityController {
         @PathVariable Long communityId) {
 
         return ResponseEntity.ok(communityService.getOne(communityId, loginMember));
-
     }
+
 
     @GetMapping
     public CommunityListDto getAllCommunity(int page, int size,
@@ -64,8 +65,8 @@ public class CommunityController {
         }
 
         return communityService.getAll(pageable);
-
     }
+
 
     @GetMapping("likes")
     public ResponseEntity<List<CommunityLikedMemberDto>> getCommunitiesLiked(
@@ -76,19 +77,20 @@ public class CommunityController {
                 .stream()
                 .map(CommunityLikedMemberDto::from)
                 .collect(Collectors.toList())
-            );
+        );
     }
+
 
     @PutMapping("/{communityId}")
     public void updateCommunity(
         @LoginMember CurrentMember loginMember,
         @PathVariable Long communityId,
         @RequestBody CommunityUpdateForm communityUpdateForm
-        ) {
+    ) {
 
         communityService.update(loginMember.getMemberId(), communityId, communityUpdateForm);
-
     }
+
 
     @DeleteMapping("/{communityId}")
     public void deleteCommunity(
@@ -96,6 +98,5 @@ public class CommunityController {
         @PathVariable Long communityId) {
 
         communityService.delete(loginMember.getMemberId(), communityId);
-
     }
 }

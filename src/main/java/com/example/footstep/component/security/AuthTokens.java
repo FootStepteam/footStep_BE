@@ -16,8 +16,10 @@ public class AuthTokens {
     private String grantType;
     private Long expiresIn;
 
-    public static AuthTokens of(String jwtAccessToken, String refreshToken, String grantType,
-        Long expiresIn) {
+
+    public static AuthTokens of(
+        String jwtAccessToken, String refreshToken, String grantType, Long expiresIn) {
+
         return new AuthTokens(jwtAccessToken, refreshToken, grantType, expiresIn);
     }
 }

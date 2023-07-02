@@ -3,17 +3,17 @@ package com.example.footstep.service;
 import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
 
 import com.example.footstep.component.security.CurrentMember;
-import com.example.footstep.domain.dto.schedule.DayScheduleDto;
-import com.example.footstep.domain.dto.schedule.DayScheduleMemoDto;
-import com.example.footstep.domain.dto.schedule.DestinationDto;
-import com.example.footstep.domain.entity.DaySchedule;
-import com.example.footstep.domain.entity.Destination;
-import com.example.footstep.domain.entity.ShareRoom;
-import com.example.footstep.domain.form.DayScheduleForm;
-import com.example.footstep.domain.form.ScheduleRecommendForm;
-import com.example.footstep.domain.repository.DayScheduleRepository;
-import com.example.footstep.domain.repository.DestinationRepository;
-import com.example.footstep.domain.repository.ShareRoomRepository;
+import com.example.footstep.model.dto.schedule.DayScheduleDto;
+import com.example.footstep.model.dto.schedule.DayScheduleMemoDto;
+import com.example.footstep.model.dto.schedule.DestinationDto;
+import com.example.footstep.model.entity.DaySchedule;
+import com.example.footstep.model.entity.Destination;
+import com.example.footstep.model.entity.ShareRoom;
+import com.example.footstep.model.form.DayScheduleForm;
+import com.example.footstep.model.form.ScheduleRecommendForm;
+import com.example.footstep.model.repository.DayScheduleRepository;
+import com.example.footstep.model.repository.DestinationRepository;
+import com.example.footstep.model.repository.ShareRoomRepository;
 import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
 import java.util.ArrayList;
@@ -38,7 +38,8 @@ public class ScheduleService {
 
         List<DaySchedule> dayScheduleList =
             dayScheduleRepository.findByShareRoom_ShareIdAndPlanDateBetweenOrderByPlanDate(
-                shareRoom.getShareId(), shareRoom.getTravelStartDate(), shareRoom.getTravelEndDate());
+                shareRoom.getShareId(), shareRoom.getTravelStartDate(),
+                shareRoom.getTravelEndDate());
 
         List<DayScheduleDto> dayScheduleDtoList = new ArrayList<>();
 

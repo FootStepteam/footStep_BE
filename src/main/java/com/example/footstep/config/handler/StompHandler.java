@@ -27,6 +27,7 @@ public class StompHandler implements ChannelInterceptor {
 
             jwtTokenProvider.validate(authorization.replace("Bearer ", ""));
         }
+
         return message;
     }
 }
