@@ -61,10 +61,14 @@ public class MemberController {
     }
 
 
-    @PostMapping("/is-email")
+    @PostMapping("/check-email")
     public ResponseEntity<Boolean> getEmailOne(@RequestParam String email) {
 
         return ResponseEntity.ok(memberService.isEmailExist(email));
+    }
+    @PostMapping("/check-nickname")
+    public ResponseEntity<Boolean> getNickNameOne(@RequestParam String nickname){
+        return ResponseEntity.ok(memberService.isNickNameExist(nickname));
     }
 
 
