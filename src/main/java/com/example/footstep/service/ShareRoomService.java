@@ -3,19 +3,22 @@ package com.example.footstep.service;
 import static com.example.footstep.exception.ErrorCode.NOT_FIND_SHARE_ID;
 import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
 
+import com.example.footstep.exception.GlobalException;
 import com.example.footstep.model.dto.share_room.ShareRoomDto;
+import com.example.footstep.model.dto.share_room.ShareRoomListDto;
 import com.example.footstep.model.entity.Member;
+import com.example.footstep.model.entity.MemberStatus;
 import com.example.footstep.model.entity.ShareRoom;
 import com.example.footstep.model.entity.ShareRoomEnter;
 import com.example.footstep.model.form.ShareRoomForm;
 import com.example.footstep.model.repository.MemberRepository;
 import com.example.footstep.model.repository.ShareRoomEnterRepository;
 import com.example.footstep.model.repository.ShareRoomRepository;
-import com.example.footstep.exception.GlobalException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,16 +33,17 @@ public class ShareRoomService {
 
 
     @Transactional(readOnly = true)
-    public List<ShareRoomDto> getAllListShareRoom(Long memberId, Pageable pageable) {
+    public ShareRoomListDto getAllListShareRoom(Long memberId, Pageable pageable) {
 
         Member member = memberRepository.getMemberById(memberId);
 
-        List<ShareRoomEnter> ShareRoomEnterList =
-            shareRoomEnterRepository.findByMember_MemberId(member.getMemberId(), pageable);
+        Page<ShareRoomEnter> shareRoomEnterList =
+            shareRoomEnterRepository.findByMember_MemberIdAndShareRoom_Member_MemberStatus(
+                member.getMemberId(), MemberStatus.NORMAL, pageable);
 
         List<ShareRoomDto> shareRoomDtoList = new ArrayList<>();
 
-        for (ShareRoomEnter shareRoomEnter : ShareRoomEnterList) {
+        for (ShareRoomEnter shareRoomEnter : shareRoomEnterList) {
 
             boolean hostFlag =
                 member.getMemberId().equals(
@@ -50,7 +54,7 @@ public class ShareRoomService {
             shareRoomDtoList.add(shareRoomDto);
         }
 
-        return shareRoomDtoList;
+        return ShareRoomListDto.of(shareRoomDtoList, shareRoomEnterList.getTotalPages());
     }
 
 

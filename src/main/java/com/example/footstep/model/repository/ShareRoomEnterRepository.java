@@ -1,8 +1,9 @@
 package com.example.footstep.model.repository;
 
+import com.example.footstep.model.entity.MemberStatus;
 import com.example.footstep.model.entity.ShareRoomEnter;
-import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShareRoomEnterRepository extends JpaRepository<ShareRoomEnter, Long> {
 
-    List<ShareRoomEnter> findByMember_MemberId(Long memberId, Pageable pageable);
+    Page<ShareRoomEnter> findByMember_MemberIdAndShareRoom_Member_MemberStatus(
+        Long memberId, MemberStatus memberStatus, Pageable pageable);
 
     Optional<ShareRoomEnter> findByShareRoomEnterId(Long shareRoomEnterId);
 

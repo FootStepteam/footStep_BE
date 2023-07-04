@@ -5,10 +5,10 @@ import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.model.dto.share_room.RecommendDto;
 import com.example.footstep.model.dto.share_room.ShareRoomDto;
+import com.example.footstep.model.dto.share_room.ShareRoomListDto;
 import com.example.footstep.model.form.ShareRoomForm;
 import com.example.footstep.service.ShareRoomService;
 import java.io.IOException;
-import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +34,7 @@ public class ShareRoomController {
 
 
     @GetMapping
-    public ResponseEntity<List<ShareRoomDto>> getAllListShareRoom(
+    public ResponseEntity<ShareRoomListDto> getAllListShareRoom(
         @LoginMember CurrentMember loginMember,
         @RequestParam("page") int page, @RequestParam("size") int size) {
 
