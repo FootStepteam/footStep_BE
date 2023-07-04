@@ -6,6 +6,7 @@ import com.example.footstep.model.dto.community.CommunityListDto;
 import com.example.footstep.model.entity.Comment;
 import com.example.footstep.model.entity.Community;
 import com.example.footstep.model.entity.Member;
+import com.example.footstep.model.entity.MemberStatus;
 import com.example.footstep.model.entity.ShareRoom;
 import com.example.footstep.model.form.CommunityCreateForm;
 import com.example.footstep.model.form.CommunityUpdateForm;
@@ -18,8 +19,8 @@ import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,9 +62,10 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public CommunityListDto getAll(Pageable pageable) {
 
-        Slice<Community> communities = communityRepository.findSliceBy(pageable);
+        Page<Community> communities = communityRepository
+            .findAllByMemberStatus(MemberStatus.NORMAL, pageable);
 
-        return CommunityListDto.fromSlice(communities);
+        return CommunityListDto.from(communities);
     }
 
 
