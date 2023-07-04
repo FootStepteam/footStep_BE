@@ -96,8 +96,8 @@ public class CommunityService {
     public void update(Long memberId, Long communityId, CommunityUpdateForm communityUpdateForm) {
 
         Community community = findByCommunityIdAndMemberId(memberId, communityId);
+        community.update(communityUpdateForm.getContent(), communityUpdateForm.getCommunityName());
 
-        community.updateContent(communityUpdateForm.getContent());
     }
 
     @Transactional

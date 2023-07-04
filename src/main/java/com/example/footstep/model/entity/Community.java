@@ -46,8 +46,8 @@ public class Community extends BaseTimeEntity {
     private ShareRoom shareRoom;
 
 
-    public void updateContent(String content) {
-
+    public void update(String content, String communityName) {
+        this.communityName = communityName;
         this.content = content;
     }
 
