@@ -4,11 +4,11 @@ import com.example.footstep.component.security.AuthTokens;
 import com.example.footstep.component.security.AuthTokensGenerator;
 import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.component.security.LoginMember;
-import com.example.footstep.model.form.LoginForm;
 import com.example.footstep.model.dto.member.MemberDto;
 import com.example.footstep.model.dto.member.MemberProfileDto;
 import com.example.footstep.model.dto.member.MemberUpdateDto;
 import com.example.footstep.model.form.ChangePasswordForm;
+import com.example.footstep.model.form.LoginForm;
 import com.example.footstep.model.form.MemberForm;
 import com.example.footstep.model.form.MemberUpdateForm;
 import com.example.footstep.service.MemberService;
@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import com.example.footstep.service.UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -105,5 +106,13 @@ public class MemberController {
         @RequestBody ChangePasswordForm changePasswordForm) {
 
         memberService.changePassword(loginMember.getMemberId(), changePasswordForm.getPassword());
+    }
+
+    @DeleteMapping
+    public void deleteMember(
+        @LoginMember CurrentMember currentMember) {
+
+        memberService.delete(currentMember);
+
     }
 }
