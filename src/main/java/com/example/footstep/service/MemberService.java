@@ -60,6 +60,9 @@ public class MemberService {
 
         return memberRepository.findByLoginEmail(email.toLowerCase(Locale.ROOT)).isPresent();
     }
+    public boolean isNickNameExist(String nickname){
+        return memberRepository.findByNickname(nickname).isPresent();
+    }
 
 
     public MemberDto getMemberWithSareRoom(Long memberId) {
