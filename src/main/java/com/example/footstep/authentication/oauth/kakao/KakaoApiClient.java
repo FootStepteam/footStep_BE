@@ -127,15 +127,15 @@ public class KakaoApiClient implements OAuthApiClient {
         ObjectMapper objectMapper = new ObjectMapper();
 
         ObjectNode contentObject = objectMapper.createObjectNode();
-        contentObject.put("title", "test-title");
-        contentObject.put("description", "test-description");
+        contentObject.put("title", "발자국");
+        contentObject.put("description", "나의 여행 일정");
         contentObject.put("image_url", s3Url);
         contentObject.put("image_width", 800);
         contentObject.put("image_height", 800);
 
         ObjectNode linkObject = objectMapper.createObjectNode();
-        linkObject.put("web_url", "https://footstep-fe.vercel.app");
-        linkObject.put("mobile_web_url", "https://footstep-fe.vercel.app");
+        linkObject.put("web_url", "https://footstep-fe.vercel.app/planShareRoom/");
+        linkObject.put("mobile_web_url", "https://footstep-fe.vercel.app/planShareRoom/");
         linkObject.put("android_execution_params", "contentId=100");
         linkObject.put("ios_execution_params", "contentId=100");
 

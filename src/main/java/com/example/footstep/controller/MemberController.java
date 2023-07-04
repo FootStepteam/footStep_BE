@@ -14,6 +14,8 @@ import com.example.footstep.model.form.MemberUpdateForm;
 import com.example.footstep.service.MemberService;
 import com.example.footstep.service.TokenService;
 import javax.validation.Valid;
+
+import com.example.footstep.service.UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +36,7 @@ public class MemberController {
     private final AuthTokensGenerator authTokensGenerator;
     private final TokenService tokenService;
 
+    private final UploadService uploadService;
 
     @GetMapping("/{accessToken}") // 엑세스 토큰 확인용
     public ResponseEntity<MemberDto> findByAccessToken(@PathVariable String accessToken) {
@@ -87,6 +90,8 @@ public class MemberController {
         @LoginMember CurrentMember loginMember,
         @RequestBody MemberUpdateForm memberUpdateForm) {
 
+        String s3Url = uploadService.uploadProfile(memberUpdateForm.getFile(),loginMember.getMemberId());
+        memberUpdateForm.setProfileUrl(s3Url);
         MemberUpdateDto updateDto = MemberUpdateDto.from(
             memberService.update(loginMember.getMemberId(), memberUpdateForm));
 

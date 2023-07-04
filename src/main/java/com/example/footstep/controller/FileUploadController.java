@@ -26,10 +26,8 @@ public class FileUploadController {
     public ResponseEntity<String> uploadFile(
         @RequestParam("file") MultipartFile file, @RequestParam("shareRoomId") Long shareRoomId) {
 
-        return ResponseEntity.ok(uploadService.uploadFile(file, shareRoomId));
+        return ResponseEntity.ok(uploadService.uploadS3File(file, shareRoomId));
     }
-
-
     @PostMapping("/sendme/{shareRoomId}")
     public ResponseEntity<String> sendMeKakaoImage(
         @RequestBody KakaoLoginParams kakaoAccessCode, @PathVariable Long shareRoomId) {

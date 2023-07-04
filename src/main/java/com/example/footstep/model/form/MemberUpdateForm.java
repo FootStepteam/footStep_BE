@@ -1,11 +1,10 @@
 package com.example.footstep.model.form;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,4 +13,6 @@ public class MemberUpdateForm {
     private String profileUrl;
     private String nickname;
     private String description;
+    private MultipartFile file;
+
 }
