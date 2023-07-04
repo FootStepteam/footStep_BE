@@ -15,7 +15,6 @@ import lombok.Setter;
 public class MemberUpdateDto {
 
     private String nickname;
-    private String imgUrl;
     private String description;
 
 
@@ -23,7 +22,6 @@ public class MemberUpdateDto {
 
         return MemberUpdateDto.builder()
             .nickname(member.getNickname())
-            .imgUrl(member.getImg())
             .description(member.getDescription())
             .build();
     }

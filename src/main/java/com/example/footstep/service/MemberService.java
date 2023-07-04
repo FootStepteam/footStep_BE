@@ -86,7 +86,6 @@ public class MemberService {
         Member member = memberRepository.getMemberById(memberId);
         member.updateProfile(
             memberUpdateForm.getNickname(),
-            memberUpdateForm.getProfileUrl(),
             memberUpdateForm.getDescription()
         );
 
@@ -107,6 +106,7 @@ public class MemberService {
         member.changePassword(encodedPassword);
     }
 
+
     @Transactional
     public void delete(CurrentMember currentMember) {
 
@@ -114,4 +114,14 @@ public class MemberService {
         member.delete();
 
     }
+
+
+    @Transactional
+    public void updateImage(Long memberId, String uploadUrl) {
+
+        Member member = memberRepository.getMemberById(memberId);
+        member.setImg(uploadUrl);
+
+    }
+
 }
