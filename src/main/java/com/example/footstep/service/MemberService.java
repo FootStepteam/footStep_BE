@@ -2,6 +2,7 @@ package com.example.footstep.service;
 
 import com.example.footstep.component.security.AuthTokens;
 import com.example.footstep.component.security.AuthTokensGenerator;
+import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.model.dto.member.MemberDto;
 import com.example.footstep.model.entity.Member;
 import com.example.footstep.model.form.LoginForm;
@@ -104,5 +105,13 @@ public class MemberService {
         }
 
         member.changePassword(encodedPassword);
+    }
+
+    @Transactional
+    public void delete(CurrentMember currentMember) {
+
+        Member member = memberRepository.getMemberById(currentMember.getMemberId());
+        member.delete();
+
     }
 }
