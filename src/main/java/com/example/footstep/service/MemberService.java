@@ -49,6 +49,10 @@ public class MemberService {
         Member member = memberRepository.findByLoginEmail(loginForm.getLoginEmail())
             .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_MEMBER_ID));
 
+        if (member.isDeleted()) {
+            throw new GlobalException(ErrorCode.ALREADY_DELETED_MEMBER);
+        }
+
         if (!passwordEncoder.matches(loginForm.getPassword(), member.getPassword())) {
             throw new GlobalException(ErrorCode.WRONG_MEMBER_PASSWORD);
         }
