@@ -17,6 +17,7 @@ import javax.validation.Valid;
 
 import com.example.footstep.service.UploadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -86,12 +89,13 @@ public class MemberController {
     }
 
 
-    @PutMapping
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<MemberUpdateDto> updateMemberProfile(
         @LoginMember CurrentMember loginMember,
-        @RequestBody MemberUpdateForm memberUpdateForm) {
+        @RequestPart MemberUpdateForm memberUpdateForm,
+        @RequestPart(required = false) MultipartFile file) {
 
-        String s3Url = uploadService.uploadProfile(memberUpdateForm.getFile(),loginMember.getMemberId());
+        String s3Url = uploadService.uploadProfile(file,loginMember.getMemberId());
         memberUpdateForm.setProfileUrl(s3Url);
         MemberUpdateDto updateDto = MemberUpdateDto.from(
             memberService.update(loginMember.getMemberId(), memberUpdateForm));
