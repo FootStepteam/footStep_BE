@@ -38,6 +38,7 @@ public class Member extends BaseTimeEntity {
     @Column(columnDefinition = "NVARCHAR(255)")
     private String description;
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private MemberStatus memberStatus = MemberStatus.NORMAL;
     @Column(columnDefinition = "NVARCHAR(255)")
     private String img;
