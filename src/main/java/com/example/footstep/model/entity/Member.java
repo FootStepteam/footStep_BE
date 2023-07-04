@@ -46,10 +46,9 @@ public class Member extends BaseTimeEntity {
     private OAuthProvider memberOAuth;
 
 
-    public void updateProfile(String nickname, String profileUrl, String description) {
+    public void updateProfile(String nickname, String description) {
 
         this.nickname = nickname;
-        this.img = profileUrl;
         this.description = description;
     }
 
