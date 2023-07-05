@@ -5,6 +5,7 @@ import com.example.footstep.component.security.LoginMember;
 import com.example.footstep.model.dto.community.CommunityDetailDto;
 import com.example.footstep.model.dto.community.CommunityLikedMemberDto;
 import com.example.footstep.model.dto.community.CommunityListDto;
+import com.example.footstep.model.dto.community.SearchCondition;
 import com.example.footstep.model.form.CommunityCreateForm;
 import com.example.footstep.model.form.CommunityUpdateForm;
 import com.example.footstep.service.CommunityService;
@@ -56,19 +57,14 @@ public class CommunityController {
 
     @GetMapping
     public CommunityListDto searchCommunity(
-        @RequestParam(value = "keyword", defaultValue = "") String keyword,
-        @RequestParam(value = "type", defaultValue = "title") String type,
+        SearchCondition searchCondition,
         @RequestParam(value = "sort", defaultValue = "like") String sort,
-        @RequestParam(value = "page", defaultValue = "0") Integer page,
+        @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "size", defaultValue = "5") Integer size) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("likeCount").descending());
+        Pageable pageable = createPageable(matchPage(page), size, sort);
 
-        if (sort.equals("recent")) {
-            pageable = PageRequest.of(page, size, Sort.by("createDate").descending());
-        }
-
-        return communityService.search(keyword, type, pageable);
+        return communityService.search(searchCondition, pageable);
 
     }
 
@@ -104,4 +100,20 @@ public class CommunityController {
 
         communityService.delete(loginMember.getMemberId(), communityId);
     }
+
+
+    private Pageable createPageable(Integer page, Integer size, String sort) {
+
+        if (sort.equals("recent")) {
+            return PageRequest.of(page, size, Sort.by("createDate").descending());
+        }
+
+        return PageRequest.of(page, size, Sort.by("likeCount").descending());
+    }
+
+
+    private int matchPage(Integer page) {
+        return (page == 0) ? 0 : (page - 1);
+    }
+
 }
