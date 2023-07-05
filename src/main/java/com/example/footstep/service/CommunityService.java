@@ -3,6 +3,7 @@ package com.example.footstep.service;
 import com.example.footstep.component.security.CurrentMember;
 import com.example.footstep.model.dto.community.CommunityDetailDto;
 import com.example.footstep.model.dto.community.CommunityListDto;
+import com.example.footstep.model.dto.community.SearchCondition;
 import com.example.footstep.model.entity.Comment;
 import com.example.footstep.model.entity.Community;
 import com.example.footstep.model.entity.Member;
@@ -60,24 +61,15 @@ public class CommunityService {
 
 
     @Transactional(readOnly = true)
-    public CommunityListDto getAll(Pageable pageable) {
+    public CommunityListDto search(SearchCondition searchCondition, Pageable pageable) {
 
-        Page<Community> communities = communityRepository
-            .findAllByMemberStatus(MemberStatus.NORMAL, pageable);
-
-        return CommunityListDto.from(communities);
-    }
-
-
-    public CommunityListDto search(String keyword, String type, Pageable pageable) {
-
-        Page<Community> communities = null;
-        if (type.equals("nickname")) {
-            communities = communityRepository
-                .searchByKeywordAndTypeIsNickname(keyword, MemberStatus.NORMAL, pageable);
+        Page<Community> communities;
+        if (searchCondition.getType().equals("nickname")) {
+            communities = communityRepository.searchByKeywordAndTypeIsNickname(
+                searchCondition.getKeyword(), MemberStatus.NORMAL, pageable);
         }else {
-            communities = communityRepository
-                .searchByKeywordAndTypeIsCommunityName(keyword,MemberStatus.NORMAL, pageable);
+            communities = communityRepository.searchByKeywordAndTypeIsCommunityName(
+                searchCondition.getKeyword(), MemberStatus.NORMAL, pageable);
         }
 
         return CommunityListDto.from(communities);
