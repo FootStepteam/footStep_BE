@@ -5,13 +5,12 @@ import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -35,17 +34,23 @@ public class AuthenticationResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 
-        String authorizationHeader = resolveHeader(webRequest);
+        LoginMember annotation = parameter.getParameterAnnotation(LoginMember.class);
 
-        if (ObjectUtils.isEmpty(authorizationHeader) && isPass(webRequest)) {
-            return null;
+        boolean required = annotation.required();
+
+        String authorizationHeader = webRequest.getHeader(HttpHeaders.AUTHORIZATION);
+
+        if (StringUtils.isBlank(authorizationHeader)) {
+            if (required) {
+                throw new GlobalException(ErrorCode.WRONG_AUTHORIZATION_HEADER);
+            }else {
+                return null;
+            }
         }
-
-        validateHeader(authorizationHeader);
 
         String accessToken = extractAccessToken(authorizationHeader);
 
-        if (ObjectUtils.isEmpty(accessToken)) {
+        if (StringUtils.isBlank(accessToken)) {
             throw new GlobalException(ErrorCode.WRONG_ACCESS_TOKEN_AUTH);
         }
 
@@ -62,30 +67,12 @@ public class AuthenticationResolver implements HandlerMethodArgumentResolver {
         }
     }
 
-    private boolean isPass(NativeWebRequest webRequest) {
-
-        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-
-        return request.getServletPath().startsWith("/api/community/")
-            && request.getMethod().equalsIgnoreCase("get");
-    }
-
     private String extractAccessToken(String authorizationHeader) {
-
+        if (StringUtils.isBlank(authorizationHeader)) {
+            throw new GlobalException(ErrorCode.WRONG_AUTHORIZATION_HEADER);
+        }
         return authorizationHeader.replace("Bearer ", "");
     }
 
 
-    private void validateHeader(String authorizationHeader) {
-
-        if (ObjectUtils.isEmpty(authorizationHeader) || !authorizationHeader.startsWith("Bearer")) {
-            throw new GlobalException(ErrorCode.WRONG_AUTHORIZATION_HEADER);
-        }
-    }
-
-
-    private String resolveHeader(NativeWebRequest webRequest) {
-
-        return webRequest.getHeader(HttpHeaders.AUTHORIZATION);
-    }
 }
