@@ -39,24 +39,21 @@ public class CommunityService {
     @Transactional(readOnly = true)
     public CommunityDetailDto getOne(Long communityId, CurrentMember loginMember) {
 
-        // 일반 사용자 조회 or 해당 게시글에 좋아요를 하지 않았을 경우
-        boolean isLiked = false;
-
-        if (loginMember != null &&
-            likeRepository.existsByCommunity_CommunityIdAndMember_MemberId(
-                communityId, loginMember.getMemberId())) {
-
-            isLiked = true;
-        }
-
         Community community = communityRepository.findByIdWithShareRoomAndMember(communityId)
             .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
 
-        List<Comment> comments =
-            commentRepository.findAllByCommunityIdWithMember(communityId);
+        List<Comment> comments = commentRepository.findAllByCommunityIdWithMember(communityId);
 
-        return CommunityDetailDto.of(
-            community, community.getMember(), community.getShareRoom(), comments, isLiked);
+        CommunityDetailDto communityDetailDto = CommunityDetailDto.of(
+            community, community.getMember(), community.getShareRoom(), comments, false);
+
+        if (loginMember == null) {
+            return communityDetailDto;
+        }
+
+        communityDetailDto.setLiked(checkedLikes(loginMember.getMemberId(), communityId));
+
+        return communityDetailDto;
     }
 
 
@@ -125,5 +122,10 @@ public class CommunityService {
 
         return communityRepository.findByCommunityIdAndMember_MemberId(communityId, memberId)
             .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_COMMUNITY_ID));
+    }
+
+    private boolean checkedLikes(Long memberId, Long communityId) {
+        return  likeRepository
+            .existsByCommunity_CommunityIdAndMember_MemberId(communityId, memberId);
     }
 }
