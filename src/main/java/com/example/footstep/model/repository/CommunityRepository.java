@@ -37,7 +37,7 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
         + "where c.communityId = :id")
     Optional<Community> findByIdWithShareRoomAndMember(@Param("id") Long id);
 
-    @Query(value = "select c from Community c join fetch c.member m where m.memberStatus = :status",
+    @Query(value = "select c from Community c join fetch c.member m where m.memberStatus = :status And c.communityPublicState = true",
         countQuery = "select count(c) from Community c join c.member m where m.memberStatus = :status")
     Page<Community> findAllByMemberStatus(MemberStatus status, Pageable pageable);
 
