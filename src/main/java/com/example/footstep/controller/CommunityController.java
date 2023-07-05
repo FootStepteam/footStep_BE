@@ -67,6 +67,24 @@ public class CommunityController {
         return communityService.getAll(pageable);
     }
 
+    @GetMapping("/search")
+    public CommunityListDto searchCommunity(
+        @RequestParam("keyword") String keyword,
+        @RequestParam(value = "type", defaultValue = "title") String type,
+        @RequestParam(value = "sort", defaultValue = "like") String sort,
+        @RequestParam(value = "page", defaultValue = "0") Integer page,
+        @RequestParam(value = "size", defaultValue = "5") Integer size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("likeCount").descending());
+
+        if (sort.equals("recent")) {
+            pageable = PageRequest.of(page, size, Sort.by("createDate").descending());
+        }
+
+        return communityService.search(keyword, type, pageable);
+
+    }
+
 
     @GetMapping("likes")
     public ResponseEntity<List<CommunityLikedMemberDto>> getCommunitiesLiked(
