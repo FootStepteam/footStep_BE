@@ -5,6 +5,7 @@ import com.example.footstep.exception.ErrorCode;
 import com.example.footstep.exception.GlobalException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -36,6 +37,10 @@ public class AuthenticationResolver implements HandlerMethodArgumentResolver {
 
         String authorizationHeader = resolveHeader(webRequest);
 
+        if (ObjectUtils.isEmpty(authorizationHeader) && isPass(webRequest)) {
+            return null;
+        }
+
         validateHeader(authorizationHeader);
 
         String accessToken = extractAccessToken(authorizationHeader);
@@ -55,6 +60,14 @@ public class AuthenticationResolver implements HandlerMethodArgumentResolver {
             log.info("JWT 오류 발생.");
             throw new GlobalException(ErrorCode.JWT_EXCEPTION);
         }
+    }
+
+    private boolean isPass(NativeWebRequest webRequest) {
+
+        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+
+        return request.getServletPath().startsWith("/api/community/")
+            && request.getMethod().equalsIgnoreCase("get");
     }
 
     private String extractAccessToken(String authorizationHeader) {
