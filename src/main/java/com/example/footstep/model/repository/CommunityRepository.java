@@ -37,10 +37,25 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
         + "where c.communityId = :id")
     Optional<Community> findByIdWithShareRoomAndMember(@Param("id") Long id);
 
-    @Query(value = "select c from Community c join fetch c.member m where m.memberStatus = :status And c.communityPublicState = true",
+    @Query(value = "select c from Community c join fetch c.member m where m.memberStatus = :status and c.communityPublicState = true",
         countQuery = "select count(c) from Community c join c.member m where m.memberStatus = :status")
     Page<Community> findAllByMemberStatus(MemberStatus status, Pageable pageable);
 
+    @Query(value = "select c from Community c join fetch c.member m where m.memberStatus = :status " +
+        "and c.communityPublicState = true " +
+        "and m.nickname like %:keyword% ",
+        countQuery = "select count (c) from Community c join c.member m where m.memberStatus = :status " +
+            "and c.communityPublicState = true " +
+            "and m.nickname like %:keyword%")
+    Page<Community> searchByKeywordAndTypeIsNickname(String keyword, MemberStatus status, Pageable pageable);
+
+    @Query(value = "select c from Community c join fetch c.member m where m.memberStatus = :status " +
+        "and c.communityPublicState = true " +
+        "and c.communityName like %:keyword% ",
+        countQuery = "select count (c) from Community c join c.member m where m.memberStatus = :status " +
+            "and c.communityPublicState = true " +
+            "and c.communityName like %:keyword%")
+    Page<Community> searchByKeywordAndTypeIsCommunityName(String keyword, MemberStatus status, Pageable pageable);
 
     default Community getCommunityById(Long id) {
         return findById(id)

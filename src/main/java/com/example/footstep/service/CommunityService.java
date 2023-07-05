@@ -69,6 +69,21 @@ public class CommunityService {
     }
 
 
+    public CommunityListDto search(String keyword, String type, Pageable pageable) {
+
+        Page<Community> communities = null;
+        if (type.equals("nickname")) {
+            communities = communityRepository
+                .searchByKeywordAndTypeIsNickname(keyword, MemberStatus.NORMAL, pageable);
+        }else {
+            communities = communityRepository
+                .searchByKeywordAndTypeIsCommunityName(keyword,MemberStatus.NORMAL, pageable);
+        }
+
+        return CommunityListDto.from(communities);
+    }
+
+
     @Transactional(readOnly = true)
     public List<Community> getCommunitiesLikedByMember(Long memberId) {
 
