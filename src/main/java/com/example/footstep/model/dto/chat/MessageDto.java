@@ -27,9 +27,8 @@ public class MessageDto {
 
     public static MessageDto from(Message message) {
         return MessageDto.builder()
-            .shareRoomEnterId(message.getShareRoomEnter().getShareRoomEnterId())
             .shareId(message.getShareRoomEnter().getShareRoom().getShareId())
-            .nickName(message.getShareRoomEnter().getShareRoom().getMember().getNickname())
+            .nickName(message.getShareRoomEnter().getMember().getNickname())
             .message(message.getMessage())
             .build();
     }
