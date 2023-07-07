@@ -1,10 +1,12 @@
 package com.example.footstep.controller;
 
 import com.example.footstep.model.dto.chat.MessageDto;
+import com.example.footstep.model.dto.schedule.DayScheduleDto;
 import com.example.footstep.model.dto.schedule.DestinationDto;
 import com.example.footstep.model.form.DestinationForm;
 import com.example.footstep.service.DestinationService;
 import com.example.footstep.service.MessageService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -36,12 +38,27 @@ public class MessageController {
 
 
     @MessageMapping("/{shareId}/destination")
-    public void enterDestination(
+    public void createDestination(
         @PathVariable("shareId") Long shareId, DestinationForm destinationForm) {
 
-        DestinationDto destinationDto = destinationService.createDestination(shareId, destinationForm);
+        DestinationDto destinationDto = destinationService.createDestination(shareId,
+            destinationForm);
 
         simpMessageSendingOperations.convertAndSend(
             "/sub/share-room/" + shareId + "/destination", destinationDto);
+    }
+
+
+    @MessageMapping("/{shareId}/destination/{destinationId}")
+    public ResponseEntity<List<DayScheduleDto>> deleteDestination(
+        @PathVariable("shareId") Long shareId, @PathVariable("destinationId") Long destinationId) {
+
+        List<DayScheduleDto> dayScheduleDto =
+            destinationService.deleteDestinationMessage(shareId, destinationId);
+
+        simpMessageSendingOperations.convertAndSend(
+            "/sub/share-room/" + shareId + "/destination", dayScheduleDto);
+
+        return ResponseEntity.ok(dayScheduleDto);
     }
 }

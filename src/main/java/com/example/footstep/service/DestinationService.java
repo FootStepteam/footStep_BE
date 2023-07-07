@@ -2,6 +2,7 @@ package com.example.footstep.service;
 
 import static com.example.footstep.exception.ErrorCode.ALREADY_DESTINATION;
 
+import com.example.footstep.model.dto.schedule.DayScheduleDto;
 import com.example.footstep.model.dto.schedule.DestinationDto;
 import com.example.footstep.model.entity.DaySchedule;
 import com.example.footstep.model.entity.Destination;
@@ -11,6 +12,7 @@ import com.example.footstep.model.repository.DayScheduleRepository;
 import com.example.footstep.model.repository.DestinationRepository;
 import com.example.footstep.model.repository.ShareRoomRepository;
 import com.example.footstep.exception.GlobalException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -42,8 +44,8 @@ public class DestinationService {
                 shareRoom.getShareId(), destinationForm.getPlanDate()).orElseGet(() ->
                 dayScheduleRepository.save(destinationForm.toEntityDaySchedule(shareRoom)));
 
-            if (destinationRepository.existsByDaySchedule_PlanDateAndLatAndLng(
-                destinationForm.getPlanDate(), destinationForm.getLat(),
+            if (destinationRepository.existsByDaySchedule_ShareRoom_ShareIdAndDaySchedule_PlanDateAndLatAndLng(
+                shareRoom.getShareId() ,destinationForm.getPlanDate(), destinationForm.getLat(),
                 destinationForm.getLng())) {
                 throw new GlobalException(ALREADY_DESTINATION);
             }
@@ -80,5 +82,31 @@ public class DestinationService {
         Destination destination = destinationRepository.getDestinationById(destinationId);
 
         destinationRepository.delete(destination);
+    }
+
+
+    @Transactional
+    public List<DayScheduleDto> deleteDestinationMessage(Long shareId, Long destinationId) {
+
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        Destination destination = destinationRepository.getDestinationById(destinationId);
+
+        destinationRepository.delete(destination);
+
+        List<DaySchedule> dayScheduleList =
+            dayScheduleRepository.findByShareRoom_ShareIdAndPlanDateBetweenOrderByPlanDate(
+                shareRoom.getShareId(), shareRoom.getTravelStartDate(),
+                shareRoom.getTravelEndDate());
+
+        List<DayScheduleDto> dayScheduleDtoList = new ArrayList<>();
+
+        for (DaySchedule daySchedule : dayScheduleList) {
+            DayScheduleDto dayScheduleDto = DayScheduleDto.from(daySchedule);
+
+            dayScheduleDtoList.add(dayScheduleDto);
+        }
+
+        return dayScheduleDtoList;
     }
 }
