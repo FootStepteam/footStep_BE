@@ -1,10 +1,12 @@
 package com.example.footstep.controller;
 
 import com.example.footstep.model.dto.chat.MessageDto;
+import com.example.footstep.model.dto.schedule.DestinationDto;
 import com.example.footstep.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,5 +28,14 @@ public class MessageController {
             "/sub/share-room/" + messageDto.getShareId(), messageDto);
 
         messageService.createMessage(messageDto);
+    }
+
+
+    @MessageMapping("/{shareId}/destination")
+    public void enterDestination(
+        @PathVariable("shareId") Long shareId, DestinationDto destinationDto) {
+
+        simpMessageSendingOperations.convertAndSend(
+            "/sub/share-room/" + shareId + "/destination", destinationDto);
     }
 }
