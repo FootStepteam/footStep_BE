@@ -1,8 +1,11 @@
 package com.example.footstep.service;
 
+import static com.example.footstep.exception.ErrorCode.NOT_FIND_DESTINATION_ID;
 import static com.example.footstep.exception.ErrorCode.NOT_MATCH_CREATE_MEMBER;
 
 import com.example.footstep.component.security.CurrentMember;
+import com.example.footstep.exception.ErrorCode;
+import com.example.footstep.exception.GlobalException;
 import com.example.footstep.model.dto.schedule.DayScheduleDto;
 import com.example.footstep.model.dto.schedule.DayScheduleMemoDto;
 import com.example.footstep.model.dto.schedule.DestinationDto;
@@ -14,8 +17,6 @@ import com.example.footstep.model.form.ScheduleRecommendForm;
 import com.example.footstep.model.repository.DayScheduleRepository;
 import com.example.footstep.model.repository.DestinationRepository;
 import com.example.footstep.model.repository.ShareRoomRepository;
-import com.example.footstep.exception.ErrorCode;
-import com.example.footstep.exception.GlobalException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -93,9 +94,9 @@ public class ScheduleService {
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
 
         Destination startDestination =
-            destinationRepository.findByDaySchedule_PlanDateAndLatAndLng(
-                    recommendForm.getPlanDate(), recommendForm.getLat(), recommendForm.getLng())
-                .orElseThrow(() -> new GlobalException(ErrorCode.NOT_FIND_DESTINATION_ID));
+            destinationRepository.findByDaySchedule_ShareRoom_ShareIdAndDaySchedule_PlanDateAndLatAndLng(
+                    shareRoom.getShareId(), recommendForm.getPlanDate(), recommendForm.getLat(), recommendForm.getLng())
+                .orElseThrow(() -> new GlobalException(NOT_FIND_DESTINATION_ID));
 
         List<Destination> destinationList =
             destinationRepository.findByDaySchedule_ShareRoom_ShareIdAndDaySchedule_PlanDate(

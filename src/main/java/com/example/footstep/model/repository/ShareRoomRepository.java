@@ -2,6 +2,7 @@ package com.example.footstep.model.repository;
 
 import static com.example.footstep.exception.ErrorCode.NOT_FIND_SHARE_ID;
 
+import com.example.footstep.model.entity.MemberStatus;
 import com.example.footstep.model.entity.ShareRoom;
 import com.example.footstep.exception.GlobalException;
 import java.util.List;
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShareRoomRepository extends JpaRepository<ShareRoom, Long> {
 
-    Optional<ShareRoom> findByShareCode(String shareCode);
+    Optional<ShareRoom> findByShareCodeAndMember_MemberStatus(
+        String shareCode, MemberStatus memberStatus);
 
     Optional<ShareRoom> findByShareId(Long shareId);
 
