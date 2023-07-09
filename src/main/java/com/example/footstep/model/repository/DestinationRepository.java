@@ -17,8 +17,8 @@ public interface DestinationRepository extends JpaRepository<Destination, Long> 
 
     Optional<Destination> findByDestinationId(Long destinationId);
 
-    Optional<Destination> findByDaySchedule_PlanDateAndLatAndLng(
-        String planDate, String lat, String lng);
+    Optional<Destination> findByDaySchedule_ShareRoom_ShareIdAndDaySchedule_PlanDateAndLatAndLng(
+        Long shareId, String planDate, String lat, String lng);
 
     default Destination getDestinationById(Long destinationId) {
         return findByDestinationId(destinationId)

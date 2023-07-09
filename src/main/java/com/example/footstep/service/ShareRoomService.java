@@ -73,7 +73,8 @@ public class ShareRoomService {
     @Transactional(readOnly = true)
     public ShareRoomDto getOneGuestShareRoom(String shareCode) {
 
-        ShareRoom shareRoom = shareRoomRepository.findByShareCode(shareCode)
+        ShareRoom shareRoom =
+            shareRoomRepository.findByShareCodeAndMember_MemberStatus(shareCode, MemberStatus.NORMAL)
             .orElseThrow(() -> new GlobalException(NOT_FIND_SHARE_ID));
 
         return ShareRoomDto.from(shareRoom);
