@@ -4,9 +4,15 @@ import com.example.footstep.model.entity.DaySchedule;
 import com.example.footstep.model.entity.Destination;
 import com.example.footstep.model.entity.ShareRoom;
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DestinationForm {
 
     @NotNull(message = "여행일자를 선택하세요.")
