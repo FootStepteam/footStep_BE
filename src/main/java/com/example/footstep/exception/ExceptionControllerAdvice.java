@@ -4,6 +4,7 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,6 +16,16 @@ public class ExceptionControllerAdvice {
     // RuntimeException
     @ExceptionHandler(GlobalException.class)
     public ResponseEntity<ExceptionResponse> globalRequestException(
+        final GlobalException globalException) {
+
+        return ResponseEntity.badRequest().body(
+            new ExceptionResponse(globalException.getMessage(), globalException.getErrorCode()));
+    }
+
+
+    // MessageException
+    @MessageExceptionHandler(GlobalException.class)
+    public ResponseEntity<ExceptionResponse> messageException(
         final GlobalException globalException) {
 
         return ResponseEntity.badRequest().body(
