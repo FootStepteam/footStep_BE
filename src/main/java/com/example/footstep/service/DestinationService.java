@@ -2,6 +2,7 @@ package com.example.footstep.service;
 
 import static com.example.footstep.exception.ErrorCode.ALREADY_DESTINATION;
 
+import com.example.footstep.exception.GlobalException;
 import com.example.footstep.model.dto.schedule.DayScheduleDto;
 import com.example.footstep.model.dto.schedule.DestinationDto;
 import com.example.footstep.model.entity.DaySchedule;
@@ -11,15 +12,16 @@ import com.example.footstep.model.form.DestinationForm;
 import com.example.footstep.model.repository.DayScheduleRepository;
 import com.example.footstep.model.repository.DestinationRepository;
 import com.example.footstep.model.repository.ShareRoomRepository;
-import com.example.footstep.exception.GlobalException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DestinationService {
@@ -34,6 +36,9 @@ public class DestinationService {
     public DestinationDto createDestination(Long shareId, DestinationForm destinationForm) {
 
         ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        log.info(
+            "------------------------------------------------- 저장 시작 --------------------------------------------------");
         DaySchedule daySchedule;
 
         try {
@@ -45,7 +50,7 @@ public class DestinationService {
                 dayScheduleRepository.save(destinationForm.toEntityDaySchedule(shareRoom)));
 
             if (destinationRepository.existsByDaySchedule_ShareRoom_ShareIdAndDaySchedule_PlanDateAndLatAndLng(
-                shareRoom.getShareId() ,destinationForm.getPlanDate(), destinationForm.getLat(),
+                shareRoom.getShareId(), destinationForm.getPlanDate(), destinationForm.getLat(),
                 destinationForm.getLng())) {
                 throw new GlobalException(ALREADY_DESTINATION);
             }
@@ -57,6 +62,9 @@ public class DestinationService {
         Destination destination =
             destinationRepository.save(destinationForm.toEntityDestination(daySchedule));
 
+        log.error("error!!!!!!!");
+        log.info(
+            "------------------------------------------------- 저장 종료 --------------------------------------------------");
         return DestinationDto.from(destination);
     }
 
