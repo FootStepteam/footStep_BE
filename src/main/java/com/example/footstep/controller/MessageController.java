@@ -10,9 +10,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -41,7 +41,7 @@ public class MessageController {
 
     @MessageMapping("/{shareId}/destination")
     public void createDestination(
-        @PathVariable("shareId") Long shareId, DestinationForm destinationForm) {
+        @DestinationVariable("shareId") Long shareId, DestinationForm destinationForm) {
 
         log.error("error!!!!!!!");
         log.info(
@@ -72,7 +72,7 @@ public class MessageController {
 
     @MessageMapping("/{shareId}/destination/{destinationId}")
     public ResponseEntity<List<DayScheduleDto>> deleteDestination(
-        @PathVariable("shareId") Long shareId, @PathVariable("destinationId") Long destinationId) {
+        @DestinationVariable("shareId") Long shareId, @DestinationVariable("destinationId") Long destinationId) {
 
         List<DayScheduleDto> dayScheduleDto =
             destinationService.deleteDestinationMessage(shareId, destinationId);
