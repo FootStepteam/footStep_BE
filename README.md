@@ -14,4 +14,16 @@
 - **일정짜기 귀찮은 귀차니즘 전용 추천 플랫폼!**
 - **한 공간에서 같이 보는 공유지도!**
 
-### 👉 [서비스 이용]((https://footstep-fe.vercel.app/)https://footstep-fe.vercel.app)
+### [서비스 이용](https://footstep-fe.vercel.app)
+
+## 주요 기능
+
+## DEMO 영상
+
+## 기술 스택
+
+## 아키텍처
+
+## ERD
+
+
