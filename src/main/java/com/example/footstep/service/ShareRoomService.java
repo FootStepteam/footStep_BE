@@ -71,11 +71,21 @@ public class ShareRoomService {
 
 
     @Transactional(readOnly = true)
+    public ShareRoomDto getOneShareRoomMessage(Long shareId) {
+
+        ShareRoom shareRoom = shareRoomRepository.getShareById(shareId);
+
+        return ShareRoomDto.from(shareRoom);
+    }
+
+
+    @Transactional(readOnly = true)
     public ShareRoomDto getOneGuestShareRoom(String shareCode) {
 
         ShareRoom shareRoom =
-            shareRoomRepository.findByShareCodeAndMember_MemberStatus(shareCode, MemberStatus.NORMAL)
-            .orElseThrow(() -> new GlobalException(NOT_FIND_SHARE_ID));
+            shareRoomRepository.findByShareCodeAndMember_MemberStatus(shareCode,
+                    MemberStatus.NORMAL)
+                .orElseThrow(() -> new GlobalException(NOT_FIND_SHARE_ID));
 
         return ShareRoomDto.from(shareRoom);
     }
