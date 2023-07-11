@@ -102,9 +102,14 @@ public class MemberController {
     @PutMapping("/image")
     public ResponseEntity<MemberImageUpdateDto> updateMemberImage(
         @LoginMember CurrentMember loginMember,
-        @RequestParam("file") MultipartFile file) {
+        @RequestParam(value = "file", required = false) MultipartFile file) {
 
-        String uploadUrl = uploadService.uploadProfile(file, loginMember.getMemberId());
+        String uploadUrl;
+        if(file == null || file.isEmpty()) {
+            uploadUrl = "default";
+        }else {
+            uploadUrl = uploadService.uploadProfile(file, loginMember.getMemberId());
+        }
 
         memberService.updateImage(loginMember.getMemberId(), uploadUrl);
 
