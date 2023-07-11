@@ -17,31 +17,29 @@
 ### [서비스 이용](https://footstep-fe.vercel.app)
 
 ## 주요 기능
-# Kakao OAuth 2.0 소셜 로그인
 
 ## UI
-
-![화면 기록 2023-07-06 오후 2.11.35.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/64661006-4b8f-4571-a662-c75dbe2b2829/%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB_%E1%84%80%E1%85%B5%E1%84%85%E1%85%A9%E1%86%A8_2023-07-06_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_2.11.35.gif)
-
-[이미지 업로드](https://www.notion.so/de34ba841dbe4b768b0f8f6c662d06e5?pvs=21)
-
-[지도 검색](https://www.notion.so/283c7f502794428b8b283369c87360b4?pvs=21)
-
-[목적지 경로 추천](https://www.notion.so/a5c060032edd444ab9ab9c34be28c4c4?pvs=21)
-
-[실시간 단체 채팅](https://www.notion.so/fb9055f13dc043cc8c973848888413b0?pvs=21)
-
-[카카오톡 나에게로 보내기](https://www.notion.so/8afd9c795e17462096bed6b57189ee40?pvs=21)
-
-[게시판](https://www.notion.so/7bdf5a91abde44acb3e24f299b43cfb8?pvs=21)
-
-[목적지 동시 공유→ 07.07(금) 진행예정](https://www.notion.so/07-07-42df750e8e14498c859ad453da2f263a?pvs=21)
-## DEMO 영상
-
+## 시연 영상
+https://youtu.be/hgY-RED-7X8
 ## 기술 스택
+### Tech
 
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white"/> <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Data Jpa-0078D4?style=for-the-badge&logo=&logoColor=white"/>
+<img src="https://img.shields.io/badge/Spring Security-6DB33F ?style=for-the-badge&logo=SpringSecurity&logoColor=white"/> <img src="https://img.shields.io/badge/JWT-6DB33F?style=for-the-badge&logo=JsonWebTokens&logoColor=white"/> <img src="https://img.shields.io/badge/OAuth2.0-EB5424?style=for-the-badge&logo=&logoColor=white"/> <img src="https://img.shields.io/badge/MySQL-2AB1AC?style=for-the-badge&logo=MySQL&logoColor=white"/> 
+
+### Deploy
+
+<img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=Nginx&logoColor=white"/> <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=Ubuntu&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=AmazonEc2&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=Amazon RDS&logoColor=white"/>
+<img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"/> 
+
+### Tool
+
+<img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=for-the-badge&logo=intellijIdea&logoColor=white"/> <img src="https://img.shields.io/badge/Github-181717?style=for-the-badge&logo=Github&logoColor=white"/> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white"/> <img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=Slack&logoColor=white"/> <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white"/>
 ## 아키텍처
+![image](https://github.com/FootStepteam/footstep_BE/assets/80689135/476633a0-4722-4499-84ac-674b97711b26)
 
 ## ERD
+![image](https://github.com/FootStepteam/footstep_BE/assets/80689135/0c01fc59-2f32-4530-b65a-39ef442904dc)
+
 
 
