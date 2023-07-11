@@ -80,6 +80,10 @@ https://youtu.be/hgY-RED-7X8
 ## ERD
 ![image](https://github.com/FootStepteam/footstep_BE/assets/80689135/0c01fc59-2f32-4530-b65a-39ef442904dc)
 
+
+## 테스트 케이스 표
+![Untitled (1)](https://github.com/FootStepteam/footstep_BE/assets/80689135/8de2c44d-67bd-44e6-badf-f4256958d127)
+
 ## 🍌 팀원 소개
 <br>
 
