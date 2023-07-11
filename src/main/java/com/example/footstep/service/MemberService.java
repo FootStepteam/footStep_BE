@@ -103,7 +103,7 @@ public class MemberService {
         Member member = memberRepository.getMemberById(memberId);
         String encodedPassword = passwordEncoder.encode(password);
 
-        if (passwordEncoder.matches(member.getPassword(), encodedPassword)) {
+        if (passwordEncoder.matches(password, member.getPassword())) {
             throw new GlobalException(ErrorCode.NOT_CHANGED_PASSWORD);
         }
 
