@@ -37,19 +37,19 @@
 ## 🏭 주요 기능
 |카카오Oauth2.0로그인|이미지 업로드|
 |:--------------:|:--------------:|
-| <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/616c177f-8115-4ce4-8767-08c6ecd01525.gif" alt="카카오Oauth2.0로그인" width=80%> | <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/075a849b-58a0-4e98-bd88-4034aaac0cef.gif" alt="이미지 업로드" width=60% > |
+| <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/616c177f-8115-4ce4-8767-08c6ecd01525.gif" alt="카카오Oauth2.0로그인" width="350"> | <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/075a849b-58a0-4e98-bd88-4034aaac0cef.gif" alt="이미지 업로드" width="350" > |
 
 |지도 검색|이미지 업로드|
 |:--------------:|:--------------:|
-| <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/7bc68611-15f8-4f43-8e15-30447616e8db.gif" alt="지도 검색" width=80%> | <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/bb6dcbf6-6f10-406a-836e-c5fac25778cc.gif" alt="목적지 경로 추" width=60% > |
+| <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/7bc68611-15f8-4f43-8e15-30447616e8db.gif" alt="지도 검색" width="350"> | <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/bb6dcbf6-6f10-406a-836e-c5fac25778cc.gif" alt="목적지 경로 추" width="350"> |
 
 |실시간 그룹 채팅|카카오톡 나에게로 보내|
 |:--------------:|:--------------:|
-| <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/ebb80cab-43cf-453a-9e64-32a38b97f97d.gif" alt="실시간 그룹 채팅" width=80%> | <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/dbb03112-496e-4f05-9724-e0712383247b.gif" alt="카톡 나에게로 보내" width=60% > |
+| <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/ebb80cab-43cf-453a-9e64-32a38b97f97d.gif" alt="실시간 그룹 채팅" width="350"> | <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/dbb03112-496e-4f05-9724-e0712383247b.gif" alt="카톡 나에게로 보내" width="350" > |
 
 |게시판|실시간 목적지 추가|
 |:--------------:|:--------------:|
-| <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/6d4e9279-cde5-48e6-ae37-da77f54d1412.gif" alt="게시판" width=80%> | <img src=".gif" alt="실시간 목적지 추가" width=60% > |
+| <img src="https://github.com/FootStepteam/footstep_BE/assets/80689135/6d4e9279-cde5-48e6-ae37-da77f54d1412.gif" alt="게시판" width="350"> | <img src=".gif" alt="실시간 목적지 추가" width="350" > |
 
 <br />
 <br />
